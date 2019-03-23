@@ -1,0 +1,350 @@
+<html>
+  <style>
+
+div {
+  align-items: center;
+}
+
+.header-row {
+  display: flex;
+  flex-flow: row;
+  border: 1px dotted black;
+}
+
+.question-header {
+  width: 50%;
+}
+
+.result-header {
+  display: flex;
+  flex-wrap: wrap;
+  width: 30%;
+}
+
+.result-header-label {
+  flex: 1 0 100%;
+  text-align: center;
+}
+
+.result-header-yes-label {
+  flex: 1 0 50%;
+  text-align: center;
+}
+
+.result-header-observed-label {
+  flex: 1 0 50%;
+  text-align: center;
+}
+
+.room-header {
+  width: 10%;
+}
+
+.question-row {
+  display: flex;
+  flex-flow: row;
+  border: 1px dotted black;
+}
+
+.question-text {
+  width: 50%;
+}
+
+.result {
+  width: 30%;
+  display: flex;
+  flex-flow: row;
+}
+
+.result .yes {
+  flex: 1 1 50%;
+  text-align: center;
+}
+
+.result .observed {
+  flex: 1 1 50%;
+  text-align: center;
+}
+
+.room-cell {
+  border: 1px solid black;
+  width: 10%;
+}
+  </style>
+  <body>
+    <script>
+
+const survey = {
+  roomCount: 3,
+  questionHeader: "Isolation room: Observation Categories",
+  questions: [
+    "Is an Airborne Infection Isolation sign at the patient's door?",
+    "Is the door to the room closed?",
+    "Does a manometer or other measurement mechanism indicate negative pressure in the room?",
+    "Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?",
+    "Are respirators stored outside the room or in an anteroom?",
+  ]
+}
+
+const surveyResults = {};
+
+const grandTotalObservedEl = document.createElement("div");
+grandTotalObservedEl.classList.add("grand-total-observed");
+
+const grandTotalYesEl = document.createElement("div");
+grandTotalYesEl.classList.add("grand-total-yes");
+
+const rows = survey.questions.map( (questionText, id) => {
+  return {
+    id,
+    row: questionToRow(id, questionText, survey.roomCount)
+  }
+}); 
+
+generateTable();
+computeResults();
+
+function getQuestionResult(questions, questionId) {
+  if (questions[questionId] === undefined) {
+    questions[questionId] = {};
+  }
+
+  return questions[questionId];
+}
+
+function getRoomResult(rooms, roomId) {
+  if (rooms[roomId] === undefined) {
+    rooms[roomId] = {};
+  }
+
+  return rooms[roomId];
+}
+
+function tallyQuestion(question) {
+  const vals = Object.values(question).map( (room) => room.value );
+  const observed = vals.reduce( (acc, val) => {
+    if (val !== undefined) {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const yes = vals.reduce( (acc, val) => {
+    if (val === "yes") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const no = observed - yes;
+
+  return {observed, yes, no};
+}
+
+function setResult(questionId, roomId, value) {
+  const question = getQuestionResult(surveyResults, questionId);
+  const room = getRoomResult(question, roomId); 
+  room.value = value;
+
+  computeResults();
+}
+
+function computeResults() {
+  var totalObserved = 0;
+  var totalYes = 0;
+
+  Object.keys(rows).forEach( (questionId) => {
+    const question = getQuestionResult(surveyResults, questionId);
+    const {row} = rows.find( ({id}) => questionId == id );
+    const tally = tallyQuestion(question);
+    totalObserved += tally.observed;
+    totalYes += tally.yes;
+    row.resultYesElement.innerHTML = `${tally.yes}`;
+    row.resultObservedElement.innerHTML = `${tally.observed}`;
+  });
+
+  grandTotalObservedEl.innerHTML = `${totalObserved}`;
+  grandTotalYesEl.innerHTML = `${totalYes}`;
+}
+
+function onCheckboxChanged(evt) {
+  const el = evt.target;
+  const checked = el.checked;
+  const questionId = el.dataset.questionId;
+  const roomId = el.dataset.roomId;
+  const label = el.dataset.label;
+
+  const {row} = rows.find( ({id}) => questionId == id );
+  const yesId = `${questionId}-${roomId}-yes`;
+  const noId = `${questionId}-${roomId}-no`;
+  const yesEl = document.getElementById(yesId);
+  const noEl = document.getElementById(noId);
+  if (label === "yes") {
+    yesEl.checked = checked;
+    noEl.checked = false;
+  }
+  if (label === "no") {
+    yesEl.checked = false;
+    noEl.checked = checked;
+  }
+
+  var result = undefined;
+  if (yesEl.checked) {
+    result = "yes";
+  } else if (noEl.checked) {
+    result = "no";
+  } else {
+    result = undefined;
+  }
+
+  setResult(questionId, roomId, result);
+}
+
+function buildCheckbox(questionId, roomId, label) {
+  const checkboxId = `${questionId}-${roomId}-${label}`;
+
+  const labelEl = document.createElement("label");
+  labelEl.setAttribute("for", checkboxId);
+  labelEl.innerHTML = `${label}`;
+
+  const checkboxEl = document.createElement("input");
+  checkboxEl.dataset.questionId = questionId;
+  checkboxEl.dataset.roomId = roomId
+  checkboxEl.dataset.label = label;
+  checkboxEl.addEventListener("change", onCheckboxChanged);
+  checkboxEl.setAttribute("type", "checkbox");
+  checkboxEl.setAttribute("id", checkboxId);
+
+  const containerEl = document.createElement("div");
+  containerEl.appendChild(checkboxEl);
+  containerEl.appendChild(labelEl);
+  containerEl.classList.add("room-checkbox");
+
+  return containerEl;
+}
+
+function questionToRow(questionId, questionText, roomCount) {
+  const questionElement = document.createElement("div");
+  questionElement.classList.add("question-text");
+  questionElement.innerHTML = questionText;
+
+  const checkboxElements = [];
+  for (let roomId = 0; roomId < roomCount; roomId++) {
+    const yes = buildCheckbox(questionId, roomId, "yes");
+    const no = buildCheckbox(questionId, roomId, "no");
+    checkboxElements.push({yes, no});
+  }
+
+  const resultElement = document.createElement("div");
+  resultElement.classList.add("result");
+
+  const resultYesElement = document.createElement("div");
+  resultYesElement.classList.add("yes");
+  resultElement.appendChild(resultYesElement);
+
+  const resultObservedElement = document.createElement("div");
+  resultObservedElement.classList.add("observed");
+  resultElement.appendChild(resultObservedElement);
+
+  return {
+    questionElement,
+    checkboxElements,
+    resultElement,
+    resultYesElement,
+    resultObservedElement,
+  }
+}
+
+function buildHeader(survey) {
+  const questionHeader = document.createElement("div");
+  questionHeader.classList.add("question-header");
+  questionHeader.innerHTML = survey.questionHeader;
+  const roomHeaders = [];
+  for (let i = 0; i < survey.roomCount; i++) {
+    const roomHeader = document.createElement("div");
+    roomHeader.classList.add("room-header");
+    roomHeader.innerHTML = `Room ${i}`;
+    roomHeaders.push(roomHeader);
+  }
+
+  const resultHeader = document.createElement("div");
+  resultHeader.classList.add("result-header");
+
+  const resultHeaderLabel = document.createElement("div");
+  resultHeaderLabel.classList.add("result-header-label");
+  resultHeaderLabel.innerHTML = "<u>Summary of Observations</u>";
+
+  const resultHeaderYesLabel = document.createElement("div");
+  resultHeaderYesLabel.classList.add("result-header-yes-label");
+  resultHeaderYesLabel.innerHTML = "Yes";
+
+  const resultHeaderObservedLabel = document.createElement("div");
+  resultHeaderObservedLabel.classList.add("result-header-observed-label");
+  resultHeaderObservedLabel.innerHTML = "Total Observed";
+
+  resultHeader.appendChild(resultHeaderLabel);
+  resultHeader.appendChild(resultHeaderYesLabel);
+  resultHeader.appendChild(resultHeaderObservedLabel);
+
+  const row = document.createElement("div");
+  row.classList.add("header-row");
+  row.appendChild(questionHeader);
+  roomHeaders.forEach( (el) => row.appendChild(el) );
+  row.appendChild(resultHeader);
+
+  return row;
+}
+
+function generateTable() {
+  const table = document.createElement("div");
+  table.appendChild( buildHeader(survey) );
+
+  const toAppend = rows.map( ({row}) => {
+    const rowElement = document.createElement("div");
+    rowElement.classList.add("question-row");
+
+    rowElement.appendChild(row.questionElement);
+
+    row.checkboxElements.forEach( (els) => {
+      let container = document.createElement("div");
+      container.classList.add("room-cell");
+      container.appendChild(els.yes);
+      container.appendChild(els.no);
+      rowElement.appendChild(container);
+    });
+
+    rowElement.appendChild(row.resultElement);
+
+    return rowElement;
+  });
+
+  toAppend.forEach( (el) => table.appendChild(el) );
+
+  document.body.appendChild(table);
+
+  const lastRow = document.createElement("div");
+  document.body.appendChild(grandTotalObservedEl);
+  document.body.appendChild(grandTotalYesEl);
+}
+
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+function save() {
+  download(filename, content);
+}
+    </script>
+  </body>
+</html>
