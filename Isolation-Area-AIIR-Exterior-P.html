@@ -54,15 +54,15 @@
         padding: 1em;
           font-size: 0.75em;
       }
-      div.roomCheckbox {
+      div.checkbox {
         display: flex;
         flex-flow: row;
         flex-wrap: nowrap;
       }
-      label.roomCheckbox {
+      label.checkbox {
         flex: 1 1 auto;
       }
-      input[type="checkbox"].roomCheckbox {
+      input[type="checkbox"].checkbox {
         flex: 1 1 auto;
       }
       table {
@@ -121,13 +121,13 @@
           <td>{{ qIdx+1 }}</td>
           <td>{{ q.text }}</td>
           <td v-for="(r, rIdx) in q.rooms">
-            <div class="roomCheckbox">
-              <input class="roomCheckbox" id="checkbox_id(qIdx, rIdx, 'yes')" type="checkbox" v-model="r.yes"@change="enforceRoom(r, 'yes')">
-              <label class="roomCheckbox" for="checkbox_id(qIdx, rIdx, 'yes')" >Yes</label>
+            <div class="checkbox">
+              <input class="checkbox" id="checkbox_id(qIdx, rIdx, 'yes')" type="checkbox" v-model="r.yes"@change="enforceRoom(r, 'yes')">
+              <label class="checkbox" for="checkbox_id(qIdx, rIdx, 'yes')" >Yes</label>
             </div>
-            <div class="roomCheckbox">
-              <input class="roomCheckbox" id="checkbox_id(qIdx, rIdx, 'no')" type="checkbox" v-model="r.no" @change="enforceRoom(r, 'no')">
-              <label class="roomCheckbox" for="checkbox_id(qIdx, rIdx, 'no')">No</label>
+            <div class="checkbox">
+              <input class="checkbox" id="checkbox_id(qIdx, rIdx, 'no')" type="checkbox" v-model="r.no" @change="enforceRoom(r, 'no')">
+              <label class="checkbox" for="checkbox_id(qIdx, rIdx, 'no')">No</label>
             </div>
           </td>
           <td align="center">
