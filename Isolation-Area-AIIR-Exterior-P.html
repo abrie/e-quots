@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Title of the document</title>
-    <script src="vue"></script>
+    <script src="vue.js"></script>
     <style>
       body {
         --color-one: rgb(81,130,187);
@@ -23,23 +23,23 @@
         align-items: center;
         color: white;
         border-radius: 0.25em 0 0 0.25em;
-            overflow: hidden;
+        overflow: hidden;
       }
       div.header div.logo {
+        flex: 0 0 auto;
         height: 100%;
         border-right: 1px solid white;
         border-radius: 0.25em;
         overflow: hidden;
         padding-right: 0.25em;
         background: rgb(13,95,169);
-          flex: 0 0 auto;
       }
       div.logo img.logo {
         height: 100%;
       }
       div.header div.title {
         padding-left: 0.5em;
-          font-size: 0.95em;
+        font-size: 0.95em;
       }
       div.header div.number {
         flex: 0 0 10%;
