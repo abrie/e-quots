@@ -1,350 +1,257 @@
+<!DOCTYPE html>
 <html>
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <script src="vue"></script>
+    <style>
+      body {
+        --color-one: rgb(81,130,187);
+        --color-two: rgb(237,242,248);
+        --color-three: rgb(186, 205, 228);
+        --color-four: rgb(245, 227, 83);
+        --header-height: 3em;
+      }
+      div.header {
+        display: flex;
+        flex-direction: row;
+        height: var(--header-height);
+        position: relative;
+        font-size: 1.5em;
+        background: var(--color-one);
+        border: 1px solid var(--color-one);
+        align-items: center;
+        color: white;
+        border-radius: 0.25em 0 0 0.25em;
+            overflow: hidden;
+      }
+      div.header div.logo {
+        height: 100%;
+        border-right: 1px solid white;
+        border-radius: 0.25em;
+        overflow: hidden;
+        padding-right: 0.25em;
+        background: rgb(13,95,169);
+          flex: 0 0 auto;
+      }
+      div.logo img.logo {
+        height: 100%;
+      }
+      div.header div.title {
+        padding-left: 0.5em;
+          font-size: 0.95em;
+      }
+      div.header div.number {
+        flex: 0 0 10%;
+        background: var(--color-four);
+        color: var(--color-one);
+        height: 100%;
+        text-align: center;
+        line-height: var(--header-height);
+        margin-left: auto;
+      }
+      div.instructions {
+        padding: 1em;
+          font-size: 0.75em;
+      }
+      div.roomCheckbox {
+        display: flex;
+        flex-flow: row;
+        flex-wrap: nowrap;
+      }
+      label.roomCheckbox {
+        flex: 1 1 auto;
+      }
+      input[type="checkbox"].roomCheckbox {
+        flex: 1 1 auto;
+      }
+      table {
+        border: 1px solid var(--color-one);
+      }
+      td {
+        border: 0px solid white;
+      }
+      th {
+        background: var(--color-one);
+        border: 1px solid white;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: var(--color-three);
+      }
+      tr:nth-child(odd) {
+        background-color: var(--color-two);
+      }
 
-div {
-  align-items: center;
-}
-
-.header-row {
-  display: flex;
-  flex-flow: row;
-  border: 1px dotted black;
-}
-
-.question-header {
-  width: 50%;
-}
-
-.result-header {
-  display: flex;
-  flex-wrap: wrap;
-  width: 30%;
-}
-
-.result-header-label {
-  flex: 1 0 100%;
-  text-align: center;
-}
-
-.result-header-yes-label {
-  flex: 1 0 50%;
-  text-align: center;
-}
-
-.result-header-observed-label {
-  flex: 1 0 50%;
-  text-align: center;
-}
-
-.room-header {
-  width: 10%;
-}
-
-.question-row {
-  display: flex;
-  flex-flow: row;
-  border: 1px dotted black;
-}
-
-.question-text {
-  width: 50%;
-}
-
-.result {
-  width: 30%;
-  display: flex;
-  flex-flow: row;
-}
-
-.result .yes {
-  flex: 1 1 50%;
-  text-align: center;
-}
-
-.result .observed {
-  flex: 1 1 50%;
-  text-align: center;
-}
-
-.room-cell {
-  border: 1px solid black;
-  width: 10%;
-}
-  </style>
+      button.export {
+        font-variant: small-caps;
+        font-size: 125%;
+      }
+    </style>
+  </head>
   <body>
+    <div id="app">
+      <div class="header">
+        <div class="logo"><img class="logo" src="logo.png"></div>
+        <div class="title">{{ surveyTitle }}</div>
+        <div class="number">{{ surveyNumber }}</div>
+      </div>
+      <div class="instructions">
+        <b>Instructions</b>: {{ surveyInstructions }}
+      </div>
+      <table>
+        <thead>
+        <tr>
+          <th rowspan="2" colspan="2">{{ questionHeader }}</th>
+          <th rowspan="2" colspan="1" v-for="roomNumber in roomNumbers">{{ roomNumber }}</th>
+          <th rowspan="1" colspan="2"> Summary Of Observations </th>
+        </tr>
+        <tr>
+        <th>Yes</th>
+        <th>Total Observed</th>
+        </tr>
+        </thead>
+        <tfoot>
+          <th :colspan="roomNumbers.length + 2">Total Yes and Total Observed</th>
+          <td align="center"> {{ totalYes }} </td>
+          <td align="center"> {{ totalObserved }}</td>
+        </tfoot>
+        <tbody>
+        <tr v-for="(q, qIdx) in questions">
+          <td>{{ qIdx+1 }}</td>
+          <td>{{ q.text }}</td>
+          <td v-for="(r, rIdx) in q.rooms">
+            <div class="roomCheckbox">
+              <input class="roomCheckbox" id="checkbox_id(qIdx, rIdx, 'yes')" type="checkbox" v-model="r.yes"@change="enforceRoom(r, 'yes')">
+              <label class="roomCheckbox" for="checkbox_id(qIdx, rIdx, 'yes')" >Yes</label>
+            </div>
+            <div class="roomCheckbox">
+              <input class="roomCheckbox" id="checkbox_id(qIdx, rIdx, 'no')" type="checkbox" v-model="r.no" @change="enforceRoom(r, 'no')">
+              <label class="roomCheckbox" for="checkbox_id(qIdx, rIdx, 'no')">No</label>
+            </div>
+          </td>
+          <td align="center">
+            {{ countQuestionYes(q) }}
+          </td>
+          <td align="center">
+            {{ countQuestionObserved(q) }}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <button class="export" @click="exportData">export</button>
+    </div>
     <script>
+      const survey = {
+        number: 7,
+        roomCount: 3,
+        title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
+        instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+        questionHeader: "Isolation room: Observation Categories",
+        questions: [
+          "Is an Airborne Infection Isolation sign at the patient's door?",
+          "Is the door to the room closed?",
+          "Does a manometer or other measurement mechanism indicate negative pressure in the room?",
+          "Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?",
+          "Are respirators stored outside the room or in an anteroom?",
+        ]
+      }
 
-const survey = {
-  roomCount: 3,
-  questionHeader: "Isolation room: Observation Categories",
-  questions: [
-    "Is an Airborne Infection Isolation sign at the patient's door?",
-    "Is the door to the room closed?",
-    "Does a manometer or other measurement mechanism indicate negative pressure in the room?",
-    "Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?",
-    "Are respirators stored outside the room or in an anteroom?",
-  ]
-}
+      function generateModel(survey) {
+        return survey.questions.map( (q) => {
+          const text = q;
+          const rooms = [];
+          for (let i = 0; i < survey.roomCount; i++) {
+            const room = {yes:false,no:false};
+            rooms.push(room);
+          }
+          const tally = {yes:0, observed:0};
 
-const surveyResults = {};
+          return {text, rooms, tally}
+        });
+      }
 
-const grandTotalObservedEl = document.createElement("div");
-grandTotalObservedEl.classList.add("grand-total-observed");
+      var app = new Vue({
+        el: '#app',
+        data: {
+          questions: [],
+        },
+        computed: {
+          totalYes() {
+            return this.questions.reduce( (acc, q) => acc + this.countQuestionYes(q), 0 )
+          },
+          totalObserved() {
+            return this.questions.reduce( (acc, q) => acc + this.countQuestionObserved(q), 0 )
+          },
+        },
+        methods: {
+          label: (qIdx,rIdx,yesno) => `question-${qIdx}-room-${rIdx}-${yesno}`,
+          enforceRoom(room, which) {
+            const others = Object.keys(room).filter( (key) => key !== which );
+            others.forEach( (other) => room[other] = false );
+          },
+          countQuestionYes: (q) => q.rooms.filter( (r) => r.yes ).length,
+          countQuestionNo: (q) => q.rooms.filter( (r) => r.no ).length,
+          countQuestionObserved: (q) => q.rooms.filter( (r) => r.no || r.yes ).length,
+          csvHeader() {
+            const columns = [
+              "Observation Number",
+              "Observation Category",
+              ...this.roomNumbers,
+              "'Yes' Observed",
+              "Total Observed"
+            ]
+            return columns.join(",");
+          },
+          csvData() {
+            return this.questions.map( (q, idx) => {
+              const columns = [
+                idx+1,
+                `"${q.text}"`,
+                ...q.rooms.map( (r) => {
+                  if (r.yes) { return "yes" }
+                  if (r.no) { return "no" }
+                  else return ""
+                }),
+                this.countQuestionYes(q),
+                this.countQuestionObserved(q),
+                ];
+              return columns.join(',');
+            })
+          },
+          generateCSV() {
+            const lines = [this.csvHeader(), ... this.csvData()];
+            return lines.join("\n");
+          },
+          exportData() {
+            const filename="demo.csv";
+            const text = this.generateCSV();
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
 
-const grandTotalYesEl = document.createElement("div");
-grandTotalYesEl.classList.add("grand-total-yes");
+            element.style.display = 'none';
+            document.body.appendChild(element);
 
-const rows = survey.questions.map( (questionText, id) => {
-  return {
-    id,
-    row: questionToRow(id, questionText, survey.roomCount)
-  }
-}); 
+            element.click();
 
-generateTable();
-computeResults();
-
-function getQuestionResult(questions, questionId) {
-  if (questions[questionId] === undefined) {
-    questions[questionId] = {};
-  }
-
-  return questions[questionId];
-}
-
-function getRoomResult(rooms, roomId) {
-  if (rooms[roomId] === undefined) {
-    rooms[roomId] = {};
-  }
-
-  return rooms[roomId];
-}
-
-function tallyQuestion(question) {
-  const vals = Object.values(question).map( (room) => room.value );
-  const observed = vals.reduce( (acc, val) => {
-    if (val !== undefined) {
-      return acc + 1;
-    } else {
-      return acc;
-    }
-  }, 0);
-
-  const yes = vals.reduce( (acc, val) => {
-    if (val === "yes") {
-      return acc + 1;
-    } else {
-      return acc;
-    }
-  }, 0);
-
-  const no = observed - yes;
-
-  return {observed, yes, no};
-}
-
-function setResult(questionId, roomId, value) {
-  const question = getQuestionResult(surveyResults, questionId);
-  const room = getRoomResult(question, roomId); 
-  room.value = value;
-
-  computeResults();
-}
-
-function computeResults() {
-  var totalObserved = 0;
-  var totalYes = 0;
-
-  Object.keys(rows).forEach( (questionId) => {
-    const question = getQuestionResult(surveyResults, questionId);
-    const {row} = rows.find( ({id}) => questionId == id );
-    const tally = tallyQuestion(question);
-    totalObserved += tally.observed;
-    totalYes += tally.yes;
-    row.resultYesElement.innerHTML = `${tally.yes}`;
-    row.resultObservedElement.innerHTML = `${tally.observed}`;
-  });
-
-  grandTotalObservedEl.innerHTML = `${totalObserved}`;
-  grandTotalYesEl.innerHTML = `${totalYes}`;
-}
-
-function onCheckboxChanged(evt) {
-  const el = evt.target;
-  const checked = el.checked;
-  const questionId = el.dataset.questionId;
-  const roomId = el.dataset.roomId;
-  const label = el.dataset.label;
-
-  const {row} = rows.find( ({id}) => questionId == id );
-  const yesId = `${questionId}-${roomId}-yes`;
-  const noId = `${questionId}-${roomId}-no`;
-  const yesEl = document.getElementById(yesId);
-  const noEl = document.getElementById(noId);
-  if (label === "yes") {
-    yesEl.checked = checked;
-    noEl.checked = false;
-  }
-  if (label === "no") {
-    yesEl.checked = false;
-    noEl.checked = checked;
-  }
-
-  var result = undefined;
-  if (yesEl.checked) {
-    result = "yes";
-  } else if (noEl.checked) {
-    result = "no";
-  } else {
-    result = undefined;
-  }
-
-  setResult(questionId, roomId, result);
-}
-
-function buildCheckbox(questionId, roomId, label) {
-  const checkboxId = `${questionId}-${roomId}-${label}`;
-
-  const labelEl = document.createElement("label");
-  labelEl.setAttribute("for", checkboxId);
-  labelEl.innerHTML = `${label}`;
-
-  const checkboxEl = document.createElement("input");
-  checkboxEl.dataset.questionId = questionId;
-  checkboxEl.dataset.roomId = roomId
-  checkboxEl.dataset.label = label;
-  checkboxEl.addEventListener("change", onCheckboxChanged);
-  checkboxEl.setAttribute("type", "checkbox");
-  checkboxEl.setAttribute("id", checkboxId);
-
-  const containerEl = document.createElement("div");
-  containerEl.appendChild(checkboxEl);
-  containerEl.appendChild(labelEl);
-  containerEl.classList.add("room-checkbox");
-
-  return containerEl;
-}
-
-function questionToRow(questionId, questionText, roomCount) {
-  const questionElement = document.createElement("div");
-  questionElement.classList.add("question-text");
-  questionElement.innerHTML = questionText;
-
-  const checkboxElements = [];
-  for (let roomId = 0; roomId < roomCount; roomId++) {
-    const yes = buildCheckbox(questionId, roomId, "yes");
-    const no = buildCheckbox(questionId, roomId, "no");
-    checkboxElements.push({yes, no});
-  }
-
-  const resultElement = document.createElement("div");
-  resultElement.classList.add("result");
-
-  const resultYesElement = document.createElement("div");
-  resultYesElement.classList.add("yes");
-  resultElement.appendChild(resultYesElement);
-
-  const resultObservedElement = document.createElement("div");
-  resultObservedElement.classList.add("observed");
-  resultElement.appendChild(resultObservedElement);
-
-  return {
-    questionElement,
-    checkboxElements,
-    resultElement,
-    resultYesElement,
-    resultObservedElement,
-  }
-}
-
-function buildHeader(survey) {
-  const questionHeader = document.createElement("div");
-  questionHeader.classList.add("question-header");
-  questionHeader.innerHTML = survey.questionHeader;
-  const roomHeaders = [];
-  for (let i = 0; i < survey.roomCount; i++) {
-    const roomHeader = document.createElement("div");
-    roomHeader.classList.add("room-header");
-    roomHeader.innerHTML = `Room ${i}`;
-    roomHeaders.push(roomHeader);
-  }
-
-  const resultHeader = document.createElement("div");
-  resultHeader.classList.add("result-header");
-
-  const resultHeaderLabel = document.createElement("div");
-  resultHeaderLabel.classList.add("result-header-label");
-  resultHeaderLabel.innerHTML = "<u>Summary of Observations</u>";
-
-  const resultHeaderYesLabel = document.createElement("div");
-  resultHeaderYesLabel.classList.add("result-header-yes-label");
-  resultHeaderYesLabel.innerHTML = "Yes";
-
-  const resultHeaderObservedLabel = document.createElement("div");
-  resultHeaderObservedLabel.classList.add("result-header-observed-label");
-  resultHeaderObservedLabel.innerHTML = "Total Observed";
-
-  resultHeader.appendChild(resultHeaderLabel);
-  resultHeader.appendChild(resultHeaderYesLabel);
-  resultHeader.appendChild(resultHeaderObservedLabel);
-
-  const row = document.createElement("div");
-  row.classList.add("header-row");
-  row.appendChild(questionHeader);
-  roomHeaders.forEach( (el) => row.appendChild(el) );
-  row.appendChild(resultHeader);
-
-  return row;
-}
-
-function generateTable() {
-  const table = document.createElement("div");
-  table.appendChild( buildHeader(survey) );
-
-  const toAppend = rows.map( ({row}) => {
-    const rowElement = document.createElement("div");
-    rowElement.classList.add("question-row");
-
-    rowElement.appendChild(row.questionElement);
-
-    row.checkboxElements.forEach( (els) => {
-      let container = document.createElement("div");
-      container.classList.add("room-cell");
-      container.appendChild(els.yes);
-      container.appendChild(els.no);
-      rowElement.appendChild(container);
-    });
-
-    rowElement.appendChild(row.resultElement);
-
-    return rowElement;
-  });
-
-  toAppend.forEach( (el) => table.appendChild(el) );
-
-  document.body.appendChild(table);
-
-  const lastRow = document.createElement("div");
-  document.body.appendChild(grandTotalObservedEl);
-  document.body.appendChild(grandTotalYesEl);
-}
-
-function download(filename, text) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
-
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
-}
-
-function save() {
-  download(filename, content);
-}
+            document.body.removeChild(element);
+          },
+          populate() {
+            this.questionHeader = survey.questionHeader;
+            roomNumbers = [];
+            for (let i = 0; i < survey.roomCount; i++) { roomNumbers.push(`Room ${i+1}`) };
+            this.surveyTitle = survey.title;
+            this.surveyInstructions = survey.instructions;
+            this.surveyNumber = survey.number;
+            this.roomNumbers = roomNumbers;
+            this.questions = generateModel(survey);
+          }
+        },
+        created() {
+          this.populate();
+        }
+      });
     </script>
   </body>
 </html>
