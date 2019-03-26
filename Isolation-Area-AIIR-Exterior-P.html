@@ -104,7 +104,7 @@
         <thead>
         <tr>
           <th rowspan="2" colspan="2">{{ questionHeader }}</th>
-          <th rowspan="2" colspan="1" v-for="roomNumber in roomNumbers">{{ roomNumber }}</th>
+          <th rowspan="2" colspan="1" v-for="room in rooms">{{ room }}</th>
           <th rowspan="1" colspan="2"> Summary Of Observations </th>
         </tr>
         <tr>
@@ -113,22 +113,22 @@
         </tr>
         </thead>
         <tfoot>
-          <th :colspan="roomNumbers.length + 2">Total Yes and Total Observed</th>
+          <th :colspan="rooms.length + 2">Total Yes and Total Observed</th>
           <td align="center"> {{ totalYes }} </td>
           <td align="center"> {{ totalObserved }}</td>
         </tfoot>
         <tbody>
         <tr v-for="(q, qIdx) in questions">
-          <td>{{ qIdx+1 }}</td>
+          <td>{{ q.number }}</td>
           <td>{{ q.text }}</td>
-          <td v-for="(r, rIdx) in q.rooms">
+          <td v-for="(o, oIdx) in q.observations">
             <div class="checkbox">
-              <input class="checkbox" id="checkbox_id(qIdx, rIdx, 'yes')" type="checkbox" v-model="r.yes"@change="enforceRoom(r, 'yes')">
-              <label class="checkbox" for="checkbox_id(qIdx, rIdx, 'yes')" >Yes</label>
+              <input class="checkbox" id="checkbox_id(qIdx, oIdx, 'yes')" type="checkbox" v-model="o.yes"@change="enforceObservation(o, 'yes')">
+              <label class="checkbox" for="checkbox_id(qIdx, oIdx, 'yes')" >Yes</label>
             </div>
             <div class="checkbox">
-              <input class="checkbox" id="checkbox_id(qIdx, rIdx, 'no')" type="checkbox" v-model="r.no" @change="enforceRoom(r, 'no')">
-              <label class="checkbox" for="checkbox_id(qIdx, rIdx, 'no')">No</label>
+              <input class="checkbox" id="checkbox_id(qIdx, oIdx, 'no')" type="checkbox" v-model="o.no" @change="enforceObservation(o, 'no')">
+              <label class="checkbox" for="checkbox_id(qIdx, oIdx, 'no')">No</label>
             </div>
           </td>
           <td align="center">
@@ -145,7 +145,7 @@
     <script>
       const survey = {
         number: 7,
-        roomCount: 3,
+        rooms: ["Room 1", "Room 2", "Room 3"],
         title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
         instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
         questionHeader: "Isolation room: Observation Categories",
@@ -159,16 +159,16 @@
       }
 
       function generateModel(survey) {
-        return survey.questions.map( (q) => {
+        return survey.questions.map( (q, idx) => {
           const text = q.text;
-          const rooms = [];
-          for (let i = 0; i < survey.roomCount; i++) {
-            const room = {};
-            q.answers.forEach( (possibility) => room[possibility] = false );
-            rooms.push(room);
+          const observations = [];
+          for (let i = 0; i < survey.rooms.length; i++) {
+            const observation = {};
+            q.answers.forEach( (possibility) => observation[possibility] = false );
+            observations.push(observation);
           }
 
-          return {text, rooms}
+          return {number:idx+1, text, observations}
         });
       }
 
@@ -187,18 +187,18 @@
         },
         methods: {
           label: (qIdx,rIdx,yesno) => `question-${qIdx}-room-${rIdx}-${yesno}`,
-          enforceRoom(room, which) {
+          enforceObservation(room, which) {
             const others = Object.keys(room).filter( (key) => key !== which );
             others.forEach( (other) => room[other] = false );
           },
-          countQuestionYes: (q) => q.rooms.filter( (r) => r.yes ).length,
-          countQuestionNo: (q) => q.rooms.filter( (r) => r.no ).length,
-          countQuestionObserved: (q) => q.rooms.filter( (r) => r.no || r.yes ).length,
+          countQuestionYes: (q) => q.observations.filter( (r) => r.yes ).length,
+          countQuestionNo: (q) => q.observations.filter( (r) => r.no ).length,
+          countQuestionObserved: (q) => q.observations.filter( (r) => r.no || r.yes ).length,
           csvHeader() {
             const columns = [
               "Observation Number",
               "Observation Category",
-              ...this.roomNumbers,
+              ...this.rooms,
               "'Yes' Observed",
               "Total Observed"
             ]
@@ -240,12 +240,10 @@
           },
           populate() {
             this.questionHeader = survey.questionHeader;
-            roomNumbers = [];
-            for (let i = 0; i < survey.roomCount; i++) { roomNumbers.push(`Room ${i+1}`) };
             this.surveyTitle = survey.title;
             this.surveyInstructions = survey.instructions;
             this.surveyNumber = survey.number;
-            this.roomNumbers = roomNumbers;
+            this.rooms = survey.rooms.map( (label) => label );
             this.questions = generateModel(survey);
           }
         },
