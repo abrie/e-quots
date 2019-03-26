@@ -149,25 +149,25 @@
         instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
         questionHeader: "Isolation room: Observation Categories",
         questions: [
-          "Is an Airborne Infection Isolation sign at the patient's door?",
-          "Is the door to the room closed?",
-          "Does a manometer or other measurement mechanism indicate negative pressure in the room?",
-          "Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?",
-          "Are respirators stored outside the room or in an anteroom?",
+          {text:"Is an Airborne Infection Isolation sign at the patient's door?", answers:["yes","no"]},
+          {text:"Is the door to the room closed?", answers:["yes","no"]},
+          {text:"Does a manometer or other measurement mechanism indicate negative pressure in the room?", answers:["yes","no"]},
+          {text:"Are appropriate respirators}, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?", answers:["yes","no"]},
+          {text:"Are respirators stored outside the room or in an anteroom?", answers:["yes","no"]},
         ]
       }
 
       function generateModel(survey) {
         return survey.questions.map( (q) => {
-          const text = q;
+          const text = q.text;
           const rooms = [];
           for (let i = 0; i < survey.roomCount; i++) {
-            const room = {yes:false,no:false};
+            const room = {};
+            q.answers.forEach( (possibility) => room[possibility] = false );
             rooms.push(room);
           }
-          const tally = {yes:0, observed:0};
 
-          return {text, rooms, tally}
+          return {text, rooms}
         });
       }
 
