@@ -269,8 +269,22 @@
             const others = Object.keys(observation).filter( (key) => key !== which );
             others.forEach( (other) => observation[other] = false );
           },
-          countQuestionObservation: (q, choice) => q.observations.filter( (r) => r[choice] ).length,
-          countQuestionObserved: (q) => q.observations.filter( (r) => r["Yes"] || r["No"] ).length,
+          countQuestionObservation(q, choice) {
+            if (q.choices) {
+              return q.observations.filter( (r) => r[choice] ).length
+            }
+            if (q.parts) {
+              return q.parts.reduce( (acc, p) => acc + this.countQuestionObservation(p, choice), 0);
+            }
+          },
+          countQuestionObserved(q) {
+            if (q.choices) {
+              return q.observations.filter( (r) => r["Yes"] || r["No"] ).length;
+            }
+            if (q.parts) {
+              return q.parts.reduce( (acc, p) => acc + this.countQuestionObserved(q), 0 );
+            }
+          },
           countSectionObservation(s, choice) {
             return s.questions.reduce( (acc, q) => acc + this.countQuestionObservation(q, choice), 0);
           },
