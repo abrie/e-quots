@@ -106,44 +106,74 @@
       </div>
 
       <table v-for="(section, sIdx) in sections">
-        <thead>
-          <tr>
-            <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
-            <th rowspan="2" colspan="1" v-for="observable in observables">{{ observable }}</th>
-            <th rowspan="1" colspan="2"> Summary Of Observations </th>
-          </tr>
-          <tr>
-            <th>Yes</th>
-            <th>Total Observed</th>
-          </tr>
-        </thead>
+        <template v-if="observables.length > 1">
+          <thead>
+            <tr>
+              <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
+              <th rowspan="2" colspan="1" v-for="observable in observables">{{ observable }}</th>
+              <th rowspan="1" colspan="2"> Summary Of Observations </th>
+            </tr>
+            <tr>
+              <th>Yes</th>
+              <th>Total Observed</th>
+            </tr>
+          </thead>
 
-        <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
-          <th :colspan="observables.length + 2">Total Yes and Total Observed</th>
-          <td align="center"> {{ totalYes }} </td>
-          <td align="center"> {{ totalObserved }}</td>
-        </tfoot>
+          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
+            <th :colspan="observables.length + 2">Total Yes and Total Observed</th>
+            <td align="center"> {{ totalYes }} </td>
+            <td align="center"> {{ totalObserved }}</td>
+          </tfoot>
 
-        <tbody>
-        <tr v-for="(q, qIdx) in section.questions">
-          <td>{{ q.number }}</td>
-          <td>{{ q.text }}</td>
-          <td v-for="(o, oIdx) in q.observations">
-            <template v-for="(c, cIdx) in q.choices">
-              <div class="checkbox">
-                <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
-                <label class="checkbox" for="checkbox_id(qIdx, oIdx, cIdx)" >{{ c }}</label>
-              </div>
-            </template>
-          </td>
-          <td align="center">
-            {{ countQuestionObservation(q, "Yes") }}
-          </td>
-          <td align="center">
-            {{ countQuestionObserved(q) }}
-          </td>
-        </tr>
-        </tbody>
+          <tbody>
+            <tr v-for="(q, qIdx) in section.questions">
+              <td>{{ q.number }}</td>
+              <td>{{ q.text }}</td>
+              <td v-for="(o, oIdx) in q.observations">
+                <template v-for="(c, cIdx) in q.choices">
+                  <div class="checkbox">
+                    <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                    <label class="checkbox" for="checkbox_id(qIdx, oIdx, cIdx)" >{{ c }}</label>
+                  </div>
+                </template>
+              </td>
+              <td align="center">
+                {{ countQuestionObservation(q, "Yes") }}
+              </td>
+              <td align="center">
+                {{ countQuestionObserved(q) }}
+              </td>
+            </tr>
+          </tbody>
+        </template>
+        <template v-else>
+          <thead>
+            <tr>
+              <th rowspan="1" colspan="2">{{ section.questionHeader }}</th>
+              <th rowspan="1" colspan="3"> Summary Of Observations </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="(q, qIdx) in section.questions">
+              <td>{{ q.number }}</td>
+              <td>{{ q.text }}</td>
+              <td v-for="(c, cIdx) in q.choices">
+                <div class="checkbox">
+                  <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="q.observations[0][c]" @change="enforceChoice(q.observations[0], c)">
+                  <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
+            <th colspan="2">Total</th>
+            <td align="center"> {{ totalYes }} </td>
+            <td align="center"> {{ totalNo }} </td>
+            <td align="center"> {{ totalNA }} </td>
+          </tfoot>
+        </template>
       </table>
       <button class="export" @click="exportData">export</button>
     </div>
@@ -176,12 +206,18 @@
       var app = new Vue({
         el: '#app',
         data: {
-          activeCard: 0,
+          activeCard: 3,
           sections: [],
         },
         computed: {
           totalYes() {
             return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "Yes"), 0)
+          },
+          totalNo() {
+            return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "No"), 0)
+          },
+          totalNA() {
+            return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "N/A"), 0)
           },
           totalObserved() {
             return this.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
