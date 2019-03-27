@@ -155,16 +155,33 @@
           </thead>
 
           <tbody>
-            <tr v-for="(q, qIdx) in section.questions">
-              <td>{{ q.number }}</td>
-              <td>{{ q.text }}</td>
-              <td v-for="(c, cIdx) in q.choices">
-                <div class="checkbox">
-                  <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="q.observations[0][c]" @change="enforceChoice(q.observations[0], c)">
-                  <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
-                </div>
-              </td>
-            </tr>
+            <template v-for="(q, qIdx) in section.questions">
+              <tr v-if="q.choices">
+                <td>{{ q.number }}</td>
+                <td>{{ q.text }}</td>
+                <td v-for="(c, cIdx) in q.choices">
+                  <div class="checkbox">
+                    <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="q.observations[0][c]" @change="enforceChoice(q.observations[0], c)">
+                    <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
+                  </div>
+                </td>
+              </tr>
+              <template v-if="q.parts">
+              <tr>
+                <td :rowspan="q.parts.length+1">{{ q.number }}</td>
+                <td>{{ q.text }}</td>
+              </tr>
+              <tr v-for="part in q.parts">
+                <td>{{part.number}}. {{part.text}}</td>
+                <td v-for="(c, cIdx) in part.choices">
+                  <div class="checkbox">
+                    <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="part.observations[0][c]" @change="enforceChoice(part.observations[0], c)">
+                    <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
+                  </div>
+                </td>
+              </tr>
+              </template>
+            </template>
           </tbody>
 
           <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
@@ -180,23 +197,43 @@
     <script>
       /*INSERT*/
       function generateModel(survey) {
-        var questionNumber = 1;
+        function* QuestionNumberGenerator() {
+          var value = 1;
+          while(true) {
+            yield value++;
+          }
+        };
 
+        function generateObservation(q) {
+          const observation = {};
+          q.choices.forEach( (choice) => observation[choice] = false );
+          return observation;
+        }
+
+        function generateQuestion(survey, question, numberGenerator) {
+          const text = question.text;
+
+          if (question.choices) {
+            const observations = survey.observables.map( (o) => generateObservation(question) );
+            const choices = question.choices.map( (c) => c );
+            const number = numberGenerator.next().value;
+
+            return {number, text, choices, observations}
+          }
+
+          if (question.parts) {
+            const observations = [];
+            const partNumberGenerator = QuestionNumberGenerator();
+            const parts = question.parts.map( (q) => generateQuestion(survey, q, partNumberGenerator) );
+            const number = numberGenerator.next().value;
+            return {number, text, parts, observations}
+          }
+        }
+
+        const questionNumberGenerator = QuestionNumberGenerator();
         const sections = survey.sections.map( (s, sIdx) => {
           const questionHeader = s.questionHeader;
-          const questions = s.questions.map( (q, idx) => {
-            const text = q.text;
-            const observations = [];
-            const choices = q.choices.map( (c) => c );
-            for (let i = 0; i < survey.observables.length; i++) {
-              const observation = {};
-              q.choices.forEach( (choice) => observation[choice] = false );
-              observations.push(observation);
-            }
-
-            return {number:questionNumber++, text, choices, observations}
-          });
-
+          const questions = s.questions.map( (q) => generateQuestion(survey, q, questionNumberGenerator) );
           return {questionHeader, questions};
         });
 
@@ -206,7 +243,7 @@
       var app = new Vue({
         el: '#app',
         data: {
-          activeCard: 3,
+          activeCard: 4,
           sections: [],
         },
         computed: {
