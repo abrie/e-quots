@@ -93,7 +93,7 @@
   <body>
     <div id="app">
       <select v-model="activeCard" @change="cardSelected">
-        <option v-for="(card, cIdx) in cards" :value="cIdx">{{ card.name }}</option>
+        <option v-for="(card, cIdx) in cards" :value="cIdx">{{card.number}} : {{ card.name }}</option>
       </select>
       <div class="header">
         <div class="logo"><i>logo</i></div>
@@ -103,7 +103,7 @@
       <div class="instructions">
         <b>Instructions</b>: {{ surveyInstructions }}
       </div>
-      <table v-for="section in sections">
+      <table v-for="(section, sIdx) in sections">
         <thead>
         <tr>
           <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
@@ -115,7 +115,7 @@
         <th>Total Observed</th>
         </tr>
         </thead>
-        <tfoot>
+        <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
           <th :colspan="rooms.length + 2">Total Yes and Total Observed</th>
           <td align="center"> {{ totalYes }} </td>
           <td align="center"> {{ totalObserved }}</td>
@@ -146,6 +146,8 @@
     <script>
       /*INSERT*/
       function generateModel(survey) {
+        var questionNumber = 1;
+
         const sections = survey.sections.map( (s, sIdx) => {
           const questionHeader = s.questionHeader;
           const questions = s.questions.map( (q, idx) => {
@@ -158,7 +160,7 @@
               observations.push(observation);
             }
 
-            return {number:idx+1, text, choices, observations}
+            return {number:questionNumber++, text, choices, observations}
           });
 
           return {questionHeader, questions};
@@ -242,7 +244,6 @@
           },
           populate() {
             const card = cards[this.activeCard];
-            console.log("Populate:", card);
             this.surveyTitle = card.title;
             this.surveyInstructions = card.instructions;
             this.surveyNumber = card.number;
