@@ -2,7 +2,7 @@ const cards = [
   {
     name: "Isolation-Area-AIIR-Exterior-P",
     number: 7,
-    rooms: ["Room 1", "Room 2", "Room 3"],
+    observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
     instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
@@ -19,7 +19,7 @@ const cards = [
   {
     name: "Isolation-Area-Contact-Isolation-Exterior-P",
     number: 6,
-    rooms: ["Room 1", "Room 2", "Room 3"],
+    observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
     instructions: "Instructions: Observe areas outside of isolation rooms. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance. Disregard not applicable categories. For example, cover gowns should be outside contact precautions rooms, but may not be required outside a room with airborne isolation precautions only.",
     sections: [{
@@ -37,7 +37,7 @@ const cards = [
   {
     name: "Central-Venous-Catheter-Observation-P",
     number: 1,
-    rooms: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
+    observables: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
     instructions: "Observe patients with central lines in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
@@ -55,7 +55,7 @@ const cards = [
   {
     name: "Injection-Safety-Central-Med-Area-P",
     number: 10,
-    rooms: ["One"],
+    observables: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
     instructions: "Observe medication preparation area. For each category, record the observation. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes”+”No”. Disregard not applicable categories.",
     sections: [{
@@ -75,7 +75,7 @@ const cards = [
   {
     name: "Reprocessing-Clean-Area-Disinfection-Sterilization-P", // TODO!!
     number: 16,
-    rooms: ["One"],
+    observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
     instructions: "Observe area where instruments are reprocessed. For each category, record the observation Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
@@ -84,14 +84,13 @@ const cards = [
       {text:"Are disinfected instruments stored in a manner to protect them from damage and contamination?", choices:["Yes","No"]},
       {text:"Is each piece of equipment labeled with the day of most recent disinfection?", choices:["Yes","No"]},
       {text:"Are scopes, if present, stored in a dedicated area and hung vertically to facilitate drying?", choices:["Yes","No","N/A"]},
-      {text:"Is a log of reprocessed items (paper-based or electronic) maintained that documents:", choices:["Yes","No"]},
     ],
     }],
   },
   {
     name: "Cough-Courtesy-Waiting-Room-P",
     number: 20,
-    rooms: ["One"],
+    observables: ["One"],
     title: "Cough Courtesy: Waiting Room",
     instructions: " Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
@@ -107,7 +106,7 @@ const cards = [
   {
     name: "Reprocessing-Dirty-Area-Disinfection-Sterilization-P",
     number: 15,
-    rooms: ["One"],
+    observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
     instructions: "Observe area where instruments are reprocessed by a soaking method using a liquid chemical germicide. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{

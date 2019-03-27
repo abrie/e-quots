@@ -100,26 +100,30 @@
         <div class="title">{{ surveyTitle }}</div>
         <div class="number">{{ surveyNumber }}</div>
       </div>
+
       <div class="instructions">
         <b>Instructions</b>: {{ surveyInstructions }}
       </div>
+
       <table v-for="(section, sIdx) in sections">
         <thead>
-        <tr>
-          <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
-          <th rowspan="2" colspan="1" v-for="room in rooms">{{ room }}</th>
-          <th rowspan="1" colspan="2"> Summary Of Observations </th>
-        </tr>
-        <tr>
-        <th>Yes</th>
-        <th>Total Observed</th>
-        </tr>
+          <tr>
+            <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
+            <th rowspan="2" colspan="1" v-for="observable in observables">{{ observable }}</th>
+            <th rowspan="1" colspan="2"> Summary Of Observations </th>
+          </tr>
+          <tr>
+            <th>Yes</th>
+            <th>Total Observed</th>
+          </tr>
         </thead>
+
         <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
-          <th :colspan="rooms.length + 2">Total Yes and Total Observed</th>
+          <th :colspan="observables.length + 2">Total Yes and Total Observed</th>
           <td align="center"> {{ totalYes }} </td>
           <td align="center"> {{ totalObserved }}</td>
         </tfoot>
+
         <tbody>
         <tr v-for="(q, qIdx) in section.questions">
           <td>{{ q.number }}</td>
@@ -154,7 +158,7 @@
             const text = q.text;
             const observations = [];
             const choices = q.choices.map( (c) => c );
-            for (let i = 0; i < survey.rooms.length; i++) {
+            for (let i = 0; i < survey.observables.length; i++) {
               const observation = {};
               q.choices.forEach( (choice) => observation[choice] = false );
               observations.push(observation);
@@ -187,7 +191,7 @@
           cardSelected(evt) {
             this.populate();
           },
-          label: (qIdx,rIdx,yesno) => `question-${qIdx}-room-${rIdx}-${yesno}`,
+          label: (qIdx,rIdx,yesno) => `question-${qIdx}-observable-${rIdx}-${yesno}`,
           enforceChoice(observation, which) {
             const others = Object.keys(observation).filter( (key) => key !== which );
             others.forEach( (other) => observation[other] = false );
@@ -204,7 +208,7 @@
             const columns = [
               "Observation Number",
               "Observation Category",
-              ...this.rooms,
+              ...this.observables,
               "'Yes' Observed",
               "Total Observed"
             ]
@@ -215,7 +219,7 @@
               const columns = [
                 idx+1,
                 `"${q.text}"`,
-                ...q.rooms.map( (r) => {
+                ...q.observables.map( (r) => {
                   return r["Yes"] ? "1" : "0";
                 }),
                 this.countQuestionObservation(q, "Yes"),
@@ -247,7 +251,7 @@
             this.surveyTitle = card.title;
             this.surveyInstructions = card.instructions;
             this.surveyNumber = card.number;
-            this.rooms = card.rooms.map( (label) => label );
+            this.observables = card.observables.map( (label) => label );
             this.sections = generateModel(card);
           }
         },
