@@ -72,6 +72,20 @@
       td {
         border: 0px solid white;
       }
+
+      td.questionNumber {
+        padding: 0.5em;
+        font-size: 1.25em;
+      }
+
+      td.questionText {
+        padding-left: 0.5em;
+      }
+
+      td.questionPartText {
+        padding-left: 1em;
+      }
+
       th {
         background: var(--color-one);
         border: 1px solid white;
@@ -127,8 +141,8 @@
 
           <tbody>
             <tr v-for="(q, qIdx) in section.questions">
-              <td>{{ q.number }}</td>
-              <td>{{ q.text }}</td>
+              <td class="questionNumber">{{ q.number }}</td>
+              <td class="questionText" >{{ q.text }}</td>
               <td v-for="(o, oIdx) in q.observations">
                 <template v-for="(c, cIdx) in q.choices">
                   <div class="checkbox">
@@ -157,8 +171,8 @@
           <tbody>
             <template v-for="(q, qIdx) in section.questions">
               <tr v-if="q.choices">
-                <td>{{ q.number }}</td>
-                <td>{{ q.text }}</td>
+                <td class="questionNumber">{{ q.number }}</td>
+                <td class="questionText" >{{ q.text }}</td>
                 <td v-for="(c, cIdx) in q.choices">
                   <div class="checkbox">
                     <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="q.observations[0][c]" @change="enforceChoice(q.observations[0], c)">
@@ -168,11 +182,11 @@
               </tr>
               <template v-if="q.parts">
               <tr>
-                <td :rowspan="q.parts.length+1">{{ q.number }}</td>
-                <td>{{ q.text }}</td>
+                <td class="questionNumber" :rowspan="q.parts.length+1">{{ q.number }}</td>
+                <td class="questionText">{{ q.text }}</td>
               </tr>
               <tr v-for="part in q.parts">
-                <td>{{part.number}}. {{part.text}}</td>
+                <td class="questionPartText" >{{part.number}}. {{part.text}}</td>
                 <td v-for="(c, cIdx) in part.choices">
                   <div class="checkbox">
                     <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="part.observations[0][c]" @change="enforceChoice(part.observations[0], c)">
