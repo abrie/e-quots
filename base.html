@@ -92,6 +92,9 @@
   </head>
   <body>
     <div id="app">
+      <select v-model="activeCard" @change="cardSelected">
+        <option v-for="(card, cIdx) in cards" :value="cIdx">{{ card.name }}</option>
+      </select>
       <div class="header">
         <div class="logo"><i>logo</i></div>
         <div class="title">{{ surveyTitle }}</div>
@@ -142,8 +145,6 @@
     </div>
     <script>
       /*INSERT*/
-      const activeCard = "Reprocessing-Dirty-Area-Disinfection-Sterilization-P";
-
       function generateModel(survey) {
         const sections = survey.sections.map( (s, sIdx) => {
           const questionHeader = s.questionHeader;
@@ -169,6 +170,7 @@
       var app = new Vue({
         el: '#app',
         data: {
+          activeCard: 0,
           sections: [],
         },
         computed: {
@@ -180,6 +182,9 @@
           },
         },
         methods: {
+          cardSelected(evt) {
+            this.populate();
+          },
           label: (qIdx,rIdx,yesno) => `question-${qIdx}-room-${rIdx}-${yesno}`,
           enforceChoice(observation, which) {
             const others = Object.keys(observation).filter( (key) => key !== which );
@@ -236,7 +241,8 @@
             document.body.removeChild(element);
           },
           populate() {
-            const card = cards[activeCard];
+            const card = cards[this.activeCard];
+            console.log("Populate:", card);
             this.surveyTitle = card.title;
             this.surveyInstructions = card.instructions;
             this.surveyNumber = card.number;
