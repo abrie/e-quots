@@ -1,5 +1,6 @@
-const cards = {
-  "Isolation-Area-AIIR-Exterior-P": {
+const cards = [
+  {
+    name: "Isolation-Area-AIIR-Exterior-P",
     number: 7,
     rooms: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
@@ -15,7 +16,8 @@ const cards = {
       ]
     }]
   },
-  "Isolation-Area-Contact-Isolation-Exterior-P": {
+  {
+    name: "Isolation-Area-Contact-Isolation-Exterior-P",
     number: 6,
     rooms: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
@@ -32,7 +34,8 @@ const cards = {
       ],
     }],
   },
-  "Central-Venous-Catheter-Observation-P":{
+  {
+    name: "Central-Venous-Catheter-Observation-P",
     number: 1,
     rooms: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
@@ -49,7 +52,8 @@ const cards = {
     ],
     }],
   },
-  "Injection-Safety-Central-Med-Area-P":{
+  {
+    name: "Injection-Safety-Central-Med-Area-P",
     number: 10,
     rooms: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
@@ -68,7 +72,8 @@ const cards = {
     ],
     }],
   },
-  "Reprocessing-Clean-Area-Disinfection-Sterilization-P":{ //TODO
+  {
+    name: "Reprocessing-Clean-Area-Disinfection-Sterilization-P", // TODO!!
     number: 16,
     rooms: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
@@ -83,7 +88,8 @@ const cards = {
     ],
     }],
   },
-  "Cough-Courtesy-Waiting-Room-P": {
+  {
+    name: "Cough-Courtesy-Waiting-Room-P",
     number: 20,
     rooms: ["One"],
     title: "Cough Courtesy: Waiting Room",
@@ -98,7 +104,8 @@ const cards = {
     ],
     }]
   },
-  "Reprocessing-Dirty-Area-Disinfection-Sterilization-P": {
+  {
+    name: "Reprocessing-Dirty-Area-Disinfection-Sterilization-P",
     number: 15,
     rooms: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
@@ -128,4 +135,4 @@ const cards = {
         ],
       }],
   },
-}
+]
