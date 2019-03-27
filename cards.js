@@ -84,6 +84,11 @@ const cards = [
       {text:"Are disinfected instruments stored in a manner to protect them from damage and contamination?", choices:["Yes","No"]},
       {text:"Is each piece of equipment labeled with the day of most recent disinfection?", choices:["Yes","No"]},
       {text:"Are scopes, if present, stored in a dedicated area and hung vertically to facilitate drying?", choices:["Yes","No","N/A"]},
+      {text:"Is a log of reprocessed items (paper-based or electronic) maintained that documents:", parts:[
+        {text:"The instrument reprocessed and date,", choices:["Yes","No"]},
+        {text:"The technician who performed the reprocessing, and", choices:["Yes","No"]},
+        {text:"An indication of whether or not the reprocessing run passed or failed any necessary chemical or mechanical tests.", choices:["Yes","No"]},
+      ]},
     ],
     }],
   },
