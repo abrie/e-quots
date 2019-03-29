@@ -326,7 +326,7 @@ const cards = [
       header: "Vaccine Storage Area: Observation Categories",
       choiceSet: ["Yes","No"],
       questions: [
-        {text:"Are vaccine storage refrigerator and freezer temperatures within the appropriate ranges (Refrigerator: 2° C to 8° C; 36° F to 46° Freezer: -50° C to -15° C; -58° F to +5° F)?", choices:["Yes","No","N/A"]},
+        {text:"Are vaccine storage refrigerator and freezer temperatures within the appropriate ranges (Refrigerator: 2° C to 8° C; 36° F to 46° Freezer: -50° C to -15° C; -58° F to +5° F)?", choices:["Yes","No"]},
         {text:"Are vaccine storage refrigerator and freezer temperatures recorded twice daily?", choices:["Yes","No"]},
         {text:"Are safeguards, such as self-closing hinges and door alarms, in place to ensure that the refrigerator/freezer doors remain closed.", choices:["Yes","No"]},
         {text:"Are refrigerator/freezer door gaskets clean?", choices:["Yes","No"]},
