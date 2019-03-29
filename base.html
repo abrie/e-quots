@@ -131,7 +131,7 @@
       </div>
 
       <table v-for="(section, sIdx) in survey.sections">
-        <template v-if="section.observables.length > 1">
+        <template v-if="isMultiAreaSurvey(survey)">
           <thead>
             <tr>
               <th rowspan="2" colspan="2">{{ section.header }}</th>
@@ -354,35 +354,63 @@
           countSectionObserved(s) {
             return s.questions.reduce( (acc, q) => acc + this.countQuestionObserved(q), 0);
           },
-          csvHeader() {
-            const columns = [
-              "Observation Number",
-              "Observation Category",
-              ...this.observables,
-              "'Yes' Observed",
-              "Total Observed"
-            ]
-            return columns.join(",");
+          isMultiAreaSurvey(survey) {
+            return survey.observables.length > 1;
           },
-          csvData() {
-            return this.questions.map( (q, idx) => {
+          csvHeader(survey) {
+            if (this.isMultiAreaSurvey(survey)) {
               const columns = [
-                `${q.number}`,
-                `"${q.text}"`,
-                ...q.observables.map( (r) => {
-                  return r["Yes"] ? "1" : "0";
-                }),
-                this.countQuestionObservation(q, "Yes"),
-                this.countQuestionObserved(q),
-                ];
-              return columns.join(',');
-            })
+                "Question Number",
+                "Question Text",
+                ...survey.observables,
+                "'Yes' Observed",
+                "Total Observed"
+              ]
+              return columns.join(",");
+            } else {
+              const columns = [
+                "Question Number",
+                "Question Text",
+                "Observation",
+              ]
+              return columns.join(",");
+            }
+          },
+          csvData(survey) {
+            if (this.isMultiAreaSurvey(survey)) {
+              const sections = survey.sections.map( (section) =>
+                section.questions.map( (q) => [
+                  `${q.number}`,
+                  `"${q.text}"`,
+                  ...q.observations.map( (r) => r["Yes"] ? "1" : "0"),
+                  this.countQuestionObservation(q, "Yes"),
+                  this.countQuestionObserved(q),
+                ])
+              )
+              const rows = sections.flat().map( (s) => s.join(',') );
+              console.log(rows.join("\n"));
+            }
+            else {
+              const sections = survey.sections.map( (section) =>
+                section.questions.map( (q) => [
+                  `${q.number}`,
+                  `"${q.text}"`,
+                  ...q.observations.map( (r) => r["Yes"] ? "1" : "0"),
+                ])
+              )
+              const rows = sections.flat().map( (s) => s.join(',') );
+              console.log(rows.join("\n"));
+            }
           },
           generateCSV() {
             const lines = [this.csvHeader(), ... this.csvData()];
             return lines.join("\n");
           },
           exportData() {
+            console.log(this.csvHeader(this.survey));
+            console.log(this.csvData(this.survey));
+          },
+          _exportData() {
             const filename="demo.csv";
             const text = this.generateCSV();
             var element = document.createElement('a');
@@ -400,9 +428,10 @@
             const title = card.title;
             const instructions = card.instructions;
             const number = card.number;
+            const observables = card.observables;
             const sections = generateModel(card);
 
-            return {title, instructions, number, sections}
+            return {title, instructions, number, observables, sections}
           },
           resetData() {
             this.backup = this.survey;
@@ -414,7 +443,7 @@
           },
           cardSelected() {
             this.survey = this.populate(cards[this.activeCard]);
-            this.backu = false;
+            this.backup = false;
           },
         },
         created() {
