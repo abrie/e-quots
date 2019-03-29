@@ -111,15 +111,15 @@
       </select>
       <div class="header">
         <div class="logo"><i>logo</i></div>
-        <div class="title">{{ surveyTitle }}</div>
-        <div class="number">{{ surveyNumber }}</div>
+        <div class="title">{{ survey.title }}</div>
+        <div class="number">{{ survey.number }}</div>
       </div>
 
       <div class="instructions">
-        <b>Instructions</b>: {{ surveyInstructions }}
+        <b>Instructions</b>: {{ survey.instructions }}
       </div>
 
-      <table v-for="(section, sIdx) in sections">
+      <table v-for="(section, sIdx) in survey.sections">
         <template v-if="section.observables.length > 1">
           <thead>
             <tr>
@@ -273,6 +273,7 @@
           const questions = s.questions.map( (q) => generateQuestion(observables, q, questionNumberGenerator) );
           const choices = s.choiceSet.map( (choice) => choice );
 
+          /* Check for well-formed data */
           const mismatched = questions.filter( (q) => validateChoiceSet(choices, q) );
           if (mismatched.length > 0) {
             throw new Error("Error: One or more question's choices do not match the allowed choiceSet.");
@@ -288,14 +289,14 @@
         el: '#app',
         data: {
           activeCard: 16,
-          sections: [],
+          survey: [],
         },
         methods: {
           cardSelected(evt) {
             this.populate();
           },
           isFinalSection(section) {
-            return this.sections.indexOf(section) === (this.sections.length - 1);
+            return this.survey.sections.indexOf(section) === (this.survey.sections.length - 1);
           },
           label: (qIdx,rIdx,yesno) => `question-${qIdx}-observable-${rIdx}-${yesno}`,
           enforceChoice(observation, which) {
@@ -304,9 +305,9 @@
           },
           countTotalObserved(choice) {
             if (choice) {
-              return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
+              return this.survey.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
             } else {
-              return this.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
+              return this.survey.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
             }
           },
           countQuestionObservation(q, choice) {
@@ -373,16 +374,17 @@
 
             document.body.removeChild(element);
           },
-          populate() {
-            const card = cards[this.activeCard];
-            this.surveyTitle = card.title;
-            this.surveyInstructions = card.instructions;
-            this.surveyNumber = card.number;
-            this.sections = generateModel(card);
+          populate(card) {
+            const title = card.title;
+            const instructions = card.instructions;
+            const number = card.number;
+            const sections = generateModel(card);
+
+            return {title, instructions, number, sections}
           }
         },
         created() {
-          this.populate();
+          this.survey = this.populate(cards[this.activeCard]);
         }
       });
     </script>
