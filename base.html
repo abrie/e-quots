@@ -123,7 +123,7 @@
         <template v-if="section.observables.length > 1">
           <thead>
             <tr>
-              <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
+              <th rowspan="2" colspan="2">{{ section.header }}</th>
               <th rowspan="2" colspan="1" v-for="observable in section.observables">{{ observable }}</th>
               <th rowspan="1" colspan="2"> Summary Of Observations </th>
             </tr>
@@ -163,7 +163,7 @@
         <template v-else>
           <thead>
             <tr>
-              <th rowspan="1" colspan="2">{{ section.questionHeader }}</th>
+              <th rowspan="1" colspan="2">{{ section.header }}</th>
               <th rowspan="1" :colspan="section.choices.length"> Summary Of Observations </th>
             </tr>
           </thead>
@@ -263,13 +263,13 @@
         const questionNumberGenerator = QuestionNumberGenerator();
 
         const sections = survey.sections.map( (s, sIdx) => {
-          const questionHeader = s.questionHeader;
+          const header = s.header;
           const observables = survey.observables.map( (label) => label );
           const questions = s.questions.map( (q) => generateQuestion(observables, q, questionNumberGenerator) );
           const choices = allPossibleChoices(questions);
 
           console.log(choices);
-          return {questionHeader, questions, choices, observables};
+          return {header, questions, choices, observables};
         });
 
         return sections;
