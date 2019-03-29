@@ -317,9 +317,6 @@
           }
         },
         methods: {
-          cardSelected(evt) {
-            this.populate();
-          },
           isFinalSection(survey, section) {
             return survey.sections.indexOf(section) === (survey.sections.length - 1);
           },
@@ -414,6 +411,10 @@
           undoReset() {
             this.survey = this.backup;
             this.backup = false;
+          },
+          cardSelected() {
+            this.survey = this.populate(cards[this.activeCard]);
+            this.backu = false;
           },
         },
         created() {
