@@ -133,7 +133,7 @@
             </tr>
           </thead>
 
-          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
+          <tfoot v-if="isFinalSection(section)">
             <th :colspan="section.observables.length + 2">Total Yes and Total Observed</th>
             <td align="center"> {{ countTotalObserved("Yes") }} </td>
             <td align="center"> {{ countTotalObserved() }}</td>
@@ -143,14 +143,16 @@
             <tr v-for="(q, qIdx) in section.questions">
               <td class="questionNumber">{{ q.number }}</td>
               <td class="questionText" >{{ q.text }}</td>
-              <td v-for="(o, oIdx) in q.observations">
-                <template v-for="(c, cIdx) in q.choices">
-                  <div class="checkbox">
-                    <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
-                    <label class="checkbox" for="checkbox_id(qIdx, oIdx, cIdx)" >{{ c }}</label>
-                  </div>
-                </template>
-              </td>
+              <template v-for="(o, oIdx) in q.observations">
+                <td>
+                  <template v-for="(c, cIdx) in q.choices">
+                    <div class="checkbox">
+                      <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                      <label class="checkbox" for="checkbox_id(qIdx, oIdx, cIdx)" >{{ c }}</label>
+                    </div>
+                  </template>
+                </td>
+              </template>
               <td align="center">
                 {{ countQuestionObservation(q, "Yes") }}
               </td>
@@ -160,6 +162,7 @@
             </tr>
           </tbody>
         </template>
+
         <template v-else>
           <thead>
             <tr>
@@ -168,7 +171,7 @@
             </tr>
           </thead>
 
-          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
+          <tfoot v-if="isFinalSection(section)">
             <th colspan="2">Total</th>
             <td align="center" v-for="choice in section.choices">
               {{ countTotalObserved(choice) }}
@@ -177,34 +180,39 @@
 
           <tbody>
             <template v-for="(q, qIdx) in section.questions">
-              <tr v-if="q.choices">
-                <td class="questionNumber">{{ q.number }}</td>
-                <td class="questionText" >{{ q.text }}</td>
-                <td v-for="(c, cIdx) in q.choices">
-                  <div class="checkbox">
-                    <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="q.observations[0][c]" @change="enforceChoice(q.observations[0], c)">
-                    <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
-                  </div>
-                </td>
-              </tr>
+              <template v-if="q.choices">
+                <tr>
+                  <td class="questionNumber">{{ q.number }}</td>
+                  <td class="questionText" >{{ q.text }}</td>
+                  <template v-for="(o, oIdx) in q.observations">
+                    <td v-for="(c, cIdx) in q.choices">
+                      <div class="checkbox">
+                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                        <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
+                      </div>
+                    </td>
+                  </template>
+                </tr>
+              </template>
               <template v-if="q.parts">
-              <tr>
-                <td class="questionNumber" :rowspan="q.parts.length+1">{{ q.number }}</td>
-                <td class="questionText">{{ q.text }}</td>
-              </tr>
-              <tr v-for="part in q.parts">
-                <td class="questionPartText" >{{part.number}}. {{part.text}}</td>
-                <td v-for="(c, cIdx) in part.choices">
-                  <div class="checkbox">
-                    <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="part.observations[0][c]" @change="enforceChoice(part.observations[0], c)">
-                    <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
-                  </div>
-                </td>
-              </tr>
+                <tr>
+                  <td class="questionNumber" :rowspan="q.parts.length+1">{{ q.number }}</td>
+                  <td class="questionText">{{ q.text }}</td>
+                </tr>
+                <tr v-for="part in q.parts">
+                  <td class="questionPartText" >{{part.number}}. {{part.text}}</td>
+                  <template v-for="(o, oIdx) in part.observations">
+                    <td v-for="(c, cIdx) in part.choices">
+                      <div class="checkbox">
+                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                        <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
+                      </div>
+                    </td>
+                  </template>
+                </tr>
               </template>
             </template>
           </tbody>
-
         </template>
       </table>
       <button class="export" @click="exportData">export</button>
@@ -250,7 +258,7 @@
           const mismatched = question.choices.filter( (c, idx) => choices[idx] !== c );
           return mismatched.length > 0;
         }
-        if (q.parts) {
+        if (question.parts) {
           const mismatched = question.parts.filter( (q) => validateChoiceSet(choices, q) );
           return mismatched.length > 0;
         }
@@ -285,6 +293,9 @@
         methods: {
           cardSelected(evt) {
             this.populate();
+          },
+          isFinalSection(section) {
+            return this.sections.indexOf(section) === (this.sections.length - 1);
           },
           label: (qIdx,rIdx,yesno) => `question-${qIdx}-observable-${rIdx}-${yesno}`,
           enforceChoice(observation, which) {

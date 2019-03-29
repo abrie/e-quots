@@ -269,7 +269,7 @@ const cards = [
     instructions: "Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
       header: "Patient Care Area: Observation Categories",
-      choiceSet: ["Yes","No"],
+      choiceSet: ["Yes","No","N/A"],
       questions: [
         {text:"Are sharps containers properly secured and not full?", choices:["Yes","No"]},
         {text:"Are sharps containers available at the point of use?", choices:["Yes","No"]},
