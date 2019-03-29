@@ -245,18 +245,15 @@
         }
       }
 
-      function allPossibleChoices(questions) {
-        const choices = {};
-        questions.forEach( (q) => {
-          if (q.choices) {
-            q.choices.forEach( (c) => choices[c] = true );
-          }
-          if (q.parts) {
-            q.parts.forEach( (p) => p.choices.forEach( (c) => choices[c] = true ) );
-          }
-        });
-
-        return Object.keys(choices);
+      function validateChoiceSet(choices, question) {
+        if (question.choices) {
+          const mismatched = question.choices.filter( (c, idx) => choices[idx] !== c );
+          return mismatched.length > 0;
+        }
+        if (q.parts) {
+          const mismatched = question.parts.filter( (q) => validateChoiceSet(choices, q) );
+          return mismatched.length > 0;
+        }
       }
 
       function generateModel(survey) {
@@ -266,9 +263,13 @@
           const header = s.header;
           const observables = survey.observables.map( (label) => label );
           const questions = s.questions.map( (q) => generateQuestion(observables, q, questionNumberGenerator) );
-          const choices = allPossibleChoices(questions);
+          const choices = s.choiceSet.map( (choice) => choice );
 
-          console.log(choices);
+          const mismatched = questions.filter( (q) => validateChoiceSet(choices, q) );
+          if (mismatched.length > 0) {
+            throw new Error("Error: One or more question's choices do not match the allowed choiceSet.");
+          }
+
           return {header, questions, choices, observables};
         });
 
