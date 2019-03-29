@@ -6,7 +6,7 @@ const cards = [
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
     instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Isolation room: Observation Categories",
+      header: "Isolation room: Observation Categories",
       questions: [
         {text:"Is an Airborne Infection Isolation sign at the patient's door?", choices:["Yes","No"]},
         {text:"Is the door to the room closed?", choices:["Yes","No"]},
@@ -23,7 +23,7 @@ const cards = [
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
     instructions: "Instructions: Observe areas outside of isolation rooms. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance. Disregard not applicable categories. For example, cover gowns should be outside contact precautions rooms, but may not be required outside a room with airborne isolation precautions only.",
     sections: [{
-      questionHeader: "Isolation room: Observation Categories",
+      header: "Isolation room: Observation Categories",
       questions: [
         {text:"Is an isolation sign at the patient’s door?", choices:["Yes","No"]},
         {text:"Are gloves available outside of each patient room or treatment area?", choices:["Yes","No","N/A"]},
@@ -41,7 +41,7 @@ const cards = [
     title: "Central Venous Catheter: Observation",
     instructions: "Observe patients with central lines in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-    questionHeader: "Central catheter: Observation Categories",
+    header: "Central catheter: Observation Categories",
     questions: [
       {text:"Is the dressing adhesive intact over the catheter insertion site and drainage contained? (This question is for all dressings, including chlorhexidine gluconate -CHG dressings)", choices:["Yes","No"]},
       {text:"Is the dressing dated and timed according to facility policy?", choices:["Yes","No"]},
@@ -59,7 +59,7 @@ const cards = [
     title: "Injection Safety: Observation of Centralized Medication Area",
     instructions: "Observe medication preparation area. For each category, record the observation. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes”+”No”. Disregard not applicable categories.",
     sections: [{
-    questionHeader: "Medication preparation room: Observation Categories",
+    header: "Medication preparation room: Observation Categories",
     questions: [
       {text:"If multi-dose injectable medications are present, is the medication container maintained in a dedicated medication preparation space?", choices:["Yes","No","N/A"]},
       {text:"Is the medication preparation area free of opened single dose vials or opened single use containers?", choices:["Yes","No"]},
@@ -79,7 +79,7 @@ const cards = [
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
     instructions: "Observe area where instruments are reprocessed. For each category, record the observation Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-    questionHeader: "Equipment Reprocessing – Clean Area",
+    header: "Equipment Reprocessing – Clean Area",
     questions: [
       {text:"Are disinfected instruments stored in a manner to protect them from damage and contamination?", choices:["Yes","No"]},
       {text:"Is each piece of equipment labeled with the day of most recent disinfection?", choices:["Yes","No"]},
@@ -99,7 +99,7 @@ const cards = [
     title: "Cough Courtesy: Waiting Room",
     instructions: " Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-    questionHeader: "Ambulatory Waiting Room: Observation Categories",
+    header: "Ambulatory Waiting Room: Observation Categories",
     questions: [
       {text:"As patients first register for care, is there visible signage instructing them to alert the staff of a respiratory infection?", choices:["Yes","No"]},
       {text:"Are face masks and tissues readily available for patients and visitors with respiratory or flu-like symptoms?", choices:["Yes","No"]},
@@ -115,7 +115,7 @@ const cards = [
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
     instructions: "Observe area where instruments are reprocessed by a soaking method using a liquid chemical germicide. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-      questionHeader: "Equipment Reprocessing",
+      header: "Equipment Reprocessing",
       questions: [
         {text:"Is the preprocessing “dirty” area separate from the clean area?", choices:["Yes","No"]},
         {text:"Is adequate space allotted for device inspection?", choices:["Yes","No"]},
@@ -127,7 +127,7 @@ const cards = [
       ],
     },
       {
-        questionHeader: "Equipment Reprocessing – Dirty Area",
+        header: "Equipment Reprocessing – Dirty Area",
         questions: [
           {text:"Are chemical potency test strips stored appropriately and labeled with “opened” and “use by” dates?", choices:["Yes","No"]},
           {text:"Are opened liquid chemical containers labeled with the date opened and the use-by date?", choices:["Yes","No"]},
@@ -146,7 +146,7 @@ const cards = [
     title: "Standard Precautions: Observation Categories",
     instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Standard Precautions: Observation Categories",
+      header: "Standard Precautions: Observation Categories",
       questions: [
         {text:"Are functioning sinks readily accessible in the patient care area?", choices:["Yes","No"]},
         {text:"Are all handwashing supplies, such as soap and paper towels, available?", choices:["Yes","No"]},
@@ -165,7 +165,7 @@ const cards = [
     title: "Neonatal Environment: Observation of Isolettes/basinets",
     instructions: "Observe neonatal patients isolette/bassinet areas. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Infant isolette/basinet: Observation Categories",
+      header: "Infant isolette/basinet: Observation Categories",
       questions: [
         {text:"Is the patient care area free from clutter?", choices:["Yes","No"]},
         {text:"Are gloves, gowns, masks, and face shields, readily available near each bed space?", choices:["Yes","No"]},
@@ -182,7 +182,7 @@ const cards = [
     title: "Standard Precautions: Observation of Needlestick Prevention and Care of Laundry",
     instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Standard Precautions: Observation Categories",
+      header: "Standard Precautions: Observation Categories",
       questions: [
         {text:"Are sharps containers available?", choices:["Yes","No"]},
         {text:"Are sharps containers properly secured and not full?", choices:["Yes","No"]},
@@ -199,7 +199,7 @@ const cards = [
     title: "Neonatal Central Catheter: Observation",
     instructions: "Observe neonatal patients with central lines in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Central catheter: Observation Categories",
+      header: "Central catheter: Observation Categories",
       questions: [
         {text:"Is the dressing adhesive intact over the catheter insertion site and drainage contained?", choices:["Yes","No"]},
         {text:"Is the dressing dated and timed according to facility policy?", choices:["Yes","No"]},
@@ -216,7 +216,7 @@ const cards = [
     title: "Neonatal Environment: Observation of Nutritional Preparation Area",
     instructions: "Observe nutritional preparation area. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-      questionHeader: "Nutritional preparation area: Observation Categories",
+      header: "Nutritional preparation area: Observation Categories",
       questions: [
         {text:"Are surfaces in the nutrition preparation area visibly clean and free from clutter?", choices:["Yes","No","N/A"]},
         {text:"If powdered formula is used, is sterile water provided for dilution or reconstitution?", choices:["Yes","No","N/A"]},
@@ -237,7 +237,7 @@ const cards = [
     title: "Standard Precautions: Observation of Personal Protective Equipment Provision",
     instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Standard Precautions: Observation Categories",
+      header: "Standard Precautions: Observation Categories",
       questions: [
         {text:"Are gloves readily available outside each patient room or any point of care?", choices:["Yes","No"]},
         {text:"Are cover gowns readily available near each patient room or point of care?", choices:["Yes","No"]},
@@ -254,7 +254,7 @@ const cards = [
     title: "Injection Safety: Point of Care Testing",
     instructions: "Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-      questionHeader: "Patient Care Area: Observation Categories",
+      header: "Patient Care Area: Observation Categories",
       questions: [
         {text:"Are sharps containers properly secured and not full?", choices:["Yes","No"]},
         {text:"Are sharps containers available at the point of use?", choices:["Yes","No"]},
@@ -272,7 +272,7 @@ const cards = [
     title: "Injection Safety: Observation of Portable Medication Systems",
     instructions: "Observe three portable medication carts. For each category, record the observation as Yes, No, or N/A. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Divide by sum of “Yes”+”No”. Disregard not applicable categories.",
     sections: [{
-      questionHeader: "Medication cart: Observation Categories",
+      header: "Medication cart: Observation Categories",
       questions: [
         {text:"If multi-dose injectable medications are present are they maintained in a dedicated medication prep space?", choices:["Yes","No","N/A"]},
         {text:"Are alcohol dispensers readily accessible, filled, and functioning properly?", choices:["Yes","No"]},
@@ -290,7 +290,7 @@ const cards = [
     title: "Urinary Catheter: Observation",
     instructions: "Observe patients with urinary catheters in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Urinary catheter: Observation Categories",
+      header: "Urinary catheter: Observation Categories",
       questions: [
         {text:"Is the catheter properly secured to the patient?", choices:["Yes","No"]},
         {text:"Is there unobstructed flow from the catheter into the bag?", choices:["Yes","No"]},
@@ -306,7 +306,7 @@ const cards = [
     title: "Environment of Care: Vaccine Storage Areas",
     instructions: "Observe vaccine storage area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-      questionHeader: "Vaccine Storage Area: Observation Categories",
+      header: "Vaccine Storage Area: Observation Categories",
       questions: [
         {text:"Are vaccine storage refrigerator and freezer temperatures within the appropriate ranges (Refrigerator: 2° C to 8° C; 36° F to 46° Freezer: -50° C to -15° C; -58° F to +5° F)?", choices:["Yes","No"]},
         {text:"Are vaccine storage refrigerator and freezer temperatures recorded twice daily?", choices:["Yes","No"]},
@@ -324,7 +324,7 @@ const cards = [
     title: "Ventilator: Observation",
     instructions: "Observe patients on ventilators. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      questionHeader: "Ventilator: Observation Categories",
+      header: "Ventilator: Observation Categories",
       questions: [
         {text:"Is the head of the bed elevated >30 degrees?", choices:["Yes","No"]},
         {text:"Is the ventilator tubing free of excessive condensation?", choices:["Yes","No"]},
@@ -339,7 +339,7 @@ const cards = [
     title: "Observation of Visitor Area",
     instructions: "Observe visitor area. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
     sections: [{
-      questionHeader: "Visitor area: Observation Categories",
+      header: "Visitor area: Observation Categories",
       questions: [
         {text:"Are hand hygiene supplies readily accessible by visitors in the waiting area?", choices:["Yes","No","N/A"]},
         {text:"Are face masks readily available?", choices:["Yes","No","N/A"]},
