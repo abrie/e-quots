@@ -101,6 +101,17 @@
       button.export {
         font-variant: small-caps;
         font-size: 125%;
+          background: lightgreen;
+      }
+      button.reset {
+        font-variant: small-caps;
+        font-size: 125%;
+        background: orange;
+      }
+      button.undo {
+        font-variant: small-caps;
+        font-size: 125%;
+        background: lightblue;
       }
     </style>
   </head>
@@ -133,10 +144,10 @@
             </tr>
           </thead>
 
-          <tfoot v-if="isFinalSection(section)">
+          <tfoot v-if="isFinalSection(survey, section)">
             <th :colspan="section.observables.length + 2">Total Yes and Total Observed</th>
-            <td align="center"> {{ countTotalObserved("Yes") }} </td>
-            <td align="center"> {{ countTotalObserved() }}</td>
+            <td align="center"> {{ countTotalObserved(survey, "Yes") }} </td>
+            <td align="center"> {{ countTotalObserved(survey) }}</td>
           </tfoot>
 
           <tbody>
@@ -171,10 +182,10 @@
             </tr>
           </thead>
 
-          <tfoot v-if="isFinalSection(section)">
+          <tfoot v-if="isFinalSection(survey, section)">
             <th colspan="2">Total</th>
             <td align="center" v-for="choice in section.choices">
-              {{ countTotalObserved(choice) }}
+              {{ countTotalObserved(survey, choice) }}
             </td>
           </tfoot>
 
@@ -215,7 +226,9 @@
           </tbody>
         </template>
       </table>
-      <button class="export" @click="exportData">export</button>
+      <button v-if="canExport" class="export" @click="exportData">export</button>
+      <button v-if="canReset" class="reset" @click="resetData">reset</button>
+      <button v-if="canUndo" class="undo" @click="undoReset">undo reset</button>
     </div>
     <script>
       /*INSERT*/
@@ -289,25 +302,37 @@
         el: '#app',
         data: {
           activeCard: 16,
-          survey: [],
+          backup: false,
+          survey: false,
+        },
+        computed: {
+          canReset() {
+            return this.countTotalObserved(this.survey) > 0;
+          },
+          canUndo() {
+            return this.backup !== false && this.countTotalObserved(this.survey) === 0;
+          },
+          canExport() {
+            return this.countTotalObserved(this.survey) > 0;
+          }
         },
         methods: {
           cardSelected(evt) {
             this.populate();
           },
-          isFinalSection(section) {
-            return this.survey.sections.indexOf(section) === (this.survey.sections.length - 1);
+          isFinalSection(survey, section) {
+            return survey.sections.indexOf(section) === (survey.sections.length - 1);
           },
           label: (qIdx,rIdx,yesno) => `question-${qIdx}-observable-${rIdx}-${yesno}`,
           enforceChoice(observation, which) {
             const others = Object.keys(observation).filter( (key) => key !== which );
             others.forEach( (other) => observation[other] = false );
           },
-          countTotalObserved(choice) {
+          countTotalObserved(survey, choice) {
             if (choice) {
-              return this.survey.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
+              return survey.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
             } else {
-              return this.survey.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
+              return survey.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
             }
           },
           countQuestionObservation(q, choice) {
@@ -381,10 +406,19 @@
             const sections = generateModel(card);
 
             return {title, instructions, number, sections}
-          }
+          },
+          resetData() {
+            this.backup = this.survey;
+            this.survey = this.populate(cards[this.activeCard]);
+          },
+          undoReset() {
+            this.survey = this.backup;
+            this.backup = false;
+          },
         },
         created() {
           this.survey = this.populate(cards[this.activeCard]);
+          this.backup = false;
         }
       });
     </script>
