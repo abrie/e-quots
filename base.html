@@ -120,11 +120,11 @@
       </div>
 
       <table v-for="(section, sIdx) in sections">
-        <template v-if="observables.length > 1">
+        <template v-if="section.observables.length > 1">
           <thead>
             <tr>
               <th rowspan="2" colspan="2">{{ section.questionHeader }}</th>
-              <th rowspan="2" colspan="1" v-for="observable in observables">{{ observable }}</th>
+              <th rowspan="2" colspan="1" v-for="observable in section.observables">{{ observable }}</th>
               <th rowspan="1" colspan="2"> Summary Of Observations </th>
             </tr>
             <tr>
@@ -134,9 +134,9 @@
           </thead>
 
           <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
-            <th :colspan="observables.length + 2">Total Yes and Total Observed</th>
-            <td align="center"> {{ totalYes }} </td>
-            <td align="center"> {{ totalObserved }}</td>
+            <th :colspan="section.observables.length + 2">Total Yes and Total Observed</th>
+            <td align="center"> {{ countTotalObserved("Yes") }} </td>
+            <td align="center"> {{ countTotalObserved() }}</td>
           </tfoot>
 
           <tbody>
@@ -164,9 +164,16 @@
           <thead>
             <tr>
               <th rowspan="1" colspan="2">{{ section.questionHeader }}</th>
-              <th rowspan="1" colspan="3"> Summary Of Observations </th>
+              <th rowspan="1" :colspan="section.choices.length"> Summary Of Observations </th>
             </tr>
           </thead>
+
+          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
+            <th colspan="2">Total</th>
+            <td align="center" v-for="choice in section.choices">
+              {{ countTotalObserved(choice) }}
+            </td>
+          </tfoot>
 
           <tbody>
             <template v-for="(q, qIdx) in section.questions">
@@ -198,57 +205,71 @@
             </template>
           </tbody>
 
-          <tfoot v-if="sIdx === sections.length-1"> <!--TODO: Move this conditional logic to a helper function -->
-            <th colspan="2">Total</th>
-            <td align="center"> {{ totalYes }} </td>
-            <td align="center"> {{ totalNo }} </td>
-            <td align="center"> {{ totalNA }} </td>
-          </tfoot>
         </template>
       </table>
       <button class="export" @click="exportData">export</button>
     </div>
     <script>
       /*INSERT*/
-      function generateModel(survey) {
-        function* QuestionNumberGenerator() {
-          var value = 1;
-          while(true) {
-            yield value++;
-          }
-        };
-
-        function generateObservation(q) {
-          const observation = {};
-          q.choices.forEach( (choice) => observation[choice] = false );
-          return observation;
+      function* QuestionNumberGenerator() {
+        var value = 1;
+        while(true) {
+          yield value++;
         }
+      };
 
-        function generateQuestion(survey, question, numberGenerator) {
+      function generateObservation(q) {
+        const observation = {};
+        q.choices.forEach( (choice) => observation[choice] = false );
+        return observation;
+      }
+
+      function generateQuestion(observables, question, numberGenerator) {
+        if (question.choices) {
+          const observations = observables.map( (o) => generateObservation(question) );
+          const choices = question.choices.map( (c) => c );
+          const number = numberGenerator.next().value;
           const text = question.text;
 
-          if (question.choices) {
-            const observations = survey.observables.map( (o) => generateObservation(question) );
-            const choices = question.choices.map( (c) => c );
-            const number = numberGenerator.next().value;
-
-            return {number, text, choices, observations}
-          }
-
-          if (question.parts) {
-            const observations = [];
-            const partNumberGenerator = QuestionNumberGenerator();
-            const parts = question.parts.map( (q) => generateQuestion(survey, q, partNumberGenerator) );
-            const number = numberGenerator.next().value;
-            return {number, text, parts, observations}
-          }
+          return {number, text, choices, observations}
         }
 
+        if (question.parts) {
+          const observations = [];
+          const partNumberGenerator = QuestionNumberGenerator();
+          const parts = question.parts.map( (q) => generateQuestion(observables, q, partNumberGenerator) );
+          const number = numberGenerator.next().value;
+          const text = question.text;
+
+          return {number, text, parts, observations}
+        }
+      }
+
+      function allPossibleChoices(questions) {
+        const choices = {};
+        questions.forEach( (q) => {
+          if (q.choices) {
+            q.choices.forEach( (c) => choices[c] = true );
+          }
+          if (q.parts) {
+            q.parts.forEach( (p) => p.choices.forEach( (c) => choices[c] = true ) );
+          }
+        });
+
+        return Object.keys(choices);
+      }
+
+      function generateModel(survey) {
         const questionNumberGenerator = QuestionNumberGenerator();
+
         const sections = survey.sections.map( (s, sIdx) => {
           const questionHeader = s.questionHeader;
-          const questions = s.questions.map( (q) => generateQuestion(survey, q, questionNumberGenerator) );
-          return {questionHeader, questions};
+          const observables = survey.observables.map( (label) => label );
+          const questions = s.questions.map( (q) => generateQuestion(observables, q, questionNumberGenerator) );
+          const choices = allPossibleChoices(questions);
+
+          console.log(choices);
+          return {questionHeader, questions, choices, observables};
         });
 
         return sections;
@@ -257,22 +278,8 @@
       var app = new Vue({
         el: '#app',
         data: {
-          activeCard: 4,
+          activeCard: 16,
           sections: [],
-        },
-        computed: {
-          totalYes() {
-            return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "Yes"), 0)
-          },
-          totalNo() {
-            return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "No"), 0)
-          },
-          totalNA() {
-            return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, "N/A"), 0)
-          },
-          totalObserved() {
-            return this.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
-          },
         },
         methods: {
           cardSelected(evt) {
@@ -282,6 +289,13 @@
           enforceChoice(observation, which) {
             const others = Object.keys(observation).filter( (key) => key !== which );
             others.forEach( (other) => observation[other] = false );
+          },
+          countTotalObserved(choice) {
+            if (choice) {
+              return this.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
+            } else {
+              return this.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
+            }
           },
           countQuestionObservation(q, choice) {
             if (q.choices) {
@@ -318,7 +332,7 @@
           csvData() {
             return this.questions.map( (q, idx) => {
               const columns = [
-                idx+1,
+                `${q.number}`,
                 `"${q.text}"`,
                 ...q.observables.map( (r) => {
                   return r["Yes"] ? "1" : "0";
@@ -352,7 +366,6 @@
             this.surveyTitle = card.title;
             this.surveyInstructions = card.instructions;
             this.surveyNumber = card.number;
-            this.observables = card.observables.map( (label) => label );
             this.sections = generateModel(card);
           }
         },
