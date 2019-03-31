@@ -345,7 +345,7 @@
               return q.observations.filter( (r) => r["Yes"] || r["No"] ).length;
             }
             if (q.parts) {
-              return q.parts.reduce( (acc, p) => acc + this.countQuestionObserved(q), 0 );
+              return q.parts.reduce( (acc, p) => acc + this.countQuestionObserved(p), 0 );
             }
           },
           countSectionObservation(s, choice) {
@@ -376,30 +376,58 @@
               return columns.join(",");
             }
           },
+          *multiAreaColumnGenerator(question) {
+            if (question.choices) {
+              yield [`${question.number}`,
+                `"${question.text}"`,
+                ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
+                this.countQuestionObservation(question, "Yes"),
+                this.countQuestionObserved(question),
+                ]
+            }
+            if (question.parts) {
+              for (let part of question.parts) {
+                for (let c of this.multiAreaColumnGenerator(part)) {
+                  yield c;
+                }
+              }
+            }
+          },
+          *singleAreaColumnGenerator(question) {
+            if (question.choices) {
+              yield [`${question.number}`,
+                `"${question.text}"`,
+                ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
+                ]
+            }
+            if (question.parts) {
+              for (let part of question.parts) {
+                for (let c of this.singleAreaColumnGenerator(part)) {
+                  yield c;
+                }
+              }
+            }
+          },
+          *multiAreaGen(questions) {
+            for (let q of questions) {
+              for (let g of this.multiAreaColumnGenerator(q)) {
+                yield g;
+              }
+            }
+          },
+          *singleAreaGen(questions) {
+            for (let q of questions) {
+              for (let g of this.multiAreaColumnGenerator(q)) {
+                yield g;
+              }
+            }
+          },
           csvData(survey) {
             if (this.isMultiAreaSurvey(survey)) {
-              const sections = survey.sections.map( (section) =>
-                section.questions.map( (q) => [
-                  `${q.number}`,
-                  `"${q.text}"`,
-                  ...q.observations.map( (r) => r["Yes"] ? "1" : "0"),
-                  this.countQuestionObservation(q, "Yes"),
-                  this.countQuestionObserved(q),
-                ])
-              )
-              const rows = sections.flat().map( (s) => s.join(',') );
-              console.log(rows.join("\n"));
+              return survey.sections.map( (section) => [...this.multiAreaGen(section.questions) ] );
             }
             else {
-              const sections = survey.sections.map( (section) =>
-                section.questions.map( (q) => [
-                  `${q.number}`,
-                  `"${q.text}"`,
-                  ...q.observations.map( (r) => r["Yes"] ? "1" : "0"),
-                ])
-              )
-              const rows = sections.flat().map( (s) => s.join(',') );
-              console.log(rows.join("\n"));
+              return survey.sections.map( (section) => [...this.singleAreaGen(section.questions) ] );
             }
           },
           generateCSV() {
@@ -407,8 +435,8 @@
             return lines.join("\n");
           },
           exportData() {
-            console.log(this.csvHeader(this.survey));
-            console.log(this.csvData(this.survey));
+            console.log("Header=", this.csvHeader(this.survey));
+            console.log("Data=", this.csvData(this.survey)[0]);
           },
           _exportData() {
             const filename="demo.csv";
