@@ -358,6 +358,9 @@
           isMultiAreaSurvey(survey) {
             return survey.observables.length > 1;
           },
+          isMultiAreaQuestion(question) {
+            return question.observations.length > 1;
+          },
           csvHeader(survey) {
             if (this.isMultiAreaSurvey(survey)) {
               const columns = [
@@ -377,24 +380,7 @@
               return columns.join(",");
             }
           },
-          *multiAreaColumnGenerator(question) {
-            if (question.choices) {
-              yield [`${question.number}`,
-                `"${question.text}"`,
-                ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
-                this.countQuestionObservation(question, "Yes"),
-                this.countQuestionObserved(question),
-                ]
-            }
-            if (question.parts) {
-              for (let part of question.parts) {
-                for (let c of this.multiAreaColumnGenerator(part)) {
-                  yield c;
-                }
-              }
-            }
-          },
-          *singleAreaColumnGenerator(question) {
+          *rowGenerator(question) {
             if (question.choices) {
               yield [`${question.number}`,
                 `"${question.text}"`,
@@ -403,41 +389,33 @@
             }
             if (question.parts) {
               for (let part of question.parts) {
-                for (let c of this.singleAreaColumnGenerator(part)) {
+                for (let c of this.rowGenerator(part)) {
                   yield c;
                 }
               }
             }
           },
-          *multiAreaGen(questions) {
+          *generateRows(questions) {
             for (let q of questions) {
-              for (let g of this.multiAreaColumnGenerator(q)) {
-                yield g;
-              }
-            }
-          },
-          *singleAreaGen(questions) {
-            for (let q of questions) {
-              for (let g of this.multiAreaColumnGenerator(q)) {
+              for (let g of this.rowGenerator(q)) {
+                if (this.isMultiAreaQuestion(q)) {
+                  g.push(this.countQuestionObservation(q, "Yes"));
+                  g.push(this.countQuestionObserved(q));
+                }
                 yield g;
               }
             }
           },
           csvData(survey) {
-            if (this.isMultiAreaSurvey(survey)) {
-              return survey.sections.map( (section) => [...this.multiAreaGen(section.questions) ] );
-            }
-            else {
-              return survey.sections.map( (section) => [...this.singleAreaGen(section.questions) ] );
-            }
+            return survey.sections.map( (section) => [...this.generateRows(section.questions)] );
           },
           generateCSV() {
             const lines = [this.csvHeader(), ... this.csvData()];
             return lines.join("\n");
           },
           exportData() {
-            console.log("Header=", this.csvHeader(this.survey));
-            console.log("Data=", this.csvData(this.survey)[0]);
+            console.log(this.csvHeader(this.survey));
+            this.csvData(this.survey).forEach( (r) => console.log(r) );
           },
           _exportData() {
             const filename="demo.csv";
