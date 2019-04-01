@@ -117,8 +117,8 @@
   </head>
   <body>
     <div id="app">
-      <select v-model="activeCard" @change="cardSelected">
-        <option v-for="(card, cIdx) in cards" :value="cIdx">{{card.number}} : {{ card.name }}</option>
+      <select v-model="activeCardNumber" @change="cardSelected">
+        <option v-for="(card, cIdx) in CARDS" :value="card.number">{{card.number}} : {{ card.name }}</option>
       </select>
       <div class="header">
         <div class="logo"><i>logo</i></div>
@@ -278,14 +278,10 @@
         }
       }
 
-      function generateModel(survey) {
-        const questionNumberGenerator = QuestionNumberGenerator();
-
-        const sections = survey.sections.map( (s, sIdx) => {
-          const header = s.header;
-          const observables = survey.observables.map( (label) => label );
-          const questions = s.questions.map( (q) => new Question(observables, q, questionNumberGenerator) );
-          const choices = s.choiceSet.map( (choice) => choice );
+      function Section(section, observables, questionNumberGenerator) {
+          const header = section.header;
+          const questions = section.questions.map( (q) => new Question(observables, q, questionNumberGenerator) );
+          const choices = section.choiceSet.map( (choice) => choice );
 
           /* Check for well-formed data */
           const mismatched = questions.filter( (q) => validateChoiceSet(choices, q) );
@@ -294,9 +290,17 @@
           }
 
           return {header, questions, choices, observables};
-        });
+      }
 
-        return sections;
+      function Survey(card) {
+        const questionNumberGenerator = QuestionNumberGenerator();
+        const sections = card.sections.map( (section) => new Section(section, card.observables, questionNumberGenerator) );
+        const title = card.title;
+        const instructions = card.instructions;
+        const number = card.number;
+        const observables = card.observables;
+
+        return {title, instructions, number, observables, sections}
       }
 
       function isFinalSection(survey, section) {
@@ -399,7 +403,7 @@
       var app = new Vue({
         el: '#app',
         data: {
-          activeCard: 16,
+          activeCardNumber: 7,
           backup: false,
           survey: false,
         },
@@ -412,7 +416,11 @@
           },
           canExport() {
             return countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
-          }
+          },
+          activeCard() {
+            const card = CARDS.find( (c) => c.number === this.activeCardNumber);
+            return card;
+          },
         },
         methods: {
           label(qIdx,rIdx,yesno) {
@@ -435,30 +443,21 @@
 
             document.body.removeChild(element);
           },
-          populate(card) {
-            const title = card.title;
-            const instructions = card.instructions;
-            const number = card.number;
-            const observables = card.observables;
-            const sections = generateModel(card);
-
-            return {title, instructions, number, observables, sections}
-          },
           resetData() {
             this.backup = this.survey;
-            this.survey = this.populate(cards[this.activeCard]);
+            this.survey = new Survey(this.activeCard);
           },
           undoReset() {
             this.survey = this.backup;
             this.backup = false;
           },
           cardSelected() {
-            this.survey = this.populate(cards[this.activeCard]);
+            this.survey = new Survey(this.activeCard);
             this.backup = false;
           },
         },
         created() {
-          this.survey = this.populate(cards[this.activeCard]);
+          this.survey = new Survey(this.activeCard);
           this.backup = false;
         }
       });
