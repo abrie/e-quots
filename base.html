@@ -238,7 +238,7 @@
         while(true) {
           yield value++;
         }
-      };
+      }
 
       function Observation(q) {
         return q.choices.reduce( (map, choice) => {
@@ -299,6 +299,103 @@
         return sections;
       }
 
+      function isFinalSection(survey, section) {
+        return survey.sections.indexOf(section) === (survey.sections.length - 1);
+      }
+
+      function enforceChoice(observation, which) {
+        const others = Object.keys(observation).filter( (key) => key !== which );
+        others.forEach( (other) => observation[other] = false );
+      }
+
+      function countSurveyObservations(survey, choices) {
+        return survey.sections.reduce( (acc, s) => acc + countSectionObservations(s, choices), 0)
+      }
+
+      function countSectionObservations(s, choices) {
+        return s.questions.reduce( (acc, q) => acc + countQuestionObservations(q, choices), 0);
+      }
+
+      function countQuestionObservations(q, choices) {
+        if (q.parts) {
+          return q.parts.reduce( (acc, p) => acc + countQuestionObservations(p, choices), 0);
+        }
+        else {
+          return q.observations.filter( (r) => choices.reduce( (bool, choice) => (bool | r[choice]), false) ).length
+        }
+      }
+
+      function isMultiAreaSurvey(survey) {
+        return survey.observables.length > 1;
+      }
+
+      function isMultiAreaQuestion(question) {
+        return question.observations.length > 1;
+      }
+
+      function serializeHeader(survey) {
+        if (isMultiAreaSurvey(survey)) {
+          return [
+            "Question Number",
+            "Question Text",
+            ...survey.observables,
+            "'Yes' Observed",
+            "Total Observed"
+          ]
+        }
+        else {
+          return [
+            "Question Number",
+            "Question Text",
+            "Observation",
+          ]
+        }
+      }
+
+      function* serializeQuestion(question) {
+        if (question.parts) {
+          for (let part of question.parts) {
+            for (let c of serializeQuestion(part)) {
+              yield c;
+            }
+          }
+        }
+        else {
+          yield [`${question.number}`,
+            `"${question.text}"`,
+            ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
+          ]
+        }
+      }
+
+      function* serializeQuestions(questions) {
+        for (let q of questions) {
+          for (let g of serializeQuestion(q)) {
+            if (isMultiAreaQuestion(q)) {
+              g.push(countQuestionObservations(q, ["Yes"]));
+              g.push(countQuestionObservations(q, ["Yes","No"]));
+            }
+            yield g;
+          }
+        }
+      }
+
+      function serializeSection(section) {
+        return [...serializeQuestions(section.questions)];
+      }
+
+      function serializeSurvey(survey) {
+        return survey.sections.map( serializeSection );
+      }
+
+      function generateCSV(survey) {
+        const header = serializeHeader(survey);
+        const questions = serializeSurvey(survey).flat();
+        const rows = [header, ...questions];
+        const csv = rows.map( (row) => row.join(",") ).join("\n");
+        console.log(csv);
+      }
+
       var app = new Vue({
         el: '#app',
         data: {
@@ -308,109 +405,25 @@
         },
         computed: {
           canReset() {
-            return this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
+            return countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
           },
           canUndo() {
-            return this.backup !== false && this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) === 0;
+            return this.backup !== false && countSurveyObservations(this.survey, ["Yes","No","N/A"]) === 0;
           },
           canExport() {
-            return this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
+            return countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
           }
         },
         methods: {
-          isFinalSection(survey, section) {
-            return survey.sections.indexOf(section) === (survey.sections.length - 1);
-          },
           label(qIdx,rIdx,yesno) {
             return `question-${qIdx}-observable-${rIdx}-${yesno}`
           },
-          enforceChoice(observation, which) {
-            const others = Object.keys(observation).filter( (key) => key !== which );
-            others.forEach( (other) => observation[other] = false );
-          },
-          countSurveyObservations(survey, choices) {
-              return survey.sections.reduce( (acc, s) => acc + this.countSectionObservations(s, choices), 0)
-          },
-          countSectionObservations(s, choices) {
-            return s.questions.reduce( (acc, q) => acc + this.countQuestionObservations(q, choices), 0);
-          },
-          countQuestionObservations(q, choices) {
-            if (q.parts) {
-              return q.parts.reduce( (acc, p) => acc + this.countQuestionObservations(p, choices), 0);
-            }
-            else {
-              return q.observations.filter( (r) => choices.reduce( (bool, choice) => (bool | r[choice]), false) ).length
-            }
-          },
-          isMultiAreaSurvey(survey) {
-            return survey.observables.length > 1;
-          },
-          isMultiAreaQuestion(question) {
-            return question.observations.length > 1;
-          },
-          serializeHeader(survey) {
-            if (this.isMultiAreaSurvey(survey)) {
-              return [
-                "Question Number",
-                "Question Text",
-                ...survey.observables,
-                "'Yes' Observed",
-                "Total Observed"
-              ]
-            }
-            else {
-              return [
-                "Question Number",
-                "Question Text",
-                "Observation",
-              ]
-            }
-          },
-          *serializeQuestion(question) {
-            if (question.parts) {
-              for (let part of question.parts) {
-                for (let c of this.serializeQuestion(part)) {
-                  yield c;
-                }
-              }
-            }
-            else {
-              yield [`${question.number}`,
-                `"${question.text}"`,
-                ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
-                ]
-            }
-          },
-          *serializeQuestions(questions) {
-            for (let q of questions) {
-              for (let g of this.serializeQuestion(q)) {
-                if (this.isMultiAreaQuestion(q)) {
-                  g.push(this.countQuestionObservations(q, ["Yes"]));
-                  g.push(this.countQuestionObservations(q, ["Yes","No"]));
-                }
-                yield g;
-              }
-            }
-          },
-          serializeSection(section) {
-            return [...this.serializeQuestions(section.questions)];
-          },
-          serializeSurvey(survey) {
-            return survey.sections.map( this.serializeSection );
-          },
-          generateCSV(survey) {
-            const header = this.serializeHeader(survey);
-            const questions = this.serializeSurvey(survey).flat();
-            const rows = [header, ...questions];
-            const csv = rows.map( (row) => row.join(",") ).join("\n");
-            console.log(csv);
-          },
           exportData() {
-            this.generateCSV(this.survey);
+            generateCSV(this.survey);
           },
           _exportData() {
             const filename="demo.csv";
-            const text = this.generateCSV();
+            const text = generateCSV(this.survey);
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
