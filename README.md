@@ -11,7 +11,7 @@ The APIC QUOTS are intended to be quick and easy to use. They are provided as PD
 This re-implementation uses HTML to present the forms as a browser application. The forms are electronically fillable, exportable, and free of any dependencies other than a web browser. Once loaded, the forms may be saved and loaded from the file system, obviating the need for an internet connection. Completed forms tabulate automatically and are exportable as CSV for further analysis. They work on any device capable of running a web browser, including phones, tablets, or desktop machines. Completed forms are never communicated to any external parties.
 
 ## The Tools
-Visit https://abrie.github.io/QuickCheckTools
+Visit https://abrie.github.io/E-QUOTS
 
 ## License
 APIC and CDC created the original PDF using funding from a Centers for Disease Control and Prevention (CDC) Contract (#200-2016-89676).
