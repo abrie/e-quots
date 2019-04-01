@@ -1,4 +1,4 @@
-const cards = [
+const CARDS = [
   {
     name: "Isolation-Area-AIIR-Exterior-P",
     number: 7,
@@ -77,7 +77,7 @@ const cards = [
     }],
   },
   {
-    name: "Reprocessing-Clean-Area-Disinfection-Sterilization-P", // TODO!!
+    name: "Reprocessing-Clean-Area-Disinfection-Sterilization-P",
     number: 16,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
