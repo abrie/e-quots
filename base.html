@@ -146,8 +146,8 @@
 
           <tfoot v-if="isFinalSection(survey, section)">
             <th :colspan="section.observables.length + 2">Total Yes and Total Observed</th>
-            <td align="center"> {{ countTotalObserved(survey, "Yes") }} </td>
-            <td align="center"> {{ countTotalObserved(survey) }}</td>
+            <td align="center"> {{ countSurveyObservations(survey, ["Yes"]) }} </td>
+            <td align="center"> {{ countSurveyObservations(survey, ["Yes","No"]) }}</td>
           </tfoot>
 
           <tbody>
@@ -165,10 +165,10 @@
                 </td>
               </template>
               <td align="center">
-                {{ countQuestionObservation(q, "Yes") }}
+                {{ countQuestionObservations(q, ["Yes"]) }}
               </td>
               <td align="center">
-                {{ countQuestionObserved(q) }}
+                {{ countQuestionObservations(q, ["Yes","No"]) }}
               </td>
             </tr>
           </tbody>
@@ -185,7 +185,7 @@
           <tfoot v-if="isFinalSection(survey, section)">
             <th colspan="2">Total</th>
             <td align="center" v-for="choice in section.choices">
-              {{ countTotalObserved(survey, choice) }}
+              {{ countSurveyObservations(survey, [choice]) }}
             </td>
           </tfoot>
 
@@ -232,6 +232,7 @@
     </div>
     <script>
       /*INSERT*/
+
       function* QuestionNumberGenerator() {
         var value = 1;
         while(true) {
@@ -247,15 +248,6 @@
       }
 
       function Question(observables, question, numberGenerator) {
-        if (question.choices) {
-          const observations = observables.map( (o) => new Observation(question) );
-          const choices = question.choices.map( (c) => c );
-          const number = numberGenerator.next().value;
-          const text = question.text;
-
-          return {number, text, choices, observations}
-        }
-
         if (question.parts) {
           const observations = [];
           const partNumberGenerator = QuestionNumberGenerator();
@@ -265,15 +257,23 @@
 
           return {number, text, parts, observations}
         }
+        else {
+          const observations = observables.map( (o) => new Observation(question) );
+          const choices = question.choices.map( (c) => c );
+          const number = numberGenerator.next().value;
+          const text = question.text;
+
+          return {number, text, choices, observations}
+        }
       }
 
       function validateChoiceSet(choices, question) {
-        if (question.choices) {
-          const mismatched = question.choices.filter( (c, idx) => choices[idx] !== c );
-          return mismatched.length > 0;
-        }
         if (question.parts) {
           const mismatched = question.parts.filter( (q) => validateChoiceSet(choices, q) );
+          return mismatched.length > 0;
+        }
+        else {
+          const mismatched = question.choices.filter( (c, idx) => choices[idx] !== c );
           return mismatched.length > 0;
         }
       }
@@ -308,52 +308,39 @@
         },
         computed: {
           canReset() {
-            return this.countTotalObserved(this.survey) > 0;
+            return this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
           },
           canUndo() {
-            return this.backup !== false && this.countTotalObserved(this.survey) === 0;
+            return this.backup !== false && this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) === 0;
           },
           canExport() {
-            return this.countTotalObserved(this.survey) > 0;
+            return this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
           }
         },
         methods: {
           isFinalSection(survey, section) {
             return survey.sections.indexOf(section) === (survey.sections.length - 1);
           },
-          label: (qIdx,rIdx,yesno) => `question-${qIdx}-observable-${rIdx}-${yesno}`,
+          label(qIdx,rIdx,yesno) {
+            return `question-${qIdx}-observable-${rIdx}-${yesno}`
+          },
           enforceChoice(observation, which) {
             const others = Object.keys(observation).filter( (key) => key !== which );
             others.forEach( (other) => observation[other] = false );
           },
-          countTotalObserved(survey, choice) {
-            if (choice) {
-              return survey.sections.reduce( (acc, s) => acc + this.countSectionObservation(s, choice), 0)
-            } else {
-              return survey.sections.reduce( (acc, q) => acc + this.countSectionObserved(q), 0)
-            }
+          countSurveyObservations(survey, choices) {
+              return survey.sections.reduce( (acc, s) => acc + this.countSectionObservations(s, choices), 0)
           },
-          countQuestionObservation(q, choice) {
-            if (q.choices) {
-              return q.observations.filter( (r) => r[choice] ).length
-            }
+          countSectionObservations(s, choices) {
+            return s.questions.reduce( (acc, q) => acc + this.countQuestionObservations(q, choices), 0);
+          },
+          countQuestionObservations(q, choices) {
             if (q.parts) {
-              return q.parts.reduce( (acc, p) => acc + this.countQuestionObservation(p, choice), 0);
+              return q.parts.reduce( (acc, p) => acc + this.countQuestionObservations(p, choices), 0);
             }
-          },
-          countQuestionObserved(q) {
-            if (q.choices) {
-              return q.observations.filter( (r) => r["Yes"] || r["No"] ).length;
+            else {
+              return q.observations.filter( (r) => choices.reduce( (bool, choice) => (bool | r[choice]), false) ).length
             }
-            if (q.parts) {
-              return q.parts.reduce( (acc, p) => acc + this.countQuestionObserved(p), 0 );
-            }
-          },
-          countSectionObservation(s, choice) {
-            return s.questions.reduce( (acc, q) => acc + this.countQuestionObservation(q, choice), 0);
-          },
-          countSectionObserved(s) {
-            return s.questions.reduce( (acc, q) => acc + this.countQuestionObserved(q), 0);
           },
           isMultiAreaSurvey(survey) {
             return survey.observables.length > 1;
@@ -361,61 +348,65 @@
           isMultiAreaQuestion(question) {
             return question.observations.length > 1;
           },
-          csvHeader(survey) {
+          serializeHeader(survey) {
             if (this.isMultiAreaSurvey(survey)) {
-              const columns = [
+              return [
                 "Question Number",
                 "Question Text",
                 ...survey.observables,
                 "'Yes' Observed",
                 "Total Observed"
               ]
-              return columns.join(",");
-            } else {
-              const columns = [
+            }
+            else {
+              return [
                 "Question Number",
                 "Question Text",
                 "Observation",
               ]
-              return columns.join(",");
             }
           },
-          *rowGenerator(question) {
-            if (question.choices) {
+          *serializeQuestion(question) {
+            if (question.parts) {
+              for (let part of question.parts) {
+                for (let c of this.serializeQuestion(part)) {
+                  yield c;
+                }
+              }
+            }
+            else {
               yield [`${question.number}`,
                 `"${question.text}"`,
                 ...question.observations.map( (r) => r["Yes"] ? 1 : 0),
                 ]
             }
-            if (question.parts) {
-              for (let part of question.parts) {
-                for (let c of this.rowGenerator(part)) {
-                  yield c;
-                }
-              }
-            }
           },
-          *generateRows(questions) {
+          *serializeQuestions(questions) {
             for (let q of questions) {
-              for (let g of this.rowGenerator(q)) {
+              for (let g of this.serializeQuestion(q)) {
                 if (this.isMultiAreaQuestion(q)) {
-                  g.push(this.countQuestionObservation(q, "Yes"));
-                  g.push(this.countQuestionObserved(q));
+                  g.push(this.countQuestionObservations(q, ["Yes"]));
+                  g.push(this.countQuestionObservations(q, ["Yes","No"]));
                 }
                 yield g;
               }
             }
           },
-          csvData(survey) {
-            return survey.sections.map( (section) => [...this.generateRows(section.questions)] );
+          serializeSection(section) {
+            return [...this.serializeQuestions(section.questions)];
           },
-          generateCSV() {
-            const lines = [this.csvHeader(), ... this.csvData()];
-            return lines.join("\n");
+          serializeSurvey(survey) {
+            return survey.sections.map( this.serializeSection );
+          },
+          generateCSV(survey) {
+            const header = this.serializeHeader(survey);
+            const questions = this.serializeSurvey(survey).flat();
+            const rows = [header, ...questions];
+            const csv = rows.map( (row) => row.join(",") ).join("\n");
+            console.log(csv);
           },
           exportData() {
-            console.log(this.csvHeader(this.survey));
-            this.csvData(this.survey).forEach( (r) => console.log(r) );
+            this.generateCSV(this.survey);
           },
           _exportData() {
             const filename="demo.csv";
