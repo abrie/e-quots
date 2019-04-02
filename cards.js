@@ -1,6 +1,6 @@
 const CARDS = [
   {
-    name: "Isolation-Area-AIIR-Exterior-P",
+    name: "Isolation-Area-AIIR-Exterior",
     number: 7,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
@@ -18,7 +18,7 @@ const CARDS = [
     }]
   },
   {
-    name: "Isolation-Area-Contact-Isolation-Exterior-P",
+    name: "Isolation-Area-Contact-Isolation-Exterior",
     number: 6,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
@@ -37,7 +37,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Central-Venous-Catheter-Observation-P",
+    name: "Central-Venous-Catheter-Observation",
     number: 1,
     observables: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
@@ -56,7 +56,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Injection-Safety-Central-Med-Area-P",
+    name: "Injection-Safety-Central-Med-Area",
     number: 10,
     observables: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
@@ -77,7 +77,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Reprocessing-Clean-Area-Disinfection-Sterilization-P",
+    name: "Reprocessing-Clean-Area-Disinfection-Sterilization",
     number: 16,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
@@ -98,7 +98,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Cough-Courtesy-Waiting-Room-P",
+    name: "Cough-Courtesy-Waiting-Room",
     number: 20,
     observables: ["One"],
     title: "Cough Courtesy: Waiting Room",
@@ -115,7 +115,7 @@ const CARDS = [
     }]
   },
   {
-    name: "Reprocessing-Dirty-Area-Disinfection-Sterilization-P",
+    name: "Reprocessing-Dirty-Area-Disinfection-Sterilization",
     number: 15,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
@@ -148,7 +148,7 @@ const CARDS = [
       }],
   },
   {
-    name: "Standard-Precautions-Hand-Hygiene-Supplies-P",
+    name: "Standard-Precautions-Hand-Hygiene-Supplies",
     number: 4,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation Categories",
@@ -168,7 +168,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Neonatal-Isolettes-Basinets-P",
+    name: "Neonatal-Isolettes-Basinets",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Environment: Observation of Isolettes/basinets",
@@ -186,7 +186,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Standard-Precautions-Needlestick-Laundry-P",
+    name: "Standard-Precautions-Needlestick-Laundry",
     number: 9,
     observables: ["Room/Area 1", "Room/Area 2", "Room/Area 3", "Room/Area 4","Room/Area 5"],
     title: "Standard Precautions: Observation of Needlestick Prevention and Care of Laundry",
@@ -204,7 +204,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Neonatal-Central-Catheter-P",
+    name: "Neonatal-Central-Catheter",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Central Catheter: Observation",
@@ -222,7 +222,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Neonatal-Nutritional-Prep-Area-P",
+    name: "Neonatal-Nutritional-Prep-Area",
     number: 14,
     observables: ["Baby"],
     title: "Neonatal Environment: Observation of Nutritional Preparation Area",
@@ -244,7 +244,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Standard-Precautions-PPE-Provision-P",
+    name: "Standard-Precautions-PPE-Provision",
     number: 5,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation of Personal Protective Equipment Provision",
@@ -262,7 +262,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Injection-Safety-Point-of-Care-Testing-P",
+    name: "Injection-Safety-Point-of-Care-Testing",
     number: 22,
     observables: ["Room"],
     title: "Injection Safety: Point of Care Testing",
@@ -281,7 +281,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Injection-Safety-Portable-Med-System-P",
+    name: "Injection-Safety-Portable-Med-System",
     number: 11,
     observables: ["Cart 1","Cart 2","Cart 3"],
     title: "Injection Safety: Observation of Portable Medication Systems",
@@ -300,7 +300,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Urinary-Catheter-Observation-P",
+    name: "Urinary-Catheter-Observation",
     number: 2,
     observables: ["Patient 1","Patient 2","Patient 3","Patient 4"],
     title: "Urinary Catheter: Observation",
@@ -317,7 +317,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Environment-of-Care-Vaccine-Storage-Area-P",
+    name: "Environment-of-Care-Vaccine-Storage-Area",
     number: 21,
     observables: ["Area"],
     title: "Environment of Care: Vaccine Storage Areas",
@@ -336,7 +336,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Ventilator-Observation-P",
+    name: "Ventilator-Observation",
     number: 3,
     observables: ["Patient 1", "Patient 3", "Patient 3", "Patient 4"],
     title: "Ventilator: Observation",
@@ -352,7 +352,7 @@ const CARDS = [
     }],
   },
   {
-    name: "Visitor-Area-Observation-P.pdf",
+    name: "Visitor-Area-Observation",
     number: 15,
     observables: ["Area"],
     title: "Observation of Visitor Area",
