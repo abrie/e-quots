@@ -124,9 +124,17 @@
   </head>
   <body>
     <div id="app">
-      <select v-model="activeCardNumber" @change="cardSelected">
-        <option v-for="(card, cIdx) in CARDS" :value="card.number">{{card.number}} : {{ card.name }}</option>
-      </select>
+      <div>
+        <span>
+          <select v-model="activeCardNumber" @change="cardSelected">
+            <option v-for="(card, cIdx) in CARDS" :value="card.number">{{card.number}} : {{ card.name }}</option>
+          </select>
+        </span>
+        <span>
+          Source Code...
+          <a href="https://github.com/abrie/E-QUOTS">Source Code</a>
+        </span>
+      </div>
       <div class="header">
         <div class="logo"><i>logo</i></div>
         <div class="title">{{ survey.title }}</div>
