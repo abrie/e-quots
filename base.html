@@ -299,9 +299,10 @@
         const title = card.title;
         const instructions = card.instructions;
         const number = card.number;
+        const name = card.name;
         const observables = card.observables;
 
-        return {title, instructions, number, observables, sections}
+        return {title, name, instructions, number, observables, sections}
       }
 
       function isFinalSection(survey, section) {
@@ -397,8 +398,7 @@
         const header = serializeHeader(survey);
         const questions = serializeSurvey(survey).flat();
         const rows = [header, ...questions];
-        const csv = rows.map( (row) => row.join(",") ).join("\n");
-        console.log(csv);
+        return rows.map( (row) => row.join(",") ).join("\n");
       }
 
       var app = new Vue({
@@ -428,10 +428,9 @@
             return `question-${qIdx}-observable-${rIdx}-${yesno}`
           },
           exportData() {
-            generateCSV(this.survey);
-          },
-          _exportData() {
-            const filename="demo.csv";
+            const today = (new Date()).toLocaleDateString("en-US");
+            const datestring = today.replace(/\//g,"-");
+            const filename = `${this.survey.name}_${datestring}.csv`;
             const text = generateCSV(this.survey);
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
