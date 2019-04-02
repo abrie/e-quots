@@ -816,8 +816,11 @@ const CARDS = [
             document.body.removeChild(element);
           },
           emailData() {
+            const today = (new Date()).toLocaleDateString("en-US");
+            const datestring = today.replace(/\//g,"-");
+            const filename = `${this.survey.name}_${datestring}.csv`;
             const text = generateCSV(this.survey);
-            var mailto_link = 'mailto:' + "abrie@fastmail.com" + '?subject=' + "Emailed the data" + '&body=' + encodeURI(text);
+            var mailto_link = 'mailto:' + "name@example.com" + '?subject=' + filename + '&body=' + encodeURI(text);
 
             var element = document.createElement('a');
             element.setAttribute('href', mailto_link);
