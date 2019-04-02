@@ -228,6 +228,7 @@
         </template>
       </table>
       <button v-if="canExport" class="export" @click="exportData">export</button>
+      <button v-if="canExport" class="export" @click="emailData">email</button>
       <button v-if="canReset" class="reset" @click="resetData">reset</button>
       <button v-if="canUndo" class="undo" @click="undoReset">undo reset</button>
     </div>
@@ -247,7 +248,7 @@ const CARDS = [
         {text:"Is an Airborne Infection Isolation sign at the patient's door?", choices:["Yes","No"]},
         {text:"Is the door to the room closed?", choices:["Yes","No"]},
         {text:"Does a manometer or other measurement mechanism indicate negative pressure in the room?", choices:["Yes","No"]},
-        {text:"Are appropriate respirators}, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?", choices:["Yes","No"]},
+        {text:"Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?", choices:["Yes","No"]},
         {text:"Are respirators stored outside the room or in an anteroom?", choices:["Yes","No"]},
       ]
     }]
@@ -806,6 +807,20 @@ const CARDS = [
             var element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+          },
+          emailData() {
+            const text = generateCSV(this.survey);
+            var mailto_link = 'mailto:' + "abrie@fastmail.com" + '?subject=' + "Emailed the data" + '&body=' + encodeURI(text);
+
+            var element = document.createElement('a');
+            element.setAttribute('href', mailto_link);
 
             element.style.display = 'none';
             document.body.appendChild(element);
