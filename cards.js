@@ -12,7 +12,7 @@ const CARDS = [
         {text:"Is an Airborne Infection Isolation sign at the patient's door?", choices:["Yes","No"]},
         {text:"Is the door to the room closed?", choices:["Yes","No"]},
         {text:"Does a manometer or other measurement mechanism indicate negative pressure in the room?", choices:["Yes","No"]},
-        {text:"Are appropriate respirators}, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?", choices:["Yes","No"]},
+        {text:"Are appropriate respirators, (N-95) in multiple sizes and/or charged, powered air purifying respirators (PAPR), available?", choices:["Yes","No"]},
         {text:"Are respirators stored outside the room or in an anteroom?", choices:["Yes","No"]},
       ]
     }]
