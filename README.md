@@ -16,4 +16,4 @@ Visit https://abrie.github.io/E-QUOTS
 ## License
 APIC and CDC created the original PDF using funding from a Centers for Disease Control and Prevention (CDC) Contract (#200-2016-89676).
 
-This electronic reimplementation was created by Abrie, without funding or contract. They are provided here free of charge, for non-commercial use only.
+This electronic reimplementation was created by Abrie, without funding or contract. They are provided here free of charge, for non-profit use, as permitted by "The Non-Profit Open Software License version 3.0".
