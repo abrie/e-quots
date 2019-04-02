@@ -2,7 +2,7 @@
 **A fully electronic, easier-to-use version of [QUOTS](https://ipcobservationtools.site.apic.org/observation-tools-library/)**.
 
 ## Background
-Infection control is a serious concern for health care facilities. The best defence is diligence and knowledge. To that end, [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](http://ipcobservationtools.site.apic.org) to augment best practices. The tools, known as QUOTS (Quick Observation Tools), are available as [PDFs on the APIC website](https://ipcobservationtools.site.apic.org/observation-tools-library/).
+Infection control is a serious concern for health care facilities. The best defense is diligence and knowledge. To that end, [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](http://ipcobservationtools.site.apic.org) to augment best practices. The tools, known as QUOTS (Quick Observation Tools), are available as [PDFs on the APIC website](https://ipcobservationtools.site.apic.org/observation-tools-library/).
 
 ## Motivation
 The APIC QUOTS are intended to be quick and easy to use. They are provided as PDF documents which must be printed, completed by hand, and then (optionally) transcribed into a record keeping system. This project, E-QUOTS, aims to faciliate the process by being fully electronic, using only free and open web technologies without Adobe dependencies.
