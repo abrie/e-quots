@@ -1,4 +1,5 @@
-const CARDS = [
+export default {
+CARDS: [
   {
     name: "Isolation-Area-AIIR-Exterior",
     number: 7,
@@ -368,4 +369,4 @@ const CARDS = [
       ],
     }],
   },
-]
+]}
