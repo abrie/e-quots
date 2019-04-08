@@ -1,3 +1,5 @@
+import {flatten} from "lodash"
+
 const Survey = {
   *QuestionNumberGenerator() {
     var value = 1;
@@ -146,7 +148,7 @@ const Survey = {
   },
   generateCSV(survey) {
     const header = Survey.serializeHeader(survey);
-    const questions = Survey.serializeSurvey(survey).flat();
+    const questions = flatten(Survey.serializeSurvey(survey));
     const rows = [header, ...questions];
     return rows.map( (row) => row.join(",") ).join("\n");
   }
