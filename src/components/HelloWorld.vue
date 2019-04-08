@@ -1,11 +1,9 @@
 <template>
     <div class="container" >
-      <div>
-        <span>
-          <select v-model="activeCardNumber" @change="cardSelected">
-            <option v-for="(card, cIdx) in CARDS" :value="card.number" :key="`${card.number}-${cIdx}`">{{card.number}} : {{ card.name }}</option>
-          </select>
-        </span>
+      <div class="page-header">
+        <select v-model="activeCardNumber" @change="cardSelected">
+          <option v-for="(card, cIdx) in CARDS" :value="card.number" :key="`${card.number}-${cIdx}`">{{card.number}} : {{ card.name }}</option>
+        </select>
         <div style="position: absolute; right:0; top:0; margin-right: 1em;">
           <a href="https://github.com/abrie/E-QUOTS"><small>Source Code</small></a>
         </div>
@@ -221,6 +219,11 @@ export default {
         --color-four: rgb(245, 227, 83);
         --header-height: 3em;
       }
+
+      div.page-header {
+        margin-bottom: 30px;
+      }
+
       div.header {
         display: flex;
         flex-direction: row;
