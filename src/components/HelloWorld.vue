@@ -160,7 +160,7 @@ export default {
     upload(filename, data) {
       const blob = new Blob([data], {type: 'text/csv'});
       if(window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveBlob(blob, filename);
+        window.navigator.msSaveOrOpenBlob(blob, filename);
       }
       else{
         var elem = window.document.createElement('a');
