@@ -157,21 +157,26 @@ export default {
     label(qIdx,rIdx,yesno) {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`
     },
+    upload(filename, data) {
+      const blob = new Blob([data], {type: 'text/csv'});
+      if(window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, filename);
+      }
+      else{
+        var elem = window.document.createElement('a');
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = filename;
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
+      }
+    },
     exportData() {
       const today = (new Date()).toLocaleDateString("en-US");
       const datestring = today.replace(/\//g,"-");
       const filename = `${this.survey.name}_${datestring}.csv`;
       const text = SurveyTools.generateCSV(this.survey);
-      var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-      element.setAttribute('download', filename);
-
-      element.style.display = 'none';
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
+      this.upload(text, filename);
     },
     emailData() {
       const today = (new Date()).toLocaleDateString("en-US");
