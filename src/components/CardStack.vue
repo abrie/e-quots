@@ -126,7 +126,7 @@ import DATA from "../Cards.js"
 import SurveyTools from "../Survey.js"
 
 export default {
-  name: 'HelloWorld',
+  name: 'CardStack',
   data() { return {
       activeCardNumber: 7,
       backup: false,
