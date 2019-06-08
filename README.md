@@ -15,9 +15,11 @@ E-QUOTS is a fillable form with export feature. It requires no proprietary softw
 A completed form may be saved or emailed as CSV.
 
 ## The App
-Visit https://abrie.github.io/e-quots
+Use E-QUOTS here: https://abrie.github.io/e-quots
 
 ## License
 APIC and CDC created the original PDFs using funding from a Centers for Disease Control and Prevention (CDC) Contract (#200-2016-89676).
 
-This project is not affiliated with APIC or the CDC. It's licensed under "The Non-Profit Open Software License version 3.0"
+This project is not affiliated with APIC or the CDC.
+
+This project uses "The Non-Profit Open Software License version 3.0"
