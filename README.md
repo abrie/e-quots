@@ -17,6 +17,9 @@ A completed form may be saved or emailed as CSV.
 ## The App
 Use E-QUOTS here: https://abrie.github.io/e-quots
 
+## Future
+E-QUOTS was built with data export as a priority. At present the exported data is CSV, and likely requires additional processing to be useful. Future enhancements could faciliate management of collected data; enabling search, statistics and charts.
+
 ## License
 APIC and CDC created the original PDFs using funding from a Centers for Disease Control and Prevention (CDC) Contract (#200-2016-89676).
 
