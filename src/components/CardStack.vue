@@ -157,6 +157,20 @@ export default {
     label(qIdx,rIdx,yesno) {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`
     },
+    ping(data) {
+      fetch("https://goeieware.ca/m", {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'no-cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify({data}), // body data type must match "Content-Type" header
+      })
+    },
     upload(filename, data) {
       const blob = new Blob([data], {type: 'text/csv'});
       if(window.navigator.msSaveOrOpenBlob) {
@@ -172,6 +186,7 @@ export default {
       }
     },
     exportData() {
+      this.ping("exportData");
       const today = (new Date()).toLocaleDateString("en-US");
       const datestring = today.replace(/\//g,"-");
       const filename = `${this.survey.name}_${datestring}.csv`;
@@ -179,6 +194,7 @@ export default {
       this.upload(text, filename);
     },
     emailData() {
+      this.ping("emailData");
       const today = (new Date()).toLocaleDateString("en-US");
       const datestring = today.replace(/\//g,"-");
       const filename = `${this.survey.name}_${datestring}.csv`;
@@ -196,19 +212,23 @@ export default {
       document.body.removeChild(element);
     },
     resetData() {
+      this.ping("resetData");
       this.backup = this.survey;
       this.survey = new SurveyTools.Survey(this.activeCard);
     },
     undoReset() {
+      this.ping("undoReset");
       this.survey = this.backup;
       this.backup = false;
     },
     cardSelected() {
+      this.ping(`cardSelected:${this.activeCard.number}`);
       this.survey = new SurveyTools.Survey(this.activeCard);
       this.backup = false;
     },
   },
   created() {
+    this.ping(`created`);
 		this.CARDS = DATA.CARDS;
     this.survey = new SurveyTools.Survey(this.activeCard);
     this.backup = false;
