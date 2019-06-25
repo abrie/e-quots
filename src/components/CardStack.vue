@@ -46,7 +46,7 @@
                 <td :key="`survey-${survey.number}-section-${sIdx}-question-${qIdx}-observation-${oIdx}`">
                   <template v-for="(c, cIdx) in q.choices">
                     <div class="checkbox" :key="`survey-${survey.number}-section-${sIdx}-question-${qIdx}-observation-${oIdx}-choice-${cIdx}`">
-                      <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                      <input class="checkbox" id="checkbox_id(qIdx, oIdx, cIdx)" type="checkbox" v-model="o[c]" @click="ping(`survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`)" @change="enforceChoice(o, c)">
                       <label class="checkbox" for="checkbox_id(qIdx, oIdx, cIdx)" >{{ c }}</label>
                     </div>
                   </template>
@@ -86,7 +86,7 @@
                   <template v-for="(o, oIdx) in q.observations">
                     <td v-for="(c, cIdx) in q.choices" :key="`survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`">
                       <div class="checkbox">
-                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @click="ping(`survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`)" @change="enforceChoice(o, c)">
                         <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
                       </div>
                     </td>
@@ -103,7 +103,7 @@
                   <template v-for="(o, oIdx) in part.observations">
                     <td v-for="(c, cIdx) in part.choices" :key="`${q.number}-choice-${cIdx}-${oIdx}`">
                       <div class="checkbox">
-                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @change="enforceChoice(o, c)">
+                        <input class="checkbox" id="checkbox_id(qIdx, 0, cIdx)" type="checkbox" v-model="o[c]" @click="ping(`survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`)" @change="enforceChoice(o, c)">
                         <label class="checkbox" for="checkbox_id(qIdx, 0, cIdx)" >{{ c }}</label>
                       </div>
                     </td>
@@ -153,7 +153,7 @@ export default {
 		isFinalSection: SurveyTools.isFinalSection,
 		countSurveyObservations: SurveyTools.countSurveyObservations,
 		countQuestionObservations: SurveyTools.countQuestionObservations,
-    enforceChoice: SurveyTools.enforceChoice,
+    enforceChoice: (o,c) => { SurveyTools.enforceChoice(o,c) },
     label(qIdx,rIdx,yesno) {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`
     },
@@ -169,7 +169,7 @@ export default {
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // no-referrer, *client
         body: JSON.stringify({data}), // body data type must match "Content-Type" header
-      })
+      }).catch( () => {} );
     },
     upload(filename, data) {
       const blob = new Blob([data], {type: 'text/csv'});
