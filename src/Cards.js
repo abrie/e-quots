@@ -2,6 +2,7 @@ export default {
 CARDS: [
   {
     name: "Isolation-Area-AIIR-Exterior",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-AIIR-Exterior.pdf",
     number: 7,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
@@ -20,6 +21,7 @@ CARDS: [
   },
   {
     name: "Isolation-Area-Contact-Isolation-Exterior",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-Contact-Isolation-Exterior.pdf",
     number: 6,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
@@ -39,6 +41,7 @@ CARDS: [
   },
   {
     name: "Central-Venous-Catheter-Observation",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Central-Venous-Catheter-Observation.pdf",
     number: 1,
     observables: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
@@ -58,6 +61,7 @@ CARDS: [
   },
   {
     name: "Injection-Safety-Central-Med-Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Central-Med-Area.pdf",
     number: 10,
     observables: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
@@ -79,6 +83,7 @@ CARDS: [
   },
   {
     name: "Reprocessing-Clean-Area-Disinfection-Sterilization",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Clean-Area-Disinfection-Sterilization.pdf",
     number: 16,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
@@ -100,6 +105,7 @@ CARDS: [
   },
   {
     name: "Cough-Courtesy-Waiting-Room",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Cough-Courtesy-Waiting-Room.pdf",
     number: 20,
     observables: ["One"],
     title: "Cough Courtesy: Waiting Room",
@@ -117,6 +123,7 @@ CARDS: [
   },
   {
     name: "Reprocessing-Dirty-Area-Disinfection-Sterilization",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Dirty-Area-Disinfection-Sterilization.pdf",
     number: 15,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
@@ -150,6 +157,7 @@ CARDS: [
   },
   {
     name: "Standard-Precautions-Hand-Hygiene-Supplies",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Hand-Hygiene-Supplies.pdf",
     number: 4,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation Categories",
@@ -170,6 +178,7 @@ CARDS: [
   },
   {
     name: "Neonatal-Isolettes-Basinets",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Isolettes-Basinets.pdf",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Environment: Observation of Isolettes/basinets",
@@ -188,6 +197,7 @@ CARDS: [
   },
   {
     name: "Standard-Precautions-Needlestick-Laundry",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Needlestick-Laundry.pdf",
     number: 9,
     observables: ["Room/Area 1", "Room/Area 2", "Room/Area 3", "Room/Area 4","Room/Area 5"],
     title: "Standard Precautions: Observation of Needlestick Prevention and Care of Laundry",
@@ -206,6 +216,7 @@ CARDS: [
   },
   {
     name: "Neonatal-Central-Catheter",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Central-Catheter.pdf",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Central Catheter: Observation",
@@ -224,6 +235,7 @@ CARDS: [
   },
   {
     name: "Neonatal-Nutritional-Prep-Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Nutritional-Prep-Area.pdf",
     number: 14,
     observables: ["Baby"],
     title: "Neonatal Environment: Observation of Nutritional Preparation Area",
@@ -246,6 +258,7 @@ CARDS: [
   },
   {
     name: "Standard-Precautions-PPE-Provision",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-PPE-Provision.pdf",
     number: 5,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation of Personal Protective Equipment Provision",
@@ -264,6 +277,7 @@ CARDS: [
   },
   {
     name: "Injection-Safety-Point-of-Care-Testing",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Point-of-Care-Testing.pdf",
     number: 22,
     observables: ["Room"],
     title: "Injection Safety: Point of Care Testing",
@@ -283,6 +297,7 @@ CARDS: [
   },
   {
     name: "Injection-Safety-Portable-Med-System",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Portable-Med-System.pdf",
     number: 11,
     observables: ["Cart 1","Cart 2","Cart 3"],
     title: "Injection Safety: Observation of Portable Medication Systems",
@@ -302,6 +317,7 @@ CARDS: [
   },
   {
     name: "Urinary-Catheter-Observation",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Urinary-Catheter-Observation.pdf",
     number: 2,
     observables: ["Patient 1","Patient 2","Patient 3","Patient 4"],
     title: "Urinary Catheter: Observation",
@@ -319,6 +335,7 @@ CARDS: [
   },
   {
     name: "Environment-of-Care-Vaccine-Storage-Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Environment-of-Care-Vaccine-Storage-Area.pdf",
     number: 21,
     observables: ["Area"],
     title: "Environment of Care: Vaccine Storage Areas",
@@ -338,6 +355,7 @@ CARDS: [
   },
   {
     name: "Ventilator-Observation",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Ventilator-Observation.pdf",
     number: 3,
     observables: ["Patient 1", "Patient 3", "Patient 3", "Patient 4"],
     title: "Ventilator: Observation",
@@ -354,6 +372,7 @@ CARDS: [
   },
   {
     name: "Visitor-Area-Observation",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Visitor-Area-Observation.pdf",
     number: 15,
     observables: ["Area"],
     title: "Observation of Visitor Area",

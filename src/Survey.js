@@ -64,9 +64,10 @@ const Survey = {
     const instructions = card.instructions;
     const number = card.number;
     const name = card.name;
+    const pdf = card.pdf;
     const observables = card.observables;
 
-    return {title, name, instructions, number, observables, sections}
+    return {title, name, pdf, instructions, number, observables, sections}
   },
 
   isFinalSection(survey, section) {
