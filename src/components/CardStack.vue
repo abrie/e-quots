@@ -7,6 +7,7 @@
         <div style="position: absolute; right:0; top:0; margin-right: 1em;">
           <a href="https://github.com/abrie/E-QUOTS"><small>Source Code</small></a>
         </div>
+        <a :href="survey.pdf">pdf</a>
       </div>
       <div class="header">
         <div class="logo"><i>logo</i></div>
