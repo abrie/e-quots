@@ -1,8 +1,8 @@
 export default {
 CARDS: [
   {
-    name: "Isolation-Area-AIIR-Exterior",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-AIIR-Exterior.pdf",
+    name: "Area Exterior to Airborne Isolation Rooms",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-AIIR-Exterior-P.pdf",
     number: 7,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
@@ -20,8 +20,8 @@ CARDS: [
     }]
   },
   {
-    name: "Isolation-Area-Contact-Isolation-Exterior",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-Contact-Isolation-Exterior.pdf",
+    name: "Area Exterior to Isolation Rooms",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Isolation-Area-Contact-Isolation-Exterior-P.pdf",
     number: 6,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
@@ -40,8 +40,8 @@ CARDS: [
     }],
   },
   {
-    name: "Central-Venous-Catheter-Observation",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Central-Venous-Catheter-Observation.pdf",
+    name: "Central Catheters",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Central-Venous-Catheter-Observation-P.pdf",
     number: 1,
     observables: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
@@ -60,8 +60,8 @@ CARDS: [
     }],
   },
   {
-    name: "Injection-Safety-Central-Med-Area",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Central-Med-Area.pdf",
+    name: "Centralized Medication Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Central-Med-Area-P.pdf",
     number: 10,
     observables: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
@@ -82,8 +82,8 @@ CARDS: [
     }],
   },
   {
-    name: "Reprocessing-Clean-Area-Disinfection-Sterilization",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Clean-Area-Disinfection-Sterilization.pdf",
+    name: "Clean Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Clean-Area-Disinfection-Sterilization-P.pdf",
     number: 16,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
@@ -104,8 +104,8 @@ CARDS: [
     }],
   },
   {
-    name: "Cough-Courtesy-Waiting-Room",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Cough-Courtesy-Waiting-Room.pdf",
+    name: "Cough Courtesy: Waiting-Room",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Cough-Courtesy-Waiting-Room-P.pdf",
     number: 20,
     observables: ["One"],
     title: "Cough Courtesy: Waiting Room",
@@ -122,8 +122,8 @@ CARDS: [
     }]
   },
   {
-    name: "Reprocessing-Dirty-Area-Disinfection-Sterilization",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Dirty-Area-Disinfection-Sterilization.pdf",
+    name: "Dirty Area",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Dirty-Area-Disinfection-Sterilization-P.pdf",
     number: 15,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
@@ -156,8 +156,8 @@ CARDS: [
       }],
   },
   {
-    name: "Standard-Precautions-Hand-Hygiene-Supplies",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Hand-Hygiene-Supplies.pdf",
+    name: "Hand Hygiene",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Hand-Hygiene-Supplies-P.pdf",
     number: 4,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation Categories",
@@ -177,14 +177,14 @@ CARDS: [
     }],
   },
   {
-    name: "Neonatal-Isolettes-Basinets",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Isolettes-Basinets.pdf",
+    name: "Isolettes / bassinets",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Isolettes-Basinets-P.pdf",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
-    title: "Neonatal Environment: Observation of Isolettes/basinets",
+    title: "Neonatal Environment: Observation of Isolettes/bassinets",
     instructions: "Observe neonatal patients isolette/bassinet areas. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
     sections: [{
-      header: "Infant isolette/basinet: Observation Categories",
+      header: "Infant isolette/bassinet: Observation Categories",
       choiceSet: ["Yes","No"],
       questions: [
         {text:"Is the patient care area free from clutter?", choices:["Yes","No"]},
@@ -196,8 +196,8 @@ CARDS: [
     }],
   },
   {
-    name: "Standard-Precautions-Needlestick-Laundry",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Needlestick-Laundry.pdf",
+    name: "Needlestick Prevention and Care of Laundry",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-Needlestick-Laundry-P.pdf",
     number: 9,
     observables: ["Room/Area 1", "Room/Area 2", "Room/Area 3", "Room/Area 4","Room/Area 5"],
     title: "Standard Precautions: Observation of Needlestick Prevention and Care of Laundry",
@@ -215,8 +215,8 @@ CARDS: [
     }],
   },
   {
-    name: "Neonatal-Central-Catheter",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Central-Catheter.pdf",
+    name: "Neonatal Central Catheters",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Central-Catheter-P.pdf",
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Central Catheter: Observation",
@@ -234,8 +234,8 @@ CARDS: [
     }],
   },
   {
-    name: "Neonatal-Nutritional-Prep-Area",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Nutritional-Prep-Area.pdf",
+    name: "Nutritional Preparation Areas",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Neonatal-Nutritional-Prep-Area-P.pdf",
     number: 14,
     observables: ["Baby"],
     title: "Neonatal Environment: Observation of Nutritional Preparation Area",
@@ -257,8 +257,8 @@ CARDS: [
     }],
   },
   {
-    name: "Standard-Precautions-PPE-Provision",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-PPE-Provision.pdf",
+    name: "Personal Protective Equipment (PPE) Supply Provision",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Standard-Precautions-PPE-Provision-P.pdf",
     number: 5,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation of Personal Protective Equipment Provision",
@@ -276,8 +276,8 @@ CARDS: [
     }],
   },
   {
-    name: "Injection-Safety-Point-of-Care-Testing",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Point-of-Care-Testing.pdf",
+    name: "Point of Care Testing",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Point-of-Care-Testing-P.pdf",
     number: 22,
     observables: ["Room"],
     title: "Injection Safety: Point of Care Testing",
@@ -296,8 +296,8 @@ CARDS: [
     }],
   },
   {
-    name: "Injection-Safety-Portable-Med-System",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Portable-Med-System.pdf",
+    name: "Portable Medication Systems",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Injection-Safety-Portable-Med-System-P.pdf",
     number: 11,
     observables: ["Cart 1","Cart 2","Cart 3"],
     title: "Injection Safety: Observation of Portable Medication Systems",
@@ -316,8 +316,8 @@ CARDS: [
     }],
   },
   {
-    name: "Urinary-Catheter-Observation",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Urinary-Catheter-Observation.pdf",
+    name: "Urinary Catheters",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Urinary-Catheter-Observation-P.pdf",
     number: 2,
     observables: ["Patient 1","Patient 2","Patient 3","Patient 4"],
     title: "Urinary Catheter: Observation",
@@ -334,8 +334,8 @@ CARDS: [
     }],
   },
   {
-    name: "Environment-of-Care-Vaccine-Storage-Area",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Environment-of-Care-Vaccine-Storage-Area.pdf",
+    name: "Vaccine Storage Areas",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Environment-of-Care-Vaccine-Storage-Area-P.pdf",
     number: 21,
     observables: ["Area"],
     title: "Environment of Care: Vaccine Storage Areas",
@@ -354,8 +354,8 @@ CARDS: [
     }],
   },
   {
-    name: "Ventilator-Observation",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Ventilator-Observation.pdf",
+    name: "Ventilators",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Ventilator-Observation-P.pdf",
     number: 3,
     observables: ["Patient 1", "Patient 3", "Patient 3", "Patient 4"],
     title: "Ventilator: Observation",
@@ -371,8 +371,8 @@ CARDS: [
     }],
   },
   {
-    name: "Visitor-Area-Observation",
-    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Visitor-Area-Observation.pdf",
+    name: "Visitor Areas",
+    pdf: "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Visitor-Area-Observation-P.pdf",
     number: 15,
     observables: ["Area"],
     title: "Observation of Visitor Area",
