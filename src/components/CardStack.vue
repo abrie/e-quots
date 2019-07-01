@@ -9,6 +9,7 @@
           <a href="https://github.com/abrie/E-QUOTS"><small>Source Code</small></a>
         </div>
       </div>
+
       <div class="header">
         <div class="logo"><i>logo</i></div>
         <div class="title">{{ survey.title }}</div>
@@ -253,46 +254,56 @@ export default {
       div.header {
         display: flex;
         flex-direction: row;
-        height: var(--header-height);
+        min-height: var(--header-height);
         position: relative;
         font-size: 1.5em;
         background: var(--color-one);
         border: 1px solid var(--color-one);
-        align-items: center;
+        align-items: stretch;
         color: white;
         border-radius: 0.25em 0 0 0.25em;
         overflow: hidden;
       }
+
       div.header div.logo {
         flex: 0 0 auto;
-        height: var(--header-height);
         width: 4em;
         text-align: center;
-        line-height: var(--header-height);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         border-right: 1px solid white;
         border-radius: 0.25em;
         overflow: hidden;
         padding-right: 0.25em;
         background: rgb(13,95,169);
-          color: #ddd;
+        color: #ddd;
       }
+
       div.header div.title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding-left: 0.5em;
         font-size: 0.95em;
       }
+
       div.header div.number {
         flex: 0 0 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         background: var(--color-four);
         color: var(--color-one);
-        height: 100%;
         text-align: center;
-        line-height: var(--header-height);
         margin-left: auto;
       }
+
       div.instructions {
         padding: 1em;
           font-size: 0.75em;
       }
+
       div.checkbox {
         display: flex;
         flex-flow: row;
