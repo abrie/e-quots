@@ -4,7 +4,6 @@
         <select v-model="activeCardNumber" @change="cardSelected">
           <option v-for="(card, cIdx) in CARDS" :value="card.number" :key="`${card.number}-${cIdx}`">{{card.number}} : {{ card.name }}</option>
         </select>
-        <a :href="survey.pdf">pdf</a>
         <div style="position: absolute; right:0; top:0; margin-right: 1em;">
           <a href="https://github.com/abrie/E-QUOTS"><small>Source Code</small></a>
         </div>
@@ -18,6 +17,7 @@
 
       <div class="instructions">
         <b>Instructions</b>: {{ survey.instructions }}
+        Click <a style="color: unset" :href="survey.pdf">here</a> to see the reference document.
       </div>
 
       <table v-for="(section, sIdx) in survey.sections" :key="`survey-${survey.number}-section-${sIdx}`">
