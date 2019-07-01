@@ -1,8 +1,8 @@
 <template>
     <div class="container" >
       <div class="page-header">
-        <select v-model="activeCardNumber" @change="cardSelected">
-          <option v-for="(card, cIdx) in CARDS" :value="card.number" :key="`${card.number}-${cIdx}`">{{card.number}} : {{ card.name }}</option>
+        <select v-model="activeCardId" @change="cardSelected">
+          <option v-for="(card, cIdx) in CARDS" :value="card.id" :key="`${card.id}-${cIdx}`">{{card.number}} : {{ card.name }}</option>
         </select>
         <div style="position: absolute; right:0; top:0; margin-right: 1em;">
           <a href="https://github.com/abrie/E-QUOTS"><small>Source Code</small></a>
@@ -130,7 +130,7 @@ import SurveyTools from "../Survey.js"
 export default {
   name: 'CardStack',
   data() { return {
-      activeCardNumber: 7,
+      activeCardId: 7,
       backup: false,
       survey: false,
     }
@@ -146,7 +146,7 @@ export default {
       return this.countSurveyObservations(this.survey, ["Yes","No","N/A"]) > 0;
     },
     activeCard() {
-      const card = this.CARDS.find( (c) => c.number === this.activeCardNumber);
+      const card = this.CARDS.find( (card) => card.id === this.activeCardId);
       return card;
     },
   },
@@ -223,14 +223,26 @@ export default {
       this.backup = false;
     },
     cardSelected() {
-      this.ping(`cardSelected:${this.activeCard.number}`);
+      this.ping(`cardSelected:${this.activeCard.id}`);
       this.survey = new SurveyTools.Survey(this.activeCard);
       this.backup = false;
     },
   },
   created() {
     this.ping(`created`);
-		this.CARDS = DATA.CARDS;
+    this.CARDS = DATA.CARDS.sort( (a,b) => {
+      if (a.number > b.number) {
+        return 1;
+      }
+      if (a.number < b.number) {
+        return -1;
+      }
+
+      return a.name.localeCompare(b.name)
+    });
+
+    this.CARDS.forEach( (card) => card.id = `${card.number}-${card.name}` );
+    this.activeCardId = this.CARDS[0].id;
     this.survey = new SurveyTools.Survey(this.activeCard);
     this.backup = false;
   }
