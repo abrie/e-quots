@@ -6,7 +6,7 @@ CARDS: [
     number: 7,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Airborne Infection Isolation Rooms",
-    instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "If there are any patients requiring Airborne Infection Isolation on unit, observe area outside of each isolation room. Observe each practice and record the observation.",
     sections: [{
       header: "Isolation room: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -25,7 +25,7 @@ CARDS: [
     number: 6,
     observables: ["Room 1", "Room 2", "Room 3"],
     title: "Isolation: Observation of Area Exterior to Contact Isolation Rooms",
-    instructions: "Instructions: Observe areas outside of isolation rooms. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance. Disregard not applicable categories. For example, cover gowns should be outside contact precautions rooms, but may not be required outside a room with airborne isolation precautions only.",
+    instructions: "Instructions: Observe areas outside of isolation rooms. Observe each practice and record the observation. Disregard not applicable categories. For example, cover gowns should be outside contact precautions rooms, but may not be required outside a room with airborne isolation precautions only.",
     sections: [{
       header: "Isolation room: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
@@ -45,7 +45,7 @@ CARDS: [
     number: 1,
     observables: ["Patient 1", "Patient 2", "Patient 3", "Patient 4"],
     title: "Central Venous Catheter: Observation",
-    instructions: "Observe patients with central lines in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patients with central lines in place. Observe each practice and record the observation.",
     sections: [{
     header: "Central catheter: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
@@ -65,7 +65,7 @@ CARDS: [
     number: 10,
     observables: ["One"],
     title: "Injection Safety: Observation of Centralized Medication Area",
-    instructions: "Observe medication preparation area. For each category, record the observation. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes”+”No”. Disregard not applicable categories.",
+    instructions: "Observe medication preparation area. For each category, record the observation. Observe each practice below and answer Yes, No, or N/A.",
     sections: [{
     header: "Medication preparation room: Observation Categories",
     choiceSet: ["Yes","No","N/A"],
@@ -87,7 +87,7 @@ CARDS: [
     number: 16,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
-    instructions: "Observe area where instruments are reprocessed. For each category, record the observation Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe area where instruments are reprocessed. For each category, record the observation.",
     sections: [{
     header: "Equipment Reprocessing – Clean Area",
     choiceSet: ["Yes","No","N/A"],
@@ -109,7 +109,7 @@ CARDS: [
     number: 20,
     observables: ["One"],
     title: "Cough Courtesy: Waiting Room",
-    instructions: " Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: " Observe the ambulatory care point of care testing area. For each category, record the observation.",
     sections: [{
     header: "Ambulatory Waiting Room: Observation Categories",
     choiceSet: ["Yes","No"],
@@ -127,7 +127,7 @@ CARDS: [
     number: 15,
     observables: ["One"],
     title: "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
-    instructions: "Observe area where instruments are reprocessed by a soaking method using a liquid chemical germicide. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe area where instruments are reprocessed by a soaking method using a liquid chemical germicide. For each category, record the observation.",
     sections: [{
       header: "Equipment Reprocessing",
       choiceSet: ["Yes","No"],
@@ -161,7 +161,7 @@ CARDS: [
     number: 4,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation Categories",
-    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation.",
     sections: [{
       header: "Standard Precautions: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -182,7 +182,7 @@ CARDS: [
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Environment: Observation of Isolettes/bassinets",
-    instructions: "Observe neonatal patients isolette/bassinet areas. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe neonatal patients isolette/bassinet areas. Observe each practice and record the observation.",
     sections: [{
       header: "Infant isolette/bassinet: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -201,7 +201,7 @@ CARDS: [
     number: 9,
     observables: ["Room/Area 1", "Room/Area 2", "Room/Area 3", "Room/Area 4","Room/Area 5"],
     title: "Standard Precautions: Observation of Needlestick Prevention and Care of Laundry",
-    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation.",
     sections: [{
       header: "Standard Precautions: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -220,7 +220,7 @@ CARDS: [
     number: 12,
     observables: ["Baby 1", "Baby 2", "Baby 3", "Baby 4"],
     title: "Neonatal Central Catheter: Observation",
-    instructions: "Observe neonatal patients with central lines in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe neonatal patients with central lines in place. Observe each practice and record the observation.",
     sections: [{
       header: "Central catheter: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -239,7 +239,7 @@ CARDS: [
     number: 14,
     observables: ["Baby"],
     title: "Neonatal Environment: Observation of Nutritional Preparation Area",
-    instructions: "Observe nutritional preparation area. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe nutritional preparation area. Observe each practice below and answer Yes, No, or N/A.",
     sections: [{
       header: "Nutritional preparation area: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
@@ -262,7 +262,7 @@ CARDS: [
     number: 5,
     observables: ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"],
     title: "Standard Precautions: Observation of Personal Protective Equipment Provision",
-    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patient care areas or areas outside of patient rooms. For each category, record the observation.",
     sections: [{
       header: "Standard Precautions: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -281,7 +281,7 @@ CARDS: [
     number: 22,
     observables: ["Room"],
     title: "Injection Safety: Point of Care Testing",
-    instructions: "Observe the ambulatory care point of care testing area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe the ambulatory care point of care testing area. For each category, record the observation.",
     sections: [{
       header: "Patient Care Area: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
@@ -290,7 +290,7 @@ CARDS: [
         {text:"Are sharps containers available at the point of use?", choices:["Yes","No"]},
         {text:"Are cleaning and disinfection supplies for examination tables and test surfaces readily available?", choices:["Yes","No"]},
         {text:"Is a new single-use auto-disabling lancing device used for each patient?", choices:["Yes","No","N/A"]},
-        {text:"Are all point of care testing devices being disinfected after each use with an EPA- registered product that is consistent with manufacturer instructions for use?", choices:["Yes","No"]},
+        {text:"Are all point of care testing devices being disinfected after each use with an EPA-registered product that is consistent with manufacturer instructions for use?", choices:["Yes","No"]},
         {text:"Is the required personal protective equipment for disinfectant use readily available?", choices:["Yes","No"]},
       ],
     }],
@@ -301,7 +301,7 @@ CARDS: [
     number: 11,
     observables: ["Cart 1","Cart 2","Cart 3"],
     title: "Injection Safety: Observation of Portable Medication Systems",
-    instructions: "Observe three portable medication carts. For each category, record the observation as Yes, No, or N/A. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Divide by sum of “Yes”+”No”. Disregard not applicable categories.",
+    instructions: "Observe three portable medication carts. For each category, record the observation as Yes, No, or N/A.",
     sections: [{
       header: "Medication cart: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
@@ -321,7 +321,7 @@ CARDS: [
     number: 2,
     observables: ["Patient 1","Patient 2","Patient 3","Patient 4"],
     title: "Urinary Catheter: Observation",
-    instructions: "Observe patients with urinary catheters in place. Observe each practice and record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patients with urinary catheters in place. Observe each practice and record the observation.",
     sections: [{
       header: "Urinary catheter: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -339,7 +339,7 @@ CARDS: [
     number: 21,
     observables: ["Area"],
     title: "Environment of Care: Vaccine Storage Areas",
-    instructions: "Observe vaccine storage area. For each category, record the observation. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe vaccine storage area. For each category, record the observation.",
     sections: [{
       header: "Vaccine Storage Area: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -359,7 +359,7 @@ CARDS: [
     number: 3,
     observables: ["Patient 1", "Patient 3", "Patient 3", "Patient 4"],
     title: "Ventilator: Observation",
-    instructions: "Observe patients on ventilators. For each category, record the observation. In the column on the right, sum (across) the total number of “Yes” and the total number of observations (“Yes” + “No”). Sum all categories (down) for overall performance.",
+    instructions: "Observe patients on ventilators. For each category, record the observation.",
     sections: [{
       header: "Ventilator: Observation Categories",
       choiceSet: ["Yes","No"],
@@ -376,7 +376,7 @@ CARDS: [
     number: 15,
     observables: ["Area"],
     title: "Observation of Visitor Area",
-    instructions: "Observe visitor area. Observe each practice below and answer Yes, No, or N/A. Sum all Yes and No responses. Divide by sum of “Yes” + ”No”.",
+    instructions: "Observe visitor area. Observe each practice below and answer Yes, No, or N/A.",
     sections: [{
       header: "Visitor area: Observation Categories",
       choiceSet: ["Yes","No","N/A"],
