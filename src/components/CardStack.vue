@@ -17,7 +17,7 @@
 
       <div class="instructions">
         <b>Instructions</b>: {{ survey.instructions }}
-        Click <a style="color: unset" :href="survey.pdf">here</a> to see the reference document.
+        Click <a style="color: unset" :href="survey.pdf" @click="ping(`reference pdf ${survey.number}`)">here</a> to see the reference document.
       </div>
 
       <table v-for="(section, sIdx) in survey.sections" :key="`survey-${survey.number}-section-${sIdx}`">
