@@ -160,17 +160,16 @@ export default {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`
     },
     ping(data) {
+      const location = window.location.href
       fetch("https://goeieware.ca/m", {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'no-cors', // no-cors, cors, *same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         //credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', },
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify({data}), // body data type must match "Content-Type" header
+        body: JSON.stringify({data,location}),
       }).catch( () => {} );
     },
     upload(filename, data) {
