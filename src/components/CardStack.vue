@@ -11,7 +11,6 @@
     </div>
 
     <div class="header">
-      <div class="logo"><i>logo</i></div>
       <div class="title">{{ survey.title }}</div>
       <div class="number">{{ survey.number }}</div>
     </div>
