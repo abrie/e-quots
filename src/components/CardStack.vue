@@ -169,12 +169,12 @@ export default {
         body: JSON.stringify({data,location}),
       }).catch( () => {} );
     },
-    upload(filename, data) {
+    upload(data, filename) {
       const blob = new Blob([data], {type: 'text/csv'});
-      if(window.navigator.msSaveOrOpenBlob) {
+
+      if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(blob, filename);
-      }
-      else{
+      } else {
         var elem = window.document.createElement('a');
         elem.href = window.URL.createObjectURL(blob);
         elem.download = filename;
@@ -188,8 +188,8 @@ export default {
       const today = (new Date()).toLocaleDateString("en-US");
       const datestring = today.replace(/\//g,"-");
       const filename = `${this.survey.name}_${datestring}.csv`;
-      const text = SurveyTools.generateCSV(this.survey);
-      this.upload(text, filename);
+      const data = SurveyTools.generateCSV(this.survey);
+      this.upload(data, filename);
     },
     emailData() {
       this.ping("emailData");
