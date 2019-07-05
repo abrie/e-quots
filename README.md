@@ -2,10 +2,10 @@
 **A fully electronic, easier-to-use version of [QUOTS](https://ipcobservationtools.site.apic.org/observation-tools-library/)**.
 
 ## Background
-Infection control is of serious concern to health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](http://ipcobservationtools.site.apic.org) to augment best practices. Known as QUOTS (Quick Observation Tools). The worksheets are available on the [APIC website](https://ipcobservationtools.site.apic.org/observation-tools-library/).
+Infection control is of serious concern to health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](https://www.cdc.gov/infectioncontrol/tools/quots.html) to augment best practices. Known as QUOTS (Quick Observation Tools). The worksheets are available through the [CDC](https://www.cdc.gov/infectioncontrol/tools/quots.html) or [APIC](https://ipcobservationtools.site.apic.org/observation-tools-library/).
 
 ## Motivation
-The worksheets are PDF documents. They must be printed, completed, and archived by hand. Paperless would be better.
+The worksheets are PDF documents. They must be printed, completed, and archived by hand. This project provides a paperless alternative.
 
 ## Implementation
 E-QUOTS is a web app; an electronic version of QUOTS with automatic tabulation and export features. It requires no proprietary software or downloads. Here is a screen shot:
