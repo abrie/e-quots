@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import DATA from "../Cards.js"
+import DATA from "../Cards.json"
 import SurveyTools from "../Survey.js"
 
 export default {
@@ -227,7 +227,7 @@ export default {
   },
   created() {
     this.ping(`created`);
-    this.CARDS = DATA.CARDS.sort( (a,b) => {
+    this.CARDS = DATA.cards.sort( (a,b) => {
       if (a.number > b.number) {
         return 1;
       }
