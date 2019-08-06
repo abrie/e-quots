@@ -1,9 +1,10 @@
 deploy:
+	HEAD=${shell git rev-parse --short HEAD}
 	npx vue-cli-service build
-	rsync -avp --delete dist/ docs
-	git add -u docs; git add docs
-	git commit -m "Deploy ${shell git rev-parse --short HEAD}"
-	git push origin
+	(cd gh-pages && rm -rf *)
+	cp -R dist/ gh-pages
+	(cd gh-pages && git commit -a -m "Deploy $(HEAD)")
+	git push origin gh-pages
 
 serve:
 	npx vue-cli-service serve
