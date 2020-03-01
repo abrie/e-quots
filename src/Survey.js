@@ -172,6 +172,11 @@ const Survey = {
     const questions = flatten(Survey.serializeSurvey(survey));
     const rows = [header, ...questions];
     return rows.map(row => row.join(",")).join("\n");
+  },
+  generateCSVFilename(survey) {
+    const today = new Date().toLocaleDateString("en-US");
+    const datestring = today.replace(/\//g, "-");
+    return `${survey.name}_${datestring}.csv`;
   }
 };
 

@@ -274,33 +274,15 @@ export default {
       SurveyTools.enforceChoice(o, c);
     },
     reportMetric,
-    generateEmail() {
-      const data = `To: User <user@domain.demo>
-Subject: Subject
-X-Unsent: 1
-Content-Type: text/html
-
-<html>
-<body>
-<span style="color:red">Test message</span>
-</body>
-</html>
-`;
-      upload(data, "equots-test-email.eml", "text/plain");
-    },
     exportData() {
       reportMetric({ action: "export" });
-      const today = new Date().toLocaleDateString("en-US");
-      const datestring = today.replace(/\//g, "-");
-      const filename = `${this.survey.name}_${datestring}.csv`;
+      const filename = SurveyTools.generateCSVFilename(this.survey);
       const data = SurveyTools.generateCSV(this.survey);
       upload(data, filename, "text/csv");
     },
     emailData() {
       reportMetric({ action: "mailto" });
-      const today = new Date().toLocaleDateString("en-US");
-      const datestring = today.replace(/\//g, "-");
-      const filename = `${this.survey.name}_${datestring}.csv`;
+      const filename = SurveyTools.generateCSVFilename(this.survey);
       const text = SurveyTools.generateCSV(this.survey);
       var mailto_link =
         "mailto:" +
