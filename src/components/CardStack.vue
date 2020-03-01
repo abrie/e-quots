@@ -27,7 +27,7 @@
       <a
         style="color: unset"
         :href="survey.pdf"
-        @click="ping(`reference pdf ${survey.number}`)"
+        @click="reportMetric({ action: `visitReference:${survey.number}` })"
         >here</a
       >
       to see the reference document.
@@ -95,9 +95,9 @@
                       type="checkbox"
                       v-model="o[c]"
                       @click="
-                        ping(
-                          `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                        )
+                        reportMetric({
+                          action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                        })
                       "
                       @change="enforceChoice(o, c)"
                     />
@@ -161,9 +161,9 @@
                         type="checkbox"
                         v-model="o[c]"
                         @click="
-                          ping(
-                            `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                          )
+                          reportMetric({
+                            action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                          })
                         "
                         @change="enforceChoice(o, c)"
                       />
@@ -203,9 +203,9 @@
                         type="checkbox"
                         v-model="o[c]"
                         @click="
-                          ping(
-                            `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                          )
+                          reportMetric({
+                            action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                          })
                         "
                         @change="enforceChoice(o, c)"
                       />
@@ -276,23 +276,6 @@ export default {
     label(qIdx, rIdx, yesno) {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`;
     },
-    ping(data) {
-      const location = window.location.href;
-      reportMetric({ location, data });
-    },
-    upload(data, filename) {
-      const blob = new Blob([data], { type: "text/csv" });
-
-      if (window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        var elem = window.document.createElement("a");
-        elem.href = window.URL.createObjectURL(blob);
-        elem.download = filename;
-        document.body.appendChild(elem);
-        elem.click();
-        document.body.removeChild(elem);
-      }
     reportMetric,
     generateEmail() {
       const data = `To: User <user@domain.demo>
@@ -309,15 +292,15 @@ Content-Type: text/html
       upload(data, "equots-test-email.eml", "text/plain");
     },
     exportData() {
-      this.ping("exportData");
+      reportMetric({ action: "export" });
       const today = new Date().toLocaleDateString("en-US");
       const datestring = today.replace(/\//g, "-");
       const filename = `${this.survey.name}_${datestring}.csv`;
       const data = SurveyTools.generateCSV(this.survey);
-      this.upload(data, filename);
+      upload(data, filename, "text/csv");
     },
     emailData() {
-      this.ping("emailData");
+      reportMetric({ action: "mailto" });
       const today = new Date().toLocaleDateString("en-US");
       const datestring = today.replace(/\//g, "-");
       const filename = `${this.survey.name}_${datestring}.csv`;
@@ -341,23 +324,23 @@ Content-Type: text/html
       document.body.removeChild(element);
     },
     resetData() {
-      this.ping("resetData");
+      reportMetric({ action: "reset" });
       this.backup = this.survey;
       this.survey = new SurveyTools.Survey(this.activeCard);
     },
     undoReset() {
-      this.ping("undoReset");
+      reportMetric({ action: "undo" });
       this.survey = this.backup;
       this.backup = false;
     },
     cardSelected() {
-      this.ping(`cardSelected:${this.activeCard.id}`);
+      reportMetric({ action: `loadCard:${this.activeCard.id}` });
       this.survey = new SurveyTools.Survey(this.activeCard);
       this.backup = false;
     }
   },
   created() {
-    this.ping(`created`);
+    reportMetric({ action: "arrived" });
     this.CARDS = DATA.cards.sort((a, b) => {
       if (a.number > b.number) {
         return 1;
