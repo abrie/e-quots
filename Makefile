@@ -1,5 +1,7 @@
 deploy: HEAD = $(shell git rev-parse --short HEAD)
-deploy:
+clean:
+	rm -rf dist
+deploy: clean
 	yarn deploy
 serve:
 	yarn serve
