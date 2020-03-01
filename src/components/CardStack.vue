@@ -273,9 +273,6 @@ export default {
     enforceChoice: (o, c) => {
       SurveyTools.enforceChoice(o, c);
     },
-    label(qIdx, rIdx, yesno) {
-      return `question-${qIdx}-observable-${rIdx}-${yesno}`;
-    },
     reportMetric,
     generateEmail() {
       const data = `To: User <user@domain.demo>
