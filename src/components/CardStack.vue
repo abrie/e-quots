@@ -276,7 +276,6 @@ export default {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`;
     },
     ping(data) {
-      console.log("Ping invoked.");
       const location = window.location.href;
       reportMetric({ location, data });
     },
