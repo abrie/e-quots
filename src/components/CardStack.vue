@@ -231,6 +231,7 @@
 import "whatwg-fetch";
 import reportMetric from "../metrics.js";
 import upload from "../upload.js";
+import mailto from "../mailto.js";
 import DATA from "../Cards.json";
 import SurveyTools from "../Survey.js";
 
@@ -282,25 +283,9 @@ export default {
     },
     emailData() {
       reportMetric({ action: "mailto" });
-      const filename = SurveyTools.generateCSVFilename(this.survey);
-      const text = SurveyTools.generateCSV(this.survey);
-      var mailto_link =
-        "mailto:" +
-        "name@example.com" +
-        "?subject=" +
-        filename +
-        "&body=" +
-        encodeURI(text);
-
-      var element = document.createElement("a");
-      element.setAttribute("href", mailto_link);
-
-      element.style.display = "none";
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
+      const subject = SurveyTools.generateCSVFilename(this.survey);
+      const body = SurveyTools.generateCSV(this.survey);
+      mailto({ to: "user@example.com", subject, body });
     },
     resetData() {
       reportMetric({ action: "reset" });
