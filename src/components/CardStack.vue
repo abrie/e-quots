@@ -230,6 +230,7 @@
 <script>
 import "whatwg-fetch";
 import reportMetric from "../metrics.js";
+import upload from "../upload.js";
 import DATA from "../Cards.json";
 import SurveyTools from "../Survey.js";
 
@@ -292,6 +293,20 @@ export default {
         elem.click();
         document.body.removeChild(elem);
       }
+    reportMetric,
+    generateEmail() {
+      const data = `To: User <user@domain.demo>
+Subject: Subject
+X-Unsent: 1
+Content-Type: text/html
+
+<html>
+<body>
+<span style="color:red">Test message</span>
+</body>
+</html>
+`;
+      upload(data, "equots-test-email.eml", "text/plain");
     },
     exportData() {
       this.ping("exportData");
