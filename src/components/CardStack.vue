@@ -229,6 +229,7 @@
 
 <script>
 import "whatwg-fetch";
+import reportMetric from "../metrics.js";
 import DATA from "../Cards.json";
 import SurveyTools from "../Survey.js";
 
@@ -275,19 +276,9 @@ export default {
       return `question-${qIdx}-observable-${rIdx}-${yesno}`;
     },
     ping(data) {
+      console.log("Ping invoked.");
       const location = window.location.href;
-      window
-        .fetch("https://goeieware.ca/m", {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "no-cors", // no-cors, cors, *same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          //credentials: 'same-origin', // include, *same-origin, omit
-          headers: { "Content-Type": "application/json" },
-          redirect: "follow", // manual, *follow, error
-          referrer: "no-referrer", // no-referrer, *client
-          body: JSON.stringify({ data, location })
-        })
-        .catch(() => {});
+      reportMetric({ location, data });
     },
     upload(data, filename) {
       const blob = new Blob([data], { type: "text/csv" });
