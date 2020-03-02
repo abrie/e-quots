@@ -27,7 +27,7 @@
       <a
         style="color: unset"
         :href="survey.pdf"
-        @click="ping(`reference pdf ${survey.number}`)"
+        @click="reportMetric({ action: `visitReference:${survey.number}` })"
         >here</a
       >
       to see the reference document.
@@ -95,9 +95,9 @@
                       type="checkbox"
                       v-model="o[c]"
                       @click="
-                        ping(
-                          `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                        )
+                        reportMetric({
+                          action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                        })
                       "
                       @change="enforceChoice(o, c)"
                     />
@@ -161,9 +161,9 @@
                         type="checkbox"
                         v-model="o[c]"
                         @click="
-                          ping(
-                            `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                          )
+                          reportMetric({
+                            action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                          })
                         "
                         @change="enforceChoice(o, c)"
                       />
@@ -203,9 +203,9 @@
                         type="checkbox"
                         v-model="o[c]"
                         @click="
-                          ping(
-                            `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
-                          )
+                          reportMetric({
+                            action: `survey-${survey.number}-section-${qIdx}-observation-${oIdx}-checkbox-${cIdx}`
+                          })
                         "
                         @change="enforceChoice(o, c)"
                       />
@@ -230,6 +230,8 @@
 <script>
 import "whatwg-fetch";
 import reportMetric from "../metrics.js";
+import upload from "../upload.js";
+import mailto from "../mailto.js";
 import DATA from "../Cards.json";
 import SurveyTools from "../Survey.js";
 
@@ -272,77 +274,37 @@ export default {
     enforceChoice: (o, c) => {
       SurveyTools.enforceChoice(o, c);
     },
-    label(qIdx, rIdx, yesno) {
-      return `question-${qIdx}-observable-${rIdx}-${yesno}`;
-    },
-    ping(data) {
-      const location = window.location.href;
-      reportMetric({ location, data });
-    },
-    upload(data, filename) {
-      const blob = new Blob([data], { type: "text/csv" });
-
-      if (window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob, filename);
-      } else {
-        var elem = window.document.createElement("a");
-        elem.href = window.URL.createObjectURL(blob);
-        elem.download = filename;
-        document.body.appendChild(elem);
-        elem.click();
-        document.body.removeChild(elem);
-      }
-    },
+    reportMetric,
     exportData() {
-      this.ping("exportData");
-      const today = new Date().toLocaleDateString("en-US");
-      const datestring = today.replace(/\//g, "-");
-      const filename = `${this.survey.name}_${datestring}.csv`;
+      reportMetric({ action: "export" });
+      const filename = SurveyTools.generateCSVFilename(this.survey);
       const data = SurveyTools.generateCSV(this.survey);
-      this.upload(data, filename);
+      upload(data, filename, "text/csv");
     },
     emailData() {
-      this.ping("emailData");
-      const today = new Date().toLocaleDateString("en-US");
-      const datestring = today.replace(/\//g, "-");
-      const filename = `${this.survey.name}_${datestring}.csv`;
-      const text = SurveyTools.generateCSV(this.survey);
-      var mailto_link =
-        "mailto:" +
-        "name@example.com" +
-        "?subject=" +
-        filename +
-        "&body=" +
-        encodeURI(text);
-
-      var element = document.createElement("a");
-      element.setAttribute("href", mailto_link);
-
-      element.style.display = "none";
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
+      reportMetric({ action: "mailto" });
+      const subject = SurveyTools.generateCSVFilename(this.survey);
+      const body = SurveyTools.generateCSV(this.survey);
+      mailto({ to: "user@example.com", subject, body });
     },
     resetData() {
-      this.ping("resetData");
+      reportMetric({ action: "reset" });
       this.backup = this.survey;
       this.survey = new SurveyTools.Survey(this.activeCard);
     },
     undoReset() {
-      this.ping("undoReset");
+      reportMetric({ action: "undo" });
       this.survey = this.backup;
       this.backup = false;
     },
     cardSelected() {
-      this.ping(`cardSelected:${this.activeCard.id}`);
+      reportMetric({ action: `loadCard:${this.activeCard.id}` });
       this.survey = new SurveyTools.Survey(this.activeCard);
       this.backup = false;
     }
   },
   created() {
-    this.ping(`created`);
+    reportMetric({ action: "arrived" });
     this.CARDS = DATA.cards.sort((a, b) => {
       if (a.number > b.number) {
         return 1;

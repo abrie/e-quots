@@ -22,8 +22,10 @@ window.addEventListener("beforeunload", () => {
 });
 
 export default function reportMetric(data) {
+  const location = window.location.href;
   postData(process.env.VUE_APP_METRICS_ENDPOINT, {
     ...data,
+    location,
     appId,
     sessionId
   });
