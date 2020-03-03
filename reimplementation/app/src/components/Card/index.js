@@ -8,9 +8,14 @@ export default function(params) {
   const [ledger, setLedger] = useState(null);
 
   useEffect(() => {
-    const { template, ledger } = PrepTemplate(params.template);
-    setTemplate(template);
-    setLedger(ledger);
+    if (params.template) {
+      const { template, ledger } = PrepTemplate(params.template);
+      setTemplate(template);
+      setLedger(ledger);
+    } else {
+      setTemplate(null);
+      setLedger(null);
+    }
   }, [params.template]);
 
   const handleChange = evt => {
@@ -89,6 +94,6 @@ export default function(params) {
       </>
     );
   } else {
-    return <div>No template</div>;
+    return <div>no card here</div>;
   }
 }

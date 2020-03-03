@@ -1,13 +1,20 @@
-import React from "react";
-import Templates from "./data/Cards";
+import React, { useState } from "react";
+import CardSelector from "./components/CardSelector";
 import Card from "./components/Card";
+import Templates from "./data/Cards";
 import "./App.css";
 
 function App() {
+  const [card, setCard] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">Infection Control</header>
-      <Card template={Templates.cards[6]} />
+      <div>
+        <CardSelector cards={Templates.cards} onChanged={setCard} />
+      </div>
+      <div>
+        <Card template={card} />
+      </div>
     </div>
   );
 }
