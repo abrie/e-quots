@@ -13,14 +13,14 @@ function upload({ data, filename, type }) {
   }
 }
 
-function buildCSV({ template, ledger }) {
-  const header = template.sections.reduce((acc, section) => {
+function buildCSV({ card, ledger }) {
+  const header = card.sections.reduce((acc, section) => {
     return section.questions.reduce((acc, question) => {
       return [...acc, `"${question.text}"`];
     }, acc);
   }, []);
 
-  const values = template.sections.reduce((acc, section) => {
+  const values = card.sections.reduce((acc, section) => {
     return section.questions.reduce((acc, question) => {
       return [...acc, ledger[question.id]];
     }, acc);
@@ -29,8 +29,8 @@ function buildCSV({ template, ledger }) {
   return [header.join(","), values.join(",")].join("\n");
 }
 
-function buildHTML({ template, ledger }) {
-  const rows = template.sections.reduce((acc, section) => {
+function buildHTML({ card, ledger }) {
+  const rows = card.sections.reduce((acc, section) => {
     return section.questions.reduce((acc, question) => {
       return [
         ...acc,
@@ -61,7 +61,7 @@ ${rows.join("\n")}
   return html;
 }
 
-function buildEML({ template, ledger }) {
+function buildEML({ card, ledger }) {
   const eml = `
 To: Demo-Recipient <demo@demo.example.com>
 Subject: EML with attachments
@@ -71,7 +71,7 @@ Content-Type: multipart/mixed; boundary=--boundary_text_string
 ----boundary_text_string
 Content-Type: text/html; charset=UTF-8
 
-${buildHTML({ template, ledger })}
+${buildHTML({ card, ledger })}
 
 ----boundary_text_string
 Content-Type: application/octet-stream; name=demo.txt

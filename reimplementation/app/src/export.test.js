@@ -1,5 +1,5 @@
 import { buildCSV, buildHTML } from "./export";
-import PrepTemplate from "./prep.js";
+import Parse from "./parse.js";
 
 const TestTemplate = {
   name: "Test Template",
@@ -35,13 +35,13 @@ const TestTemplate = {
 };
 
 test("converts template and ledger to CSV", () => {
-  const { template, ledger } = PrepTemplate(TestTemplate);
-  const csv = buildCSV({ template, ledger });
+  const { card, ledger } = Parse(TestTemplate);
+  const csv = buildCSV({ card, ledger });
   expect(csv).toBe(`"Q1","Q2","Q3","Q4"\n,,,`);
 });
 
 test("converts template and ledger to HTML", () => {
-  const { template, ledger } = PrepTemplate(TestTemplate);
-  const html = buildHTML({ template, ledger });
+  const { card, ledger } = Parse(TestTemplate);
+  const html = buildHTML({ card, ledger });
   expect(html).toContain(`<tr><td>Q1</td><td></td></tr>`);
 });

@@ -4,16 +4,16 @@ import Export, { buildEML } from "../../export.js";
 import "./style.css";
 
 export default function(params) {
-  const [template, setTemplate] = useState(null);
+  const [card, setCard] = useState(null);
   const [ledger, setLedger] = useState(null);
 
   useEffect(() => {
     if (params.template) {
-      const { template, ledger } = Parse(params.template);
-      setTemplate(template);
+      const { card, ledger } = Parse(params.template);
+      setCard(card);
       setLedger(ledger);
     } else {
-      setTemplate(null);
+      setCard(null);
       setLedger(null);
     }
   }, [params.template]);
@@ -25,7 +25,7 @@ export default function(params) {
 
   const handleExport = evt => {
     Export({
-      data: buildEML({ template, ledger }),
+      data: buildEML({ card, ledger }),
       filename: "myemail.eml",
       type: "text/plain"
     });
@@ -97,18 +97,18 @@ export default function(params) {
   const Reference = ({ href }) => {
     return (
       <div className="reference">
-        <a href={template.pdf}>{template.pdf}</a>
+        <a href={card.pdf}>reference</a>
       </div>
     );
   };
 
-  if (template) {
+  if (card) {
     return (
       <>
-        <div className="name">{template.title}</div>
-        <Reference href={template.pdf} />
-        <Instructions text={template.instructions} />
-        <Sections sections={template.sections} />
+        <div className="name">{card.title}</div>
+        <Reference href={card.pdf} />
+        <Instructions text={card.instructions} />
+        <Sections sections={card.sections} />
         <div className="controls">
           <button onClick={handleExport}>upload</button>
         </div>

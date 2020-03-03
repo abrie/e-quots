@@ -33,11 +33,11 @@ function makeLedger(template) {
 }
 
 export default function(template) {
-  const withIds = addIds(template);
-  const ledger = makeLedger(withIds);
+  const card = addIds(template);
+  const ledger = makeLedger(card);
 
   return {
-    template: withIds,
-    ledger: ledger
+    card,
+    ledger
   };
 }
