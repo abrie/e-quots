@@ -26,7 +26,7 @@ export default function(params) {
   const handleExport = evt => {
     Export({
       data: buildEML({ card, ledger }),
-      filename: "myemail.eml",
+      filename: `equots.eml`,
       type: "text/plain"
     });
   };
@@ -110,7 +110,7 @@ export default function(params) {
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
         <div className="controls">
-          <button onClick={handleExport}>upload</button>
+          <button onClick={handleExport}>export</button>
         </div>
       </>
     );

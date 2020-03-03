@@ -56,34 +56,25 @@ ${rows.join("\n")}
 </tbody>
 </table>
 </body>
-</html>`;
+</htmlq>`;
 
   return html;
 }
 
 function buildEML({ card, ledger }) {
   const eml = `
-To: Demo-Recipient <demo@demo.example.com>
+To: Abrie <abrie@fastmail.com>
+From: <abrie@fastmail.com>
 Subject: EML with attachments
 X-Unsent: 1
 Content-Type: multipart/mixed; boundary=--boundary_text_string
+
+See below for a copy of inspection results:
 
 ----boundary_text_string
 Content-Type: text/html; charset=UTF-8
 
 ${buildHTML({ card, ledger })}
-
-----boundary_text_string
-Content-Type: application/octet-stream; name=demo.txt
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment
-ZXhhbXBsZQ==
-
-----boundary_text_string
-Content-Type: application/octet-stream; name=demo.log
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment
-ZXhhbXBsZQ==
 
 ----boundary_text_string--
 `;

@@ -169,7 +169,7 @@
       "pdf": "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Clean-Area-Disinfection-Sterilization-P.pdf",
       "number": 16,
       "observable": "Area",
-      "title": "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Clean” Area",
+      "title": "Reprocessing: High Level Disinfection and Liquid Sterilization Process– \"Clean\" Area",
       "instructions": "Observe area where instruments are reprocessed. For each category, record the observation.",
       "sections": [
         {
@@ -247,7 +247,7 @@
       "pdf": "https://www.cdc.gov/infectioncontrol/pdf/QUOTS/Reprocessing-Dirty-Area-Disinfection-Sterilization-P.pdf",
       "number": 15,
       "observable": "Area",
-      "title": "Reprocessing: High Level Disinfection and Liquid Sterilization Process– “Dirty” Area Using Chemical Soak Method",
+      "title": "Reprocessing: High Level Disinfection and Liquid Sterilization Process– \"Dirty\" Area Using Chemical Soak Method",
       "instructions": "Observe area where instruments are reprocessed by a soaking method using a liquid chemical germicide. For each category, record the observation.",
       "sections": [
         {
@@ -255,7 +255,7 @@
           "choiceSet": ["Yes", "No"],
           "questions": [
             {
-              "text": "Is the preprocessing “dirty” area separate from the clean area?",
+              "text": "Is the preprocessing \"dirty\" area separate from the clean area?",
               "choices": ["Yes", "No"]
             },
             {
@@ -267,7 +267,7 @@
               "choices": ["Yes", "No"]
             },
             {
-              "text": "Is a traffic flow pattern from “soiled” to “clean” clearly delineated in the area in which technicians progress through their reprocessing tasks?",
+              "text": "Is a traffic flow pattern from \"soiled\" to \"clean\" clearly delineated in the area in which technicians progress through their reprocessing tasks?",
               "choices": ["Yes", "No"]
             },
             {
@@ -289,7 +289,7 @@
           "choiceSet": ["Yes", "No"],
           "questions": [
             {
-              "text": "Are chemical potency test strips stored appropriately and labeled with “opened” and “use by” dates?",
+              "text": "Are chemical potency test strips stored appropriately and labeled with \"opened\" and \"use by\" dates?",
               "choices": ["Yes", "No"]
             },
             {
@@ -421,7 +421,7 @@
               "choices": ["Yes", "No"]
             },
             {
-              "text": "Are sharps containers positioned at 52” to 56” above floor?",
+              "text": "Are sharps containers positioned at 52\" to 56\" above floor?",
               "choices": ["Yes", "No"]
             },
             {
