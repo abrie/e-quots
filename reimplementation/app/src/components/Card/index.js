@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import PrepTemplate from "../../prep.js";
-import Exporter, { buildEML } from "../../export.js";
+import Parse from "../../parse.js";
+import Export, { buildEML } from "../../export.js";
 import "./style.css";
 
 export default function(params) {
@@ -9,7 +9,7 @@ export default function(params) {
 
   useEffect(() => {
     if (params.template) {
-      const { template, ledger } = PrepTemplate(params.template);
+      const { template, ledger } = Parse(params.template);
       setTemplate(template);
       setLedger(ledger);
     } else {
@@ -24,7 +24,7 @@ export default function(params) {
   };
 
   const handleExport = evt => {
-    Exporter({
+    Export({
       data: buildEML({ template, ledger }),
       filename: "myemail.eml",
       type: "text/plain"
