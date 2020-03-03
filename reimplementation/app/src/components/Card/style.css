@@ -1,11 +1,42 @@
+div.reference {
+  font-size: 50%;
+}
+
 div.section {
   border: 1px solid black;
 }
 
+div.sectionQuestions > div.question:nth-child(odd) {
+  background-color: #ddd;
+  border: 1px solid white;
+}
+
 div.question {
+  display: flex;
+  flex-flow: row;
+}
+
+div.questionText {
+  flex: 0 0 70%;
+  padding: 0.5rem 0 0 0;
 }
 
 div.questionChoices {
+  border-left: 1px solid white;
+  align-items: center;
+  flex: 0 0 30%;
   display: flex;
   flex-flow: row;
+}
+
+div.questionChoice {
+  text-align: center;
+}
+
+div.questionChoices[data-count="2"] > div.questionChoice {
+  flex: 0 0 50%;
+}
+
+div.questionChoices[data-count="3"] > div.questionChoice {
+  flex: 0 0 33.33%;
 }
