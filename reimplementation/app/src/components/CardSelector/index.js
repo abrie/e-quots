@@ -4,7 +4,7 @@ export default function({ cards, onChanged }) {
   const [selected, setSelected] = useState("none");
 
   useEffect(() => {
-    onChanged(cards.find(card => `${card.number}` === selected));
+    onChanged(cards.find(card => `${card.name}` === selected));
   }, [cards, selected, onChanged]);
 
   const handleSelection = evt => {
@@ -24,7 +24,7 @@ export default function({ cards, onChanged }) {
   const SelectorItems = ({ cards }) => {
     return cards.map((card, key) => {
       return (
-        <option key={key} value={card.number}>
+        <option key={key} value={card.name}>
           {card.name}
         </option>
       );
