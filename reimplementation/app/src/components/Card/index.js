@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Parse from "../../parse.js";
 import Exporter from "../Exporter";
+import { computeTotals } from "../../compute.js";
 import "./style.css";
 
 export default function({ template }) {
@@ -43,6 +44,30 @@ export default function({ template }) {
     return sections.map((section, key) => {
       return <Section section={section} key={key} />;
     });
+  };
+
+  const Totals = ({ card, ledger }) => {
+    const choiceSet = card.sections[0].choiceSet;
+    const totals = computeTotals({ card, ledger });
+
+    const Sums = () => {
+      return choiceSet.map((choice, key) => {
+        return (
+          <div className="totalChoice" key={key}>
+            {totals[choice]}
+          </div>
+        );
+      });
+    };
+
+    return (
+      <div className="total">
+        <div className="totalText">Total</div>
+        <div className="totalChoices" data-count={choiceSet.length}>
+          <Sums />
+        </div>
+      </div>
+    );
   };
 
   const Section = ({ section }) => {
@@ -125,6 +150,7 @@ export default function({ template }) {
         <Title text={card.title} number={card.number} />
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
+        <Totals card={card} ledger={ledger} />
         <Exporter
           card={card}
           ledger={ledger}

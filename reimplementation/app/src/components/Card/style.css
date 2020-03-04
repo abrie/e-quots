@@ -85,3 +85,37 @@ div.questionChoices[data-count="2"] > div.questionChoice {
 div.questionChoices[data-count="3"] > div.questionChoice {
   flex: 0 0 33.33%;
 }
+
+div.total {
+  display: flex;
+  flex-flow: row;
+}
+
+div.totalText {
+  flex: 0 0 70%;
+  text-align: right;
+  background-color: rgb(81, 130, 187);
+  color: white;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  margin-right: -0.5rem;
+}
+
+div.totalChoices {
+  flex: 0 0 30%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  border: 1px solid rgb(81, 130, 187);
+}
+
+div.totalChoice {
+  text-align: center;
+}
+
+div.totalChoices[data-count="2"] > div.totalChoice {
+  flex: 0 0 50%;
+}
+
+div.totalChoices[data-count="3"] > div.totalChoice {
+  flex: 0 0 33.33%;
+}
