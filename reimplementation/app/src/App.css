@@ -1,4 +1,19 @@
 body {
-  padding: 1rem;
   font-size: 1rem;
+}
+
+div.header {
+  width: 100%;
+  padding: 1rem;
+  position: fixed;
+  background: white;
+  display: flex;
+  flex-flow: row;
+  border-bottom: 1px solid black;
+}
+
+div.card {
+  padding-top: 5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }

@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from "react";
 import Parse from "../../parse.js";
+import Exporter from "../Exporter";
 import "./style.css";
 
-export default function(params) {
+export default function({ template }) {
   const [card, setCard] = useState(null);
   const [ledger, setLedger] = useState(null);
 
   useEffect(() => {
-    if (params.template) {
-      const { card, ledger } = Parse(params.template);
+    if (template) {
+      const { card, ledger } = Parse(template);
       setCard(card);
       setLedger(ledger);
     } else {
       setCard(null);
       setLedger(null);
     }
-  }, [params.template]);
+  }, [template]);
+
+  const clearLedger = () => {
+    const { ledger } = Parse(template);
+    setLedger(ledger);
+  };
 
   const handleChange = evt => {
     const { name, value } = evt.currentTarget;
-    setLedger({ ...ledger, [name]: value });
+    const newLedger = { ...ledger, [name]: value };
+    setLedger(newLedger);
   };
 
   const Sections = ({ sections }) => {
@@ -100,6 +107,7 @@ export default function(params) {
         <Reference href={card.pdf} />
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
+        <Exporter card={card} ledger={ledger} onClear={clearLedger} />
       </>
     );
   } else {
