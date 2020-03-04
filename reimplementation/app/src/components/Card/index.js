@@ -13,9 +13,11 @@ export default function({ template }) {
       const { card, ledger } = Parse(template);
       setCard(card);
       setLedger(ledger);
+      setCachedLedger(null);
     } else {
       setCard(null);
       setLedger(null);
+      setCachedLedger(null);
     }
   }, [template]);
 
