@@ -43,5 +43,8 @@ test("converts template and ledger to CSV", () => {
 test("converts template and ledger to HTML", () => {
   const { card, ledger } = Parse(TestTemplate);
   const html = buildHTML({ card, ledger });
-  expect(html).toContain(`<tr><td>Q1</td><td></td></tr>`);
+  expect(html).toContain(`<td>Q1</td>`);
+  expect(html).toContain(`<td>Q2</td>`);
+  expect(html).toContain(`<td>Q3</td>`);
+  expect(html).toContain(`<td>Q4</td>`);
 });

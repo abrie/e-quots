@@ -30,41 +30,53 @@ function buildCSV({ card, ledger }) {
 }
 
 function buildHTML({ card, ledger }) {
-  const rows = card.sections.reduce((acc, section) => {
-    return section.questions.reduce((acc, question) => {
-      return [
-        ...acc,
-        `<tr><td>${question.text}</td><td>${ledger[question.id]}</td></tr>`
-      ];
-    }, acc);
-  }, []);
+  const questionRows = section => {
+    return section.questions
+      .map(question => {
+        return `
+      <tr>
+        <td>${question.text}</td>
+        <td>${ledger[question.id]}</td>
+      </tr>`;
+      })
+      .join("");
+  };
+
+  const sectionTables = card => {
+    return card.sections
+      .map(section => {
+        return `
+      <table>
+      <thead>
+      <tr>
+      <td>${section.header}</td>
+      <td>Response</td>
+      </tr>
+      </thead>
+      <tbody>
+      ${questionRows(section)}
+      </tbody>
+      </table>`;
+      })
+      .join("");
+  };
 
   const html = `<html>
   <head>
   <style> td { border: 1px solid #444 } </style>
   </head>
 <body>
-<table>
-<thead>
-<tr>
-<td style="width:20rem">Question</td>
-<td>Response</td>
-</tr>
-</thead>
-<tbody>
-${rows.join("\n")}
-</tbody>
-</table>
+${sectionTables(card)}
 </body>
-</htmlq>`;
+</html>`;
 
   return html;
 }
 
 function buildEML({ card, ledger }) {
   const eml = `
-To: Abrie <abrie@fastmail.com>
-From: <abrie@fastmail.com>
+To: TestUser <testuser@example.com>
+From: <TestUser@example.com>
 Subject: EML with attachments
 X-Unsent: 1
 Content-Type: multipart/mixed; boundary=--boundary_text_string
