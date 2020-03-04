@@ -81,5 +81,4 @@ ${buildHTML({ card, ledger })}
   return eml;
 }
 
-export default upload;
-export { buildCSV, buildHTML, buildEML };
+export { upload, buildCSV, buildHTML, buildEML };

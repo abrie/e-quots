@@ -1,5 +1,5 @@
 import { buildCSV, buildHTML } from "./export";
-import Parse from "./parse.js";
+import Parse from "../../parse.js";
 
 const TestTemplate = {
   name: "Test Template",

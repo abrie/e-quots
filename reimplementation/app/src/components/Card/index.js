@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Parse from "../../parse.js";
-import Export, { buildEML } from "../../export.js";
 import "./style.css";
 
 export default function(params) {
@@ -21,14 +20,6 @@ export default function(params) {
   const handleChange = evt => {
     const { name, value } = evt.currentTarget;
     setLedger({ ...ledger, [name]: value });
-  };
-
-  const handleExport = evt => {
-    Export({
-      data: buildEML({ card, ledger }),
-      filename: `equots.eml`,
-      type: "text/plain"
-    });
   };
 
   const Sections = ({ sections }) => {
@@ -109,9 +100,6 @@ export default function(params) {
         <Reference href={card.pdf} />
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
-        <div className="controls">
-          <button onClick={handleExport}>export</button>
-        </div>
       </>
     );
   } else {
