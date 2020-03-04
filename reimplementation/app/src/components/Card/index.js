@@ -6,6 +6,7 @@ import "./style.css";
 export default function({ template }) {
   const [card, setCard] = useState(null);
   const [ledger, setLedger] = useState(null);
+  const [cachedLedger, setCachedLedger] = useState(null);
 
   useEffect(() => {
     if (template) {
@@ -18,15 +19,22 @@ export default function({ template }) {
     }
   }, [template]);
 
-  const clearLedger = () => {
-    const { ledger } = Parse(template);
-    setLedger(ledger);
+  const resetLedger = () => {
+    setCachedLedger(ledger);
+    const { ledger: blankLedger } = Parse(template);
+    setLedger(blankLedger);
+  };
+
+  const restoreLedger = () => {
+    setLedger(cachedLedger);
+    setCachedLedger(null);
   };
 
   const handleChange = evt => {
     const { name, value } = evt.currentTarget;
     const newLedger = { ...ledger, [name]: value };
     setLedger(newLedger);
+    setCachedLedger(null);
   };
 
   const Sections = ({ sections }) => {
@@ -115,7 +123,13 @@ export default function({ template }) {
         <Title text={card.title} number={card.number} />
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
-        <Exporter card={card} ledger={ledger} onClear={clearLedger} />
+        <Exporter
+          card={card}
+          ledger={ledger}
+          cachedLedger={cachedLedger}
+          onReset={resetLedger}
+          onRestore={restoreLedger}
+        />
         <Reference href={card.pdf} />
       </>
     );
