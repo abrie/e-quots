@@ -1,3 +1,5 @@
+import { computeTotals } from "../../compute.js";
+
 function buildFilename({ card, date, extension }) {
   const name = card.name.replace(/ /gi, "-");
   const year = date.getFullYear();
@@ -59,8 +61,8 @@ function buildHTML({ card, ledger }) {
       <table>
       <thead>
       <tr>
-      <td>${section.header}</td>
-      <td>Response</td>
+      <th>${section.header}</th>
+      <th>Response</th>
       </tr>
       </thead>
       <tbody>
@@ -71,11 +73,55 @@ function buildHTML({ card, ledger }) {
       .join("");
   };
 
+  const totals = computeTotals({ card, ledger });
+
+  const labelTotalValue = val => {
+    switch (val) {
+      case undefined:
+        return 0;
+      default:
+        return val;
+    }
+  };
+
+  const labelTotalChoice = val => {
+    switch (val) {
+      case "":
+        return "Unanswered";
+      default:
+        return val;
+    }
+  };
+
+  const choiceSet = [...card.sections[0].choiceSet, ""];
+
+  const choiceRow = choiceSet
+    .map(choice => `<th>${labelTotalChoice(choice)}</th>`)
+    .join("");
+  const totalRow = choiceSet
+    .map(choice => `<td>${labelTotalValue(totals[choice])}</td>`)
+    .join("");
+
+  const summaryTable = `
+  <table>
+  <thead>
+  ${choiceRow}
+  </thead>
+  <tbody>
+  ${totalRow}
+  </tbody>
+  </table>
+  `;
+
   const html = `<html>
   <head>
   <style> td { border: 1px solid #444 } </style>
   </head>
 <body>
+<h1>${card.title}</h1>
+<h2>Summary</h2>
+${summaryTable}
+<h2>Details</h2>
 ${sectionTables(card)}
 </body>
 </html>`;
