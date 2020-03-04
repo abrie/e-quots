@@ -36,7 +36,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const NormalMode = () => {
     return (
       <div className="controls">
-        <button onClick={handleExport}>export</button>
+        <button onClick={handleExport}>Email</button>
         <button onClick={() => onReset()}>reset</button>
       </div>
     );
