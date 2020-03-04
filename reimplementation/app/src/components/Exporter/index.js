@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { upload, buildEML } from "./export.js";
+import { upload, buildEML, buildFilename } from "./export.js";
 import "./style.css";
 
 export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
@@ -17,11 +17,12 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   }, [cachedLedger]);
 
   const handleExport = evt => {
-    upload({
-      data: buildEML({ card, ledger }),
-      filename: `equots.eml`,
-      type: "text/plain"
-    });
+    const date = new Date();
+    const extension = "eml";
+    const filename = buildFilename({ card, date, extension });
+    const type = "text/plain";
+    const data = buildEML({ card, ledger });
+    upload({ data, filename, type });
   };
 
   const RestoreMode = () => {
