@@ -2,12 +2,51 @@ div.reference {
   font-size: 50%;
 }
 
+div.instructions {
+  padding: 1rem;
+}
+
 div.section {
   border: 1px solid black;
 }
 
+div.title {
+  display: flex;
+  flex-flow: row;
+  background-color: rgb(81, 130, 187);
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+div.titleText {
+  font-size: 140%;
+  color: white;
+  padding: 0.5rem;
+}
+
+div.titleNumber {
+  display: flex;
+  flex: 0 0 10%;
+  font-size: 150%;
+  background-color: rgb(245, 227, 83);
+  color: rgb(81, 130, 187);
+  justify-content: center;
+  align-items: center;
+}
+
+div.sectionHeader {
+  background-color: rgb(81, 130, 187);
+  color: white;
+  font-size: 125%;
+}
+
 div.sectionQuestions > div.question:nth-child(odd) {
-  background-color: #ddd;
+  background-color: rgb(186, 205, 228);
+  border: 1px solid white;
+}
+
+div.sectionQuestions > div.question:nth-child(even) {
+  background-color: rgb(237, 242, 248);
   border: 1px solid white;
 }
 

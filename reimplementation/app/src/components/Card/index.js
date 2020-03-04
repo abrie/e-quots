@@ -100,11 +100,19 @@ export default function({ template }) {
     );
   };
 
+  const Title = ({ text, number }) => {
+    return (
+      <div className="title">
+        <div className="titleText">{text}</div>
+        <div className="titleNumber">{number}</div>
+      </div>
+    );
+  };
+
   if (card) {
     return (
       <>
-        <div className="name">{card.title}</div>
-        <Reference href={card.pdf} />
+        <Title text={card.title} number={card.number} />
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
         <Exporter card={card} ledger={ledger} onClear={clearLedger} />
