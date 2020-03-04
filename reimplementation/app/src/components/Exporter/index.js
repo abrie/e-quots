@@ -25,6 +25,10 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
     upload({ data, filename, type });
   };
 
+  const doPrint = evt => {
+    window.print();
+  };
+
   const RestoreMode = () => {
     return (
       <div className="controls">
@@ -37,6 +41,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
     return (
       <div className="controls">
         <button onClick={handleExport}>Email</button>
+        <button onClick={doPrint}>Print</button>
         <button onClick={() => onReset()}>reset</button>
       </div>
     );

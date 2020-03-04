@@ -1,5 +1,15 @@
-body {
+html {
+  box-sizing: border-box;
   font-size: 1rem;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
 }
 
 div.header {
@@ -16,4 +26,14 @@ div.card {
   padding-top: 5rem;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+@media print {
+  div.header {
+    display: none !important;
+  }
+
+  div.card {
+    padding-top: 1rem;
+  }
 }
