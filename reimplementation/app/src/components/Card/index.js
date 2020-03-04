@@ -95,7 +95,7 @@ export default function({ template }) {
   const Reference = ({ href }) => {
     return (
       <div className="reference">
-        <a href={card.pdf}>reference</a>
+        <a href={card.pdf}>Source PDF</a>
       </div>
     );
   };
@@ -116,6 +116,7 @@ export default function({ template }) {
         <Instructions text={card.instructions} />
         <Sections sections={card.sections} />
         <Exporter card={card} ledger={ledger} onClear={clearLedger} />
+        <Reference href={card.pdf} />
       </>
     );
   } else {
