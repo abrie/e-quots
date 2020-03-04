@@ -24,22 +24,34 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
     });
   };
 
-  if (canRestore) {
-    return createPortal(
+  const RestoreMode = () => {
+    return (
       <div className="controls">
         <button onClick={() => onRestore()}>undo reset</button>
-      </div>,
-      document.getElementById("portalme")
+      </div>
     );
-  } else if (active) {
-    return createPortal(
+  };
+
+  const NormalMode = () => {
+    return (
       <div className="controls">
         <button onClick={handleExport}>export</button>
         <button onClick={() => onReset()}>reset</button>
-      </div>,
-      document.getElementById("portalme")
+      </div>
     );
+  };
+
+  const EmptyMode = () => {
+    return <div className="controls"></div>;
+  };
+
+  const target = document.getElementById("portalme");
+
+  if (canRestore) {
+    return createPortal(<RestoreMode />, target);
+  } else if (active) {
+    return createPortal(<NormalMode />, target);
   } else {
-    return createPortal(<></>, document.getElementById("portalme"));
+    return createPortal(<EmptyMode />, target);
   }
 }
