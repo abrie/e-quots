@@ -1,0 +1,20 @@
+div.controls {
+}
+
+button {
+  margin-left: 0.5rem;
+}
+
+button:disabled {
+  background: lightgrey;
+}
+
+button.normal {
+  background-color: lightgreen;
+  color: black;
+  font-weight: 600;
+}
+
+button.warning {
+  background-color: yellow;
+}
