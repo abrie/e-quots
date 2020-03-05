@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Parse from "../../parse.js";
 import Exporter from "../Exporter";
+import Landing from "../Landing";
 import { computeTotals } from "../../compute.js";
 import "./style.css";
 
@@ -107,8 +108,8 @@ export default function({ template }) {
         <div className="questionChoice" key={key}>
           <input
             type="radio"
-            name={question.id}
             id={id}
+            name={question.id}
             value={choice}
             checked={ledger[question.id] === choice}
             onChange={handleChange}
@@ -158,6 +159,6 @@ export default function({ template }) {
       </>
     );
   } else {
-    return <div>no card here</div>;
+    return <Landing />;
   }
 }
