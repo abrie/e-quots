@@ -1,6 +1,6 @@
 ## Background
 
-Infection control is a serious concern in health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](https://www.cdc.gov/infectioncontrol/tools/quots.html) to augment best practices. Known as QUOTS (Quick Observation Tools), the tools are provided to the public as [PDF worksheets](https://www.cdc.gov/infectioncontrol/tools/quots.html).
+Infection control is a serious concern in health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of **Infection Prevention Observation Tools** to augment best practices. Known as **QUOTS** (Quick Observation Tools), the tools are provided to the public as [PDF worksheets](https://www.cdc.gov/infectioncontrol/tools/quots.html).
 
 ## Motivation
 
