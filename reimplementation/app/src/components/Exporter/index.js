@@ -16,7 +16,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
     setCanRestore(cachedLedger !== null);
   }, [cachedLedger]);
 
-  const handleExport = evt => {
+  const doExport = evt => {
     const date = new Date();
     const extension = "eml";
     const filename = buildFilename({ card, date, extension });
@@ -32,7 +32,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const RestoreMode = () => {
     return (
       <div className="controls">
-        <button disabled={true} onClick={handleExport}>
+        <button disabled={true} onClick={doExport}>
           Email
         </button>
         <button disabled={true} onClick={doPrint}>
@@ -46,7 +46,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const NormalMode = () => {
     return (
       <div className="controls">
-        <button disabled={false} onClick={handleExport}>
+        <button disabled={false} onClick={doExport}>
           Email
         </button>
         <button disabled={false} onClick={doPrint}>
@@ -62,7 +62,7 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const EmptyMode = () => {
     return (
       <div className="controls">
-        <button disabled={true} onClick={handleExport}>
+        <button disabled={true} onClick={doExport}>
           Email
         </button>
         <button disabled={true} onClick={doPrint}>
