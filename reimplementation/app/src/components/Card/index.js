@@ -156,7 +156,7 @@ export default function({ template }) {
           ledger={ledger}
           cachedLedger={cachedLedger}
           doReset={resetLedger}
-          onRestore={restoreLedger}
+          doRestore={restoreLedger}
         />
         <Reference href={card.pdf} />
       </>

@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { upload, buildEML, buildFilename } from "./export.js";
 import "./style.css";
 
-export default function({ card, ledger, cachedLedger, doReset, onRestore }) {
+export default function({ card, ledger, cachedLedger, doReset, doRestore }) {
   const [active, setActive] = useState(false);
   const [canRestore, setCanRestore] = useState(false);
 
@@ -38,7 +38,7 @@ export default function({ card, ledger, cachedLedger, doReset, onRestore }) {
         <button disabled={true} onClick={doPrint}>
           Print
         </button>
-        <button onClick={() => onRestore()}>undo reset</button>
+        <button onClick={() => doRestore()}>undo reset</button>
       </div>
     );
   };
