@@ -150,7 +150,7 @@ export default function({ template }) {
         <Exporter
           card={card}
           ledger={ledger}
-          cachedLedger={cachedLedger}
+          canRestore={cachedLedger !== null}
           doReset={resetLedger}
           doRestore={restoreLedger}
         />

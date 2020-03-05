@@ -3,18 +3,13 @@ import { createPortal } from "react-dom";
 import { upload, buildEML, buildFilename } from "./export.js";
 import "./style.css";
 
-export default function({ card, ledger, cachedLedger, doReset, doRestore }) {
+export default function({ card, ledger, canRestore, doReset, doRestore }) {
   const [active, setActive] = useState(false);
-  const [canRestore, setCanRestore] = useState(false);
 
   useEffect(() => {
     const notEmpty = Object.values(ledger).some(val => val);
     setActive(notEmpty);
   }, [ledger]);
-
-  useEffect(() => {
-    setCanRestore(cachedLedger !== null);
-  }, [cachedLedger]);
 
   const doExport = evt => {
     const date = new Date();
