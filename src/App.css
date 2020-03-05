@@ -1,0 +1,39 @@
+html {
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+}
+
+div.header {
+  width: 100%;
+  padding: 1rem;
+  position: fixed;
+  background: white;
+  display: flex;
+  flex-flow: row;
+  border-bottom: 1px solid black;
+}
+
+div.card {
+  padding-top: 5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media print {
+  div.header {
+    display: none !important;
+  }
+
+  div.card {
+    padding-top: 1rem;
+  }
+}
