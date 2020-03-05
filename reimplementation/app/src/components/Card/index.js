@@ -50,21 +50,17 @@ export default function({ template }) {
     const choiceSet = card.sections[0].choiceSet;
     const totals = computeTotals({ card, ledger });
 
-    const Sums = () => {
-      return choiceSet.map((choice, key) => {
-        return (
-          <div className="totalChoice" key={key}>
-            {totals[choice]}
-          </div>
-        );
-      });
-    };
-
     return (
       <div className="total">
         <div className="totalText">Total</div>
         <div className="totalChoices" data-count={choiceSet.length}>
-          <Sums />
+          {choiceSet.map((choice, key) => {
+            return (
+              <div className="totalChoice" key={key}>
+                {totals[choice]}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
