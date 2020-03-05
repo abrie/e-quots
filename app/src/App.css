@@ -14,12 +14,13 @@ body {
 
 div.header {
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0rem 1rem 1rem;
   position: fixed;
   background: white;
   display: flex;
   flex-flow: row;
   border-bottom: 1px solid black;
+  align-items: center;
 }
 
 div.card {

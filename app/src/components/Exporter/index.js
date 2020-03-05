@@ -33,7 +33,9 @@ export default function({ card, ledger, canRestore, doReset, doRestore }) {
         <button disabled={true} onClick={doPrint}>
           Print
         </button>
-        <button onClick={() => doRestore()}>undo reset</button>
+        <button className="normal" onClick={() => doRestore()}>
+          Undo
+        </button>
       </div>
     );
   };
@@ -41,13 +43,13 @@ export default function({ card, ledger, canRestore, doReset, doRestore }) {
   const NormalMode = () => {
     return (
       <div className="controls">
-        <button disabled={false} onClick={doExport}>
+        <button disabled={false} className="normal" onClick={doExport}>
           Email
         </button>
-        <button disabled={false} onClick={doPrint}>
+        <button disabled={false} className="normal" onClick={doPrint}>
           Print
         </button>
-        <button disabled={false} onClick={() => doReset()}>
+        <button disabled={false} className="warning" onClick={() => doReset()}>
           Reset
         </button>
       </div>
