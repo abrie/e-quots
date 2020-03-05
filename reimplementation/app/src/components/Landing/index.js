@@ -17,6 +17,10 @@ export default function() {
         settings.
       </p>
       <p>To get started, select a card from the header menu above.</p>
+      <p>
+        For technical information, see the
+        <a href="https://github.com/abrie/e-quots">source code on Github.</a>
+      </p>
     </div>
   );
 }
