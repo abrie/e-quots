@@ -14,7 +14,7 @@ The worksheets are PDF documents. They must be printed, completed, and archived 
 
 E-QUOTS is a web app; an electronic version of QUOTS with automatic tabulation and export features. It requires no proprietary software or downloads. Here is a screen shot:
 
-![](screenshot.png)
+![](pwa-screenshot.png)
 
 A completed form may be printed or emailed.
 
