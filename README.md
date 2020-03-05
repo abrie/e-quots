@@ -1,12 +1,17 @@
 ## Background
 
-Infection control is a serious concern in health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](https://www.cdc.gov/infectioncontrol/tools/quots.html) to augment best practices. Known as QUOTS (Quick Observation Tools). The worksheets are available through the [CDC](https://www.cdc.gov/infectioncontrol/tools/quots.html) or [APIC](https://ipcobservationtools.site.apic.org/observation-tools-library/).
+Infection control is a serious concern in health care facilities. The [CDC](https://cdc.gov) and [APIC](http://https://www.apic.org) developed a set of [Infection Prevention Observation Tools](https://www.cdc.gov/infectioncontrol/tools/quots.html) to augment best practices. Known as QUOTS (Quick Observation Tools), the tools are provided to the public as [PDF worksheets](https://www.cdc.gov/infectioncontrol/tools/quots.html).
 
 ## Motivation
 
-The worksheets provided by CDC are PDF documents. They must be printed, completed, and archived by hand. This project provides a paperless alternative.
+The worksheets provided by CDC are "fillable forms" with some basic tabulation features. This project aims to re-implement the worksheets as HTML forms, served through a small installable app. The goals are:
 
-# E-QUOTS
+1. Remove the dependency on proprietary software (Adobe Acrobat),
+2. Avoid dependencies on third-party App Stores (Google Play, Apple Store, etc),
+3. Implement additional, useful export and metric features.
+4. Provide a means for automatic updates.
+
+# Presenting: E-QUOTS
 
 This is a [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) implementation of the PDF-based [QUOTS](https://www.cdc.gov/infectioncontrol/tools/quots.html).
 
@@ -14,9 +19,7 @@ This is a [PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_app
 
 ## Implementation
 
-E-QUOTS is a web app; an electronic version of QUOTS with automatic tabulation and export features. It requires no proprietary software or downloads. It works offline.
-
-Completed forms may be printed or emailed, which makes them easy to integrate into a tracking system.
+E-QUOTS is a web app; an electronic version of QUOTS with automatic tabulation and export features. It requires no proprietary software or downloads. It works offline. Completed worksheets may be printed or emailed, making it easier to monitor and manage infection control proceedures.
 
 ## The App
 
