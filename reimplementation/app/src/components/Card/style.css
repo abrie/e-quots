@@ -194,6 +194,14 @@
     text-align: center;
   }
 
+  div.questionChoice input[type="radio"] {
+    visibility: hidden;
+  }
+
+  div.questionChoice input[type="radio"]:not(:checked) + label {
+    display: none;
+  }
+
   div.questionChoices[data-count="2"] > div.questionChoice {
     flex: 0 0 50%;
   }
