@@ -32,6 +32,12 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const RestoreMode = () => {
     return (
       <div className="controls">
+        <button disabled={true} onClick={handleExport}>
+          Email
+        </button>
+        <button disabled={true} onClick={doPrint}>
+          Print
+        </button>
         <button onClick={() => onRestore()}>undo reset</button>
       </div>
     );
@@ -40,15 +46,33 @@ export default function({ card, ledger, cachedLedger, onReset, onRestore }) {
   const NormalMode = () => {
     return (
       <div className="controls">
-        <button onClick={handleExport}>Email</button>
-        <button onClick={doPrint}>Print</button>
-        <button onClick={() => onReset()}>reset</button>
+        <button disabled={false} onClick={handleExport}>
+          Email
+        </button>
+        <button disabled={false} onClick={doPrint}>
+          Print
+        </button>
+        <button disabled={false} onClick={() => onReset()}>
+          Reset
+        </button>
       </div>
     );
   };
 
   const EmptyMode = () => {
-    return <div className="controls"></div>;
+    return (
+      <div className="controls">
+        <button disabled={true} onClick={handleExport}>
+          Email
+        </button>
+        <button disabled={true} onClick={doPrint}>
+          Print
+        </button>
+        <button disabled={true} onClick={() => onReset()}>
+          reset
+        </button>
+      </div>
+    );
   };
 
   const target = document.getElementById("portalme");
