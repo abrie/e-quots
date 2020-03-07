@@ -32,7 +32,7 @@ function makeLedger(template) {
   return ledger;
 }
 
-export default function(template) {
+function loadTemplate(template) {
   const card = addIds(template);
   const ledger = makeLedger(card);
 
@@ -41,3 +41,5 @@ export default function(template) {
     ledger
   };
 }
+
+export { loadTemplate };
