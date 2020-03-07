@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Parse from "../../parse.js";
 import Exporter from "../Exporter";
 import Landing from "../Landing";
-import { computeTotals } from "../../compute.js";
+import { computeTotals } from "../Compute";
+import { loadTemplate } from "../Loader";
 import "./style.css";
 
 export default function({ template }) {
@@ -12,7 +12,7 @@ export default function({ template }) {
 
   useEffect(() => {
     if (template) {
-      const { card, ledger } = Parse(template);
+      const { card, ledger } = loadTemplate(template);
       setCard(card);
       setLedger(ledger);
       setCachedLedger(null);
@@ -25,7 +25,7 @@ export default function({ template }) {
 
   const resetLedger = () => {
     setCachedLedger(ledger);
-    const { ledger: blankLedger } = Parse(template);
+    const { ledger: blankLedger } = loadTemplate(template);
     setLedger(blankLedger);
   };
 

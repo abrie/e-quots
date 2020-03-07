@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CardSelector from "./components/CardSelector";
+import Selector from "./components/Selector";
 import Card from "./components/Card";
 import Templates from "./data/Cards";
 import "./App.css";
@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="app">
       <div className="header">
-        <CardSelector cards={Templates.cards} onChanged={setCard} />
+        <Selector cards={Templates.cards} onChanged={setCard} />
         <div id="portalme"></div>
       </div>
       <div className="card">

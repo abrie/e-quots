@@ -1,4 +1,4 @@
-import { computeTotals } from "../../compute.js";
+import { computeTotals } from "../Compute";
 
 function buildFilename({ card, date, extension }) {
   const name = card.name.replace(/ /gi, "-");
