@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Exporter from "../Exporter";
 import Landing from "../Landing";
-import { computeTotals } from "../Compute";
-import { loadTemplate } from "../Loader";
+import { computeTotals } from "../../lib/compute";
+import { loadTemplate } from "../../lib/loader";
 import "./style.css";
 
 export default function({ template }) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { upload, buildEML, buildFilename } from "./export.js";
+import { upload, buildEML, buildFilename } from "../../lib/export";
 import "./style.css";
 
 export default function({ card, ledger, canRestore, doReset, doRestore }) {
