@@ -1,5 +1,5 @@
-import { computeTotals } from "./compute.js";
-import Parse from "./parse.js";
+import { computeTotals } from "./index";
+import { loadTemplate } from "../loader";
 
 const TestTemplate = {
   name: "Test Template",
@@ -35,7 +35,7 @@ const TestTemplate = {
 };
 
 test("compute ledger totals", () => {
-  const { card, ledger } = Parse(TestTemplate);
+  const { card, ledger } = loadTemplate(TestTemplate);
   ledger["Q1"] = "Yes";
   ledger["Q2"] = "No";
   ledger["Q3"] = "Yes";

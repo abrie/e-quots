@@ -1,5 +1,5 @@
-import { buildCSV, buildHTML, buildFilename } from "./export";
-import { loadTemplate } from "../Loader";
+import { buildCSV, buildHTML, buildFilename } from "./index";
+import { loadTemplate } from "../loader";
 
 const TestTemplate = {
   name: "Test Template",
