@@ -1,4 +1,5 @@
 import { computeTotals } from "../compute";
+import Handlebars from "handlebars";
 
 function buildFilename({ card, date, extension }) {
   const name = card.name.replace(/ /gi, "-");
@@ -42,89 +43,83 @@ function buildCSV({ card, ledger }) {
 }
 
 function buildHTML({ card, ledger }) {
-  const questionRows = section => {
-    return section.questions
-      .map(question => {
-        return `
-      <tr>
-        <td>${question.text}</td>
-        <td>${ledger[question.id]}</td>
-      </tr>`;
-      })
-      .join("");
-  };
+  const definition = `
+  <html>
+  <head>
+    <style> td { border: 1px solid #444 } </style>
+  </head>
+  <body>
+  <table>
+  <thead>
+  <tr>
+  {{#each possibleChoices as |choice|}}
+  <th>
+  {{labelTotalChoice choice}}
+  </th>
+  {{/each}}
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  {{#each possibleChoices as |choice|}}
+  <td>
+  {{valueTotalChoice choice}}
+  </td>
+  {{/each}}
+  </tr>
+  </tbody>
+  </table>
+  {{#each card.sections}}
+  <table>
+  <thead>
+  <tr>
+    <th>{{header}}</th>
+    <th>Response</th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each questions as |question|}}
+  <tr>
+    <td>{{question.text}}</td>
+    <td>{{questionResponse question.id}}</td>
+  </tr>
+  {{/each}}
+  </tbody>
+  </table>
+  {{/each}}
+  </body>
+  </html>
+  `;
 
-  const sectionTables = card => {
-    return card.sections
-      .map(section => {
-        return `
-      <table>
-      <thead>
-      <tr>
-      <th>${section.header}</th>
-      <th>Response</th>
-      </tr>
-      </thead>
-      <tbody>
-      ${questionRows(section)}
-      </tbody>
-      </table>`;
-      })
-      .join("");
-  };
-
+  var template = Handlebars.compile(definition);
+  const possibleChoices = [...card.sections[0].choiceSet, ""];
   const totals = computeTotals({ card, ledger });
 
-  const labelTotalValue = val => {
+  Handlebars.registerHelper("valueTotalChoice", function(choice) {
+    const val = totals[choice];
+
     switch (val) {
       case undefined:
         return 0;
       default:
         return val;
     }
-  };
+  });
 
-  const labelTotalChoice = val => {
+  Handlebars.registerHelper("questionResponse", function(id) {
+    return ledger[id];
+  });
+
+  Handlebars.registerHelper("labelTotalChoice", function(val) {
     switch (val) {
       case "":
         return "Unanswered";
       default:
         return val;
     }
-  };
+  });
 
-  const choiceSet = [...card.sections[0].choiceSet, ""];
-
-  const choiceRow = choiceSet
-    .map(choice => `<th>${labelTotalChoice(choice)}</th>`)
-    .join("");
-  const totalRow = choiceSet
-    .map(choice => `<td>${labelTotalValue(totals[choice])}</td>`)
-    .join("");
-
-  const summaryTable = `
-  <table>
-  <thead>
-  ${choiceRow}
-  </thead>
-  <tbody>
-  ${totalRow}
-  </tbody>
-  </table>
-  `;
-
-  const html = `<html>
-  <head>
-  <style> td { border: 1px solid #444 } </style>
-  </head>
-<body>
-<h1>${card.title}</h1>
-<h2>Summary</h2>
-${summaryTable}
-<h2>Details</h2>
-${sectionTables(card)}
-</body>
-</html>`;
+  const html = template({ card, possibleChoices });
 
   return html;
 }
