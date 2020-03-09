@@ -1,4 +1,4 @@
-import { buildCSV, buildHTML, buildFilename } from "./index";
+import { buildCSV } from "./buildCSV";
 import { loadTemplate } from "../loader";
 
 const TestTemplate = {
@@ -38,24 +38,4 @@ test("converts template and ledger to CSV", () => {
   const { card, ledger } = loadTemplate(TestTemplate);
   const csv = buildCSV({ card, ledger });
   expect(csv).toBe(`"Q1","Q2","Q3","Q4"\n,,,`);
-});
-
-test("converts template and ledger to HTML", () => {
-  const { card, ledger } = loadTemplate(TestTemplate);
-  const html = buildHTML({ card, ledger });
-  expect(html).toContain(`<td>Q1</td>`);
-  expect(html).toContain(`<td>Q2</td>`);
-  expect(html).toContain(`<td>Q3</td>`);
-  expect(html).toContain(`<td>Q4</td>`);
-});
-
-test("converts card name to a filename", () => {
-  const card = { name: "Area Exterior to Isolation Rooms" };
-  const date = new Date(1993, 6, 28, 14, 39, 7);
-  const extension = "eml";
-
-  const filename = buildFilename({ card, date, extension });
-  expect(filename).toBe(
-    "equots-1993-07-28_Area-Exterior-to-Isolation-Rooms.eml"
-  );
 });
