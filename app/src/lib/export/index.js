@@ -52,18 +52,18 @@ function buildHTML({ card, ledger }) {
   <table>
   <thead>
   <tr>
-  {{#each possibleChoices as |choice|}}
+  {{#each totalChoices}}
   <th>
-  {{labelTotalChoice choice}}
+  {{totalLabel .}}
   </th>
   {{/each}}
   </tr>
   </thead>
   <tbody>
   <tr>
-  {{#each possibleChoices as |choice|}}
+  {{#each totalChoices}}
   <td>
-  {{valueTotalChoice choice}}
+  {{totalValue .}}
   </td>
   {{/each}}
   </tr>
@@ -78,10 +78,10 @@ function buildHTML({ card, ledger }) {
   </tr>
   </thead>
   <tbody>
-  {{#each questions as |question|}}
+  {{#each questions}}
   <tr>
-    <td>{{question.text}}</td>
-    <td>{{questionResponse question.id}}</td>
+    <td>{{.text}}</td>
+    <td>{{response .id}}</td>
   </tr>
   {{/each}}
   </tbody>
@@ -92,10 +92,10 @@ function buildHTML({ card, ledger }) {
   `;
 
   var template = Handlebars.compile(definition);
-  const possibleChoices = [...card.sections[0].choiceSet, ""];
+  const totalChoices = [...card.sections[0].choiceSet, ""];
   const totals = computeTotals({ card, ledger });
 
-  Handlebars.registerHelper("valueTotalChoice", function(choice) {
+  Handlebars.registerHelper("totalValue", function(choice) {
     const val = totals[choice];
 
     switch (val) {
@@ -110,7 +110,7 @@ function buildHTML({ card, ledger }) {
     return ledger[id];
   });
 
-  Handlebars.registerHelper("labelTotalChoice", function(val) {
+  Handlebars.registerHelper("totalLabel", function(val) {
     switch (val) {
       case "":
         return "Unanswered";
@@ -119,7 +119,7 @@ function buildHTML({ card, ledger }) {
     }
   });
 
-  const html = template({ card, possibleChoices });
+  const html = template({ card, totalChoices });
 
   return html;
 }
