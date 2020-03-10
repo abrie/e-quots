@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import { upload, buildEML, buildFilename } from "../../lib/export";
 import "./style.css";
 
@@ -72,13 +71,11 @@ export default function({ card, ledger, canRestore, doReset, doRestore }) {
     );
   };
 
-  const target = document.getElementById("portalme");
-
   if (canRestore) {
-    return createPortal(<RestoreMode />, target);
+    return <RestoreMode />;
   } else if (active) {
-    return createPortal(<NormalMode />, target);
+    return <NormalMode />;
   } else {
-    return createPortal(<EmptyMode />, target);
+    return <EmptyMode />;
   }
 }

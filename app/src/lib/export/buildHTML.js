@@ -8,6 +8,9 @@ function buildHTML({ card, ledger }) {
     <style> td { border: 1px solid #444 } </style>
   </head>
   <body>
+  <h1>
+  {{card.observable }} : {{ledger.observable}}
+  </h1>
   <table>
   <thead>
   <tr>
@@ -78,7 +81,7 @@ function buildHTML({ card, ledger }) {
     }
   });
 
-  const html = template({ card, totalChoices });
+  const html = template({ card, ledger, totalChoices });
 
   return html;
 }

@@ -14,19 +14,19 @@ const TestTemplate = {
       choiceSet: ["Yes", "No"],
       questions: [
         {
-          text: "Q1",
+          text: "Qa",
           choices: ["Yes", "No"]
         },
         {
-          text: "Q2",
+          text: "Qb",
           choices: ["Yes", "No"]
         },
         {
-          text: "Q3",
+          text: "Qc",
           choices: ["Yes", "No"]
         },
         {
-          text: "Q4",
+          text: "Qd",
           choices: ["Yes", "No"]
         }
       ]
@@ -36,9 +36,12 @@ const TestTemplate = {
 
 test("converts template and ledger to HTML", () => {
   const { card, ledger } = loadTemplate(TestTemplate);
+  ledger.observable = "R123";
+  ledger["qc"] = "Yes";
   const html = buildHTML({ card, ledger });
-  expect(html).toContain(`<td>Q1</td>`);
-  expect(html).toContain(`<td>Q2</td>`);
-  expect(html).toContain(`<td>Q3</td>`);
-  expect(html).toContain(`<td>Q4</td>`);
+  expect(html).toContain(`R123`);
+  expect(html).toContain(`<td>Qa</td>`);
+  expect(html).toContain(`<td>Qb</td>`);
+  expect(html).toContain(`<td>Qc</td>`);
+  expect(html).toContain(`<td>Qd</td>`);
 });
