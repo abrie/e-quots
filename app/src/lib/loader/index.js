@@ -29,6 +29,7 @@ function makeLedger(template) {
       ledger[question.id] = "";
     });
   });
+  ledger.observable = "";
   return ledger;
 }
 

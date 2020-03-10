@@ -87,6 +87,28 @@
     flex: 0 0 33.33%;
   }
 
+  div.observable {
+    display: flex;
+    flex-flow: row;
+  }
+
+  div.observableLabel {
+    flex: 0 0 70%;
+    text-align: right;
+    background-color: rgb(81, 130, 187);
+    color: white;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
+
+  div.observableInput {
+    flex: 0 0 30%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(81, 130, 187);
+  }
+
   div.total {
     display: flex;
     flex-flow: row;
@@ -208,6 +230,27 @@
 
   div.questionChoices[data-count="3"] > div.questionChoice {
     flex: 0 0 33.33%;
+  }
+
+  div.observable {
+    display: flex;
+    flex-flow: row;
+  }
+
+  div.observableLabel {
+    flex: 0 0 70%;
+    text-align: right;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    margin-right: -0.5rem;
+  }
+
+  div.observableInput {
+    flex: 0 0 30%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-items: center;
+    border: 1px solid black;
   }
 
   div.total {
