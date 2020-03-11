@@ -4,11 +4,16 @@ import Exporter from "./components/Exporter";
 import Selector from "./components/Selector";
 import Templates from "./data/Cards";
 import { loadTemplate } from "./lib/loader";
+import { reportMetric } from "./lib/metrics";
 import "./App.css";
 
 export default function App() {
   const [template, setTemplate] = useState(null);
   const [state, dispatch] = useReducer(reducer, null);
+
+  useEffect(() => {
+    reportMetric({ action: "arrived" });
+  }, []);
 
   useEffect(() => {
     if (template) {
@@ -24,22 +29,26 @@ export default function App() {
         const { name, value } = action.payload;
         const ledger = { ...state.ledger, [name]: value };
         const card = { ...state.card };
+        reportMetric({ action: "ledger_change", card: card.name, name, value });
         return { card, ledger, cache: null };
       }
       case "initialize": {
         const { template } = action.payload;
         const { card, ledger } = loadTemplate(template);
+        reportMetric({ action: "template_load", card: card.name });
         return { card, ledger, cache: null };
       }
       case "reset": {
         const { template } = action.payload;
         const cache = { ...state.ledger };
         const { card, ledger } = loadTemplate(template);
+        reportMetric({ action: "ledger_reset", card: card.name });
         return { card, ledger, cache };
       }
       case "undo": {
         const card = { ...state.card };
         const ledger = { ...state.cache };
+        reportMetric({ action: "ledger_undoreset", card: card.name });
         return { card, ledger, cache: null };
       }
       case "null": {

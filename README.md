@@ -25,6 +25,10 @@ E-QUOTS is a web app; an electronic version of QUOTS with automatic tabulation a
 
 Use E-QUOTS here: https://abrie.github.io/e-quots
 
+## Disclosure of Data Collection
+
+This app collects a record of user interactions. None of that data is transmitted to any third parties, even during collection. We use the data to measure usage, detect errors, and observe opportunities for improvement. If you would prefer to use this software without metrics, please contact me and I'll be happy to configure it for you. Alternatively, you may fork this repo and modify the code yourself --- it's a trivial change.
+
 ## Legal Details
 
 APIC and CDC created the original PDFs using funding from a Centers for Disease Control and Prevention (CDC) Contract (#200-2016-89676).
