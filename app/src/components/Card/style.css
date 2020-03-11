@@ -2,6 +2,7 @@
   div.card {
     display: flex;
     flex-flow: column;
+    margin: 0.5rem;
   }
 
   div.reference {
@@ -41,7 +42,6 @@
 
   div.section {
     border: 1px solid rgb(81, 130, 187);
-    padding: 2px;
     margin-bottom: 1rem;
   }
 
@@ -55,12 +55,10 @@
 
   div.sectionQuestions > div.question:nth-child(odd) {
     background-color: rgb(186, 205, 228);
-    border: 1px solid white;
   }
 
   div.sectionQuestions > div.question:nth-child(even) {
     background-color: rgb(237, 242, 248);
-    border: 1px solid white;
   }
 
   div.question {
@@ -96,17 +94,18 @@
   div.observable {
     position: sticky;
     top: 3rem; /* Set to match the app's '<header>' height */
+    background-color: rgb(237, 242, 248);
     display: flex;
     flex-flow: row;
+    border: 1px solid rgb(81, 130, 187);
     border-bottom: 0.1rem solid white;
   }
 
   div.observableLabel {
     flex: 0 0 70%;
     text-align: right;
-    background-color: rgb(81, 130, 187);
-    color: white;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    color: black;
+    padding: 0.5rem;
   }
 
   div.observableInput {
@@ -115,8 +114,11 @@
     flex-flow: row;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgb(81, 130, 187);
-    background: white;
+    border-left: 1px solid white;
+  }
+
+  div.observableInput input[type="text"] {
+    width: 90%;
   }
 
   div.total {
@@ -124,13 +126,12 @@
     flex-flow: row;
   }
 
-  div.totalText {
+  div.totalLabel {
     flex: 0 0 70%;
     text-align: right;
     background-color: rgb(81, 130, 187);
     color: white;
-    padding: 0.5rem 0.5rem 0.5rem 0;
-    margin-right: -0.5rem;
+    padding: 0.5rem;
   }
 
   div.totalChoices {
@@ -254,8 +255,7 @@
   div.observableLabel {
     flex: 0 0 70%;
     text-align: right;
-    padding: 0.5rem 0.5rem 0.5rem 0;
-    margin-right: -0.5rem;
+    padding: 0.5rem;
   }
 
   div.observableInput {
@@ -272,11 +272,10 @@
     flex-flow: row;
   }
 
-  div.totalText {
+  div.totalLabel {
     flex: 0 0 70%;
     text-align: right;
-    padding: 0.5rem 0.5rem 0.5rem 0;
-    margin-right: -0.5rem;
+    padding: 0.5rem;
   }
 
   div.totalChoices {

@@ -34,7 +34,7 @@ const Totals = ({ card, ledger }) => {
 
   return (
     <div className="total">
-      <div className="totalText">Total</div>
+      <div className="totalLabel">Total</div>
       <div className="totalChoices" data-count={choiceSet.length}>
         {choiceSet.map((choice, key) => {
           return (
