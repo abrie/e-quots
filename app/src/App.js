@@ -12,6 +12,10 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, null);
 
   useEffect(() => {
+    reportMetric({ action: "arrived" });
+  }, []);
+
+  useEffect(() => {
     if (template) {
       dispatch({ type: "initialize", payload: { template } });
     } else {
