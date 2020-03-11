@@ -8,7 +8,6 @@ import "./App.css";
 
 export default function App() {
   const [template, setTemplate] = useState(null);
-  const [cachedLedger, cacheLedger] = useState(null);
   const [state, dispatch] = useReducer(reducer, null);
 
   useEffect(() => {
@@ -23,17 +22,23 @@ export default function App() {
         const { name, value } = action.payload;
         const ledger = { ...state.ledger, [name]: value };
         const card = { ...state.card };
-        return { card, ledger };
+        return { card, ledger, cache: null };
       }
       case "initialize": {
         const { template } = action.payload;
         const { card, ledger } = loadTemplate(template);
-        return { card, ledger };
+        return { card, ledger, cache: null };
       }
-      case "copy": {
-        const { ledger } = action.payload;
+      case "reset": {
+        const { template } = action.payload;
+        const cache = { ...state.ledger };
+        const { card, ledger } = loadTemplate(template);
+        return { card, ledger, cache };
+      }
+      case "undo": {
         const card = { ...state.card };
-        return { card, ledger };
+        const ledger = { ...state.cache };
+        return { card, ledger, cache: null };
       }
       default: {
         console.error(
@@ -48,17 +53,14 @@ export default function App() {
   function changeLedger(evt) {
     const { name, value } = evt.currentTarget;
     dispatch({ type: "change", payload: { name, value } });
-    cacheLedger(null);
   }
 
   function resetLedger() {
-    cacheLedger({ ...state.ledger });
-    dispatch({ type: "initialize", payload: { template } });
+    dispatch({ type: "reset", payload: { template } });
   }
 
   function restoreLedger() {
-    dispatch({ type: "copy", payload: { ledger: cachedLedger } });
-    cacheLedger(null);
+    dispatch({ type: "undo" });
   }
 
   return (
@@ -67,7 +69,7 @@ export default function App() {
         <Selector cards={Templates.cards} onChanged={setTemplate} />
         <Exporter
           state={state}
-          canRestore={cachedLedger !== null}
+          canRestore={state && state.cache !== null}
           doReset={resetLedger}
           doRestore={restoreLedger}
         />
