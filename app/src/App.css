@@ -13,9 +13,10 @@ body {
 }
 
 div.header {
+  position: sticky;
+  top: 0;
   width: 100%;
   padding: 1rem 0rem 1rem 1rem;
-  position: fixed;
   background: white;
   display: flex;
   flex-flow: row;
@@ -23,18 +24,8 @@ div.header {
   align-items: center;
 }
 
-div.card {
-  padding-top: 5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
 @media print {
   div.header {
     display: none !important;
-  }
-
-  div.card {
-    padding-top: 1rem;
   }
 }

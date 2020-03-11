@@ -126,19 +126,25 @@ const Title = ({ card }) => {
 
 export default function({ state, onChange }) {
   if (!state) {
-    return <Landing />;
+    return (
+      <div className="card">
+        <Landing />
+      </div>
+    );
   }
 
   const { card, ledger } = state;
 
   return (
-    <DispatchContext.Provider value={onChange}>
-      <Title card={card} />
-      <Instructions card={card} />
-      <Observable card={card} ledger={ledger} />
-      <Sections card={card} ledger={ledger} />
-      <Totals card={card} ledger={ledger} />
-      <Reference card={card} />
-    </DispatchContext.Provider>
+    <div className="card">
+      <DispatchContext.Provider value={onChange}>
+        <Title card={card} />
+        <Instructions card={card} />
+        <Observable card={card} ledger={ledger} />
+        <Sections card={card} ledger={ledger} />
+        <Totals card={card} ledger={ledger} />
+        <Reference card={card} />
+      </DispatchContext.Provider>
+    </div>
   );
 }

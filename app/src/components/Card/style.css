@@ -1,4 +1,10 @@
 @media screen {
+  div.card {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   div.reference {
     margin: 1rem 0 0 0.5rem;
     font-size: 75%;
@@ -145,6 +151,10 @@
 }
 
 @media print {
+  div.card {
+    padding-top: 1rem;
+  }
+
   div.reference {
     display: none;
   }
