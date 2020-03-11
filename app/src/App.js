@@ -13,6 +13,8 @@ export default function App() {
   useEffect(() => {
     if (template) {
       dispatch({ type: "initialize", payload: { template } });
+    } else {
+      dispatch({ type: "null" });
     }
   }, [template]);
 
@@ -39,6 +41,9 @@ export default function App() {
         const card = { ...state.card };
         const ledger = { ...state.cache };
         return { card, ledger, cache: null };
+      }
+      case "null": {
+        return null;
       }
       default: {
         console.error(
