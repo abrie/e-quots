@@ -4,7 +4,8 @@ export default function({ cards, onChanged }) {
   const [selected, setSelected] = useState("none");
 
   useEffect(() => {
-    onChanged(cards.find(card => `${card.name}` === selected));
+    const template = cards.find(card => `${card.name}` === selected);
+    template ? onChanged(template) : onChanged(null);
   }, [cards, selected, onChanged]);
 
   const handleSelection = evt => {
