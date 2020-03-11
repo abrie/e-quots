@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { upload, buildEML, buildFilename } from "../../lib/export";
+import { reportMetric } from "../../lib/metrics";
 import "./style.css";
 
 export default function({ state, canRestore, doReset, doRestore }) {
@@ -22,10 +23,12 @@ export default function({ state, canRestore, doReset, doRestore }) {
     const filename = buildFilename({ card, date, extension });
     const type = "text/plain";
     const data = buildEML({ card, ledger });
+    reportMetric({ action: "export_eml" });
     upload({ data, filename, type });
   };
 
   const doPrint = evt => {
+    reportMetric({ action: "export_print" });
     window.print();
   };
 
