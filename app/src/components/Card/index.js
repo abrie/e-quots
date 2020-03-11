@@ -5,7 +5,7 @@ import "./style.css";
 
 const DispatchContext = React.createContext(null);
 
-const Observable = ({ card, state }) => {
+const Observable = ({ card, ledger }) => {
   const handleChange = useContext(DispatchContext);
   return (
     <div className="observable">
@@ -14,7 +14,7 @@ const Observable = ({ card, state }) => {
         <input
           type="text"
           name="observable"
-          value={state.observable}
+          value={ledger.observable}
           onChange={handleChange}
         />
       </div>
@@ -22,9 +22,9 @@ const Observable = ({ card, state }) => {
   );
 };
 
-const Sections = ({ sections, state }) => {
-  return sections.map((section, key) => {
-    return <Section section={section} key={key} state={state} />;
+const Sections = ({ card, ledger }) => {
+  return card.sections.map((section, key) => {
+    return <Section key={key} section={section} ledger={ledger} />;
   });
 };
 
@@ -48,42 +48,42 @@ const Totals = ({ card, ledger }) => {
   );
 };
 
-const Section = ({ section, state }) => {
+const Section = ({ section, ledger }) => {
   return (
     <div className="section">
       <div className="sectionHeader">{section.header}</div>
       <div className="sectionQuestions">
-        <Questions section={section} state={state} />
+        <Questions section={section} ledger={ledger} />
       </div>
     </div>
   );
 };
 
-const Questions = ({ section, state }) => {
+const Questions = ({ section, ledger }) => {
   return section.questions.map((question, key) => {
     return (
       <Question
+        key={key}
         question={question}
         choiceCount={section.choiceSet.length}
-        key={key}
-        state={state}
+        ledger={ledger}
       />
     );
   });
 };
 
-const Question = ({ question, choiceCount, state }) => {
+const Question = ({ question, choiceCount, ledger }) => {
   return (
     <div className="question">
       <div className="questionText"> {question.text}</div>
       <div className="questionChoices" data-count={choiceCount}>
-        <Choices question={question} state={state} />
+        <Choices question={question} ledger={ledger} />
       </div>
     </div>
   );
 };
 
-const Choices = ({ question, state }) => {
+const Choices = ({ question, ledger }) => {
   const handleChange = useContext(DispatchContext);
   return question.choices.map((choice, key) => {
     const id = `${question.id}-${choice}`;
@@ -94,7 +94,7 @@ const Choices = ({ question, state }) => {
           id={id}
           name={question.id}
           value={choice}
-          checked={state[question.id] === choice}
+          checked={ledger[question.id] === choice}
           onChange={handleChange}
         />
         <label htmlFor={id}>{choice}</label>
@@ -103,42 +103,42 @@ const Choices = ({ question, state }) => {
   });
 };
 
-const Instructions = ({ text }) => {
-  return <div className="instructions">{text}</div>;
+const Instructions = ({ card }) => {
+  return <div className="instructions">{card.instructions}</div>;
 };
 
-const Reference = ({ href }) => {
+const Reference = ({ card }) => {
   return (
     <div className="reference">
-      <a href={href}>Source PDF</a>
+      <a href={card.href}>Source PDF</a>
     </div>
   );
 };
 
-const Title = ({ text, number }) => {
+const Title = ({ card }) => {
   return (
     <div className="title">
-      <div className="titleText">{text}</div>
-      <div className="titleNumber">{number}</div>
+      <div className="titleText">{card.title}</div>
+      <div className="titleNumber">{card.number}</div>
     </div>
   );
 };
 
-export default function({ card, ledger, onChange }) {
-  if (card) {
-    return (
-      <>
-        <Title text={card.title} number={card.number} />
-        <Instructions text={card.instructions} />
-        <DispatchContext.Provider value={onChange}>
-          <Observable card={card} state={ledger} />
-          <Sections sections={card.sections} state={ledger} />
-        </DispatchContext.Provider>
-        <Totals card={card} ledger={ledger} />
-        <Reference href={card.pdf} />
-      </>
-    );
-  } else {
+export default function({ state, onChange }) {
+  if (!state) {
     return <Landing />;
   }
+
+  const { card, ledger } = state;
+
+  return (
+    <DispatchContext.Provider value={onChange}>
+      <Title card={card} />
+      <Instructions card={card} />
+      <Observable card={card} ledger={ledger} />
+      <Sections card={card} ledger={ledger} />
+      <Totals card={card} ledger={ledger} />
+      <Reference card={card} />
+    </DispatchContext.Provider>
+  );
 }
