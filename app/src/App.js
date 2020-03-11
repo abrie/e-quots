@@ -8,9 +8,42 @@ import "./App.css";
 
 export default function App() {
   const [template, setTemplate] = useState(null);
-  const [card, setCard] = useState(null);
   const [cachedLedger, cacheLedger] = useState(null);
-  const [ledger, dispatch] = useReducer(reducer, {}, initReducer);
+  const [state, dispatch] = useReducer(reducer, null);
+
+  useEffect(() => {
+    if (template) {
+      dispatch({ type: "initialize", payload: { template } });
+    }
+  }, [template]);
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "change": {
+        const { name, value } = action.payload;
+        const ledger = { ...state.ledger, [name]: value };
+        const card = { ...state.card };
+        return { card, ledger };
+      }
+      case "initialize": {
+        const { template } = action.payload;
+        const { card, ledger } = loadTemplate(template);
+        return { card, ledger };
+      }
+      case "copy": {
+        const { ledger } = action.payload;
+        const card = { ...state.card };
+        return { card, ledger };
+      }
+      default: {
+        console.error(
+          `Unhandled reducer action.type: "${action.type}". Full action object is:`,
+          action
+        );
+        return undefined;
+      }
+    }
+  }
 
   function changeLedger(evt) {
     const { name, value } = evt.currentTarget;
@@ -18,14 +51,9 @@ export default function App() {
     cacheLedger(null);
   }
 
-  function initReducer(dict) {
-    return { ...dict };
-  }
-
   function resetLedger() {
-    cacheLedger({ ...ledger });
-    const { ledger: blankLedger } = loadTemplate(template);
-    dispatch({ type: "initialize", payload: blankLedger });
+    cacheLedger({ ...state.ledger });
+    dispatch({ type: "initialize", payload: { template } });
   }
 
   function restoreLedger() {
@@ -33,48 +61,19 @@ export default function App() {
     cacheLedger(null);
   }
 
-  function reducer(state, action) {
-    switch (action.type) {
-      case "change":
-        const { name, value } = action.payload;
-        return { ...state, [name]: value };
-      case "initialize":
-        const { ledger: blank } = loadTemplate(template);
-        return initReducer(blank);
-      case "copy":
-        const { ledger: copy } = action.payload;
-        return { ...copy };
-      default:
-        console.error(
-          `Unhandled reducer action.type: "${action.type}". Full action object is:`,
-          action
-        );
-        return undefined;
-    }
-  }
-
-  useEffect(() => {
-    if (template) {
-      const { card, ledger } = loadTemplate(template);
-      setCard(card);
-      dispatch({ type: "initialize", payload: ledger });
-    }
-  }, [template]);
-
   return (
     <div className="app">
       <div className="header">
         <Selector cards={Templates.cards} onChanged={setTemplate} />
         <Exporter
-          card={card}
-          ledger={ledger}
+          state={state}
           canRestore={cachedLedger !== null}
           doReset={resetLedger}
           doRestore={restoreLedger}
         />
       </div>
       <div className="card">
-        <Card card={card} ledger={ledger} onChange={changeLedger} />
+        <Card state={state} onChange={changeLedger} />
       </div>
     </div>
   );

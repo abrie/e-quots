@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import { upload, buildEML, buildFilename } from "../../lib/export";
 import "./style.css";
 
-export default function({ card, ledger, canRestore, doReset, doRestore }) {
+export default function({ state, canRestore, doReset, doRestore }) {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    const notEmpty = Object.values(ledger).some(val => val);
-    setActive(notEmpty);
-  }, [ledger]);
+    if (state) {
+      const { ledger } = state;
+      const notEmpty = Object.values(ledger).some(val => val);
+      setActive(notEmpty);
+    } else {
+      setActive(false);
+    }
+  }, [state]);
 
   const doExport = evt => {
+    const { card, ledger } = state;
     const date = new Date();
     const extension = "eml";
     const filename = buildFilename({ card, date, extension });
