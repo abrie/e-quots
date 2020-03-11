@@ -13,28 +13,20 @@ body {
 }
 
 div.header {
+  position: sticky;
+  height: 3rem;
+  top: 0;
   width: 100%;
-  padding: 1rem 0rem 1rem 1rem;
-  position: fixed;
+  padding-left: 0.5rem;
   background: white;
   display: flex;
   flex-flow: row;
-  border-bottom: 1px solid black;
+  border-bottom: 3px solid grey;
   align-items: center;
-}
-
-div.card {
-  padding-top: 5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 
 @media print {
   div.header {
     display: none !important;
-  }
-
-  div.card {
-    padding-top: 1rem;
   }
 }

@@ -1,4 +1,9 @@
 @media screen {
+  div.card {
+    display: flex;
+    flex-flow: column;
+  }
+
   div.reference {
     margin: 1rem 0 0 0.5rem;
     font-size: 75%;
@@ -9,6 +14,7 @@
   }
 
   div.title {
+    margin-top: 1rem;
     display: flex;
     flex-flow: row;
     background-color: rgb(81, 130, 187);
@@ -88,8 +94,11 @@
   }
 
   div.observable {
+    position: sticky;
+    top: 3rem; /* Set to match the app's '<header>' height */
     display: flex;
     flex-flow: row;
+    border-bottom: 0.1rem solid white;
   }
 
   div.observableLabel {
@@ -107,6 +116,7 @@
     align-items: center;
     justify-content: center;
     border: 1px solid rgb(81, 130, 187);
+    background: white;
   }
 
   div.total {
@@ -145,6 +155,10 @@
 }
 
 @media print {
+  div.card {
+    padding-top: 1rem;
+  }
+
   div.reference {
     display: none;
   }

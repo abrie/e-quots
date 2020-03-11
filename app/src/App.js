@@ -74,9 +74,7 @@ export default function App() {
           doRestore={restoreLedger}
         />
       </div>
-      <div className="card">
-        <Card state={state} onChange={changeLedger} />
-      </div>
+      <Card state={state} onChange={changeLedger} />
     </div>
   );
 }
