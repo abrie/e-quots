@@ -74,7 +74,7 @@ export default function({ state, canRestore, doReset, doRestore }) {
           Print
         </button>
         <button disabled={true} onClick={() => doReset()}>
-          reset
+          Clear
         </button>
       </div>
     );
